@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   </head>
 <body>
-<!-- Begin Page Content -->
+<!-- Begin Page Content-->
 <div class="container-fluid">
 
 <!-- Page Heading -->

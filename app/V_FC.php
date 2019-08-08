@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class V_FC extends Model
 {
+    //
     private $id;
     private $isrequired;
     private $server_adapter_id;
     private $server_partition;
     private $wwpn;
     private $wwpn_lpm;
-
+    
     public function getId(){
         return $this->id;
     }
@@ -52,8 +53,7 @@ class V_FC extends Model
     public function LPARs(){
         return $this->hasMany('\app\LPAR');
     }
-    public function Templates(){
+    public function templates(){
         return $this->hasMany('\app\Template_profile');
     }
-   
 }

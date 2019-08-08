@@ -31,7 +31,7 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div >
-        <img src="{{asset('img/Logo_Focus1.png')}}" width="150" height="60" style="margin-top:50px;" alt="focus">
+        <img src="{{asset('https://www.focus-corporation.com/sites/all/themes/focus/logo.png')}}" width="150" height="60" style="margin-top:25px;" alt="focus">
         
         <div class="sidebar-brand-text mx-3">IBM Power </div>
         </div>
@@ -401,7 +401,7 @@
             data: {},
             success : function(data) {
                 data.forEach((item) => {
-                    $("#clients-header").append("<a class=\"collapse-item client-elem\">"+item.Client_name+"</a>")
+                  $("#clients-header").append("<a class=\"collapse-item client-elem\">"+item.Client_name+"</a>")
                 });
             },
             error: function(data) {

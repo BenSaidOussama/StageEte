@@ -4,10 +4,6 @@ use App\Template_profile;
 @extends('layout.head')
 @extends('layout.template')
 @section('content')
-<?php 
-use Illuminate\Http\Request;
-use App\Client;
-use App\Server;?>
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -22,13 +18,6 @@ use App\Server;?>
 <div class="col-lg-12">
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-
-      <?php 
-      
-      $server=Server::find($id_s);
-      $client=Client::find($server->Client_FK_id);
-      
-      ?>
         <h6 class="m-0 font-weight-bold text-primary">Server : {{$server->Server_name}} </h6>
       </div>
       <div class="card-body">
@@ -76,7 +65,6 @@ use App\Server;?>
         <h6 class="m-0 font-weight-bold text-primary">LPARS List </h6>
       </div>
       <div class="card-body">
-          
 <div class="table-responsive">
   <table class="table">
     <tr>
@@ -222,11 +210,12 @@ use App\Server;?>
     </tr>
     @endforeach
     </table>
+<<<<<<< HEAD
     {{$array->links()}}
+=======
+>>>>>>> 6aea0e9f01e549b240a052f2f451f9c5ff995161
 </div>
 </div>
       </div></div></div></div>
         
 @endsection
-                                                                             
-                                         

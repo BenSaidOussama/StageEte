@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 @extends('layout.head')
 @extends('layout.template')
 @section('content')
@@ -21,7 +14,7 @@
         <h6 class="m-0 font-weight-bold text-primary">  Edit Server : {{$server->Server_name}}</h6>
       </div>
       <div class="card-body">
-      {!! Form::open(array('url' => '/saveUpdate',$server->id,'method' => 'POST'))!!}
+      {!! Form::open(array('url' => '/saveUpdate','method' => 'POST'))!!}
 <div class="col-lg-2">
 </div>
 <div class="col-lg-8">
@@ -50,7 +43,7 @@
         <td>
             <br>
             {{Form::textarea('Server_description', old("Server_description") ? old("Server_description") : (!empty($server) ? $server->Server_description : null), 
-                         [  "class" => "form-control","style"=>"width:385px",  "placeholder" => "$server->Server_description"])}}
+                         [  "class" => "form-control","style"=>"width:385px",  "placeholder" => "Enter some details ..."])}}
         </td>
             </tr>
         <tr>
@@ -61,9 +54,7 @@
          </td>
         <td>
             <br>
-        <select name="Server_type"   class="form-control">
-        <option name="Server_type" ></option>
-
+        <select name="Server_type"  class="form-control">
                 <option name="Server_type" value="POWER 5">POWER 5</option>
                 <option name="Server_type" value="POWER 6">POWER 6</option>
                 <option name="Server_type" value="POWER 7">POWER 7</option>
@@ -84,7 +75,7 @@
 
         {{Form::text("LPAR_prefix", 
                     old("LPAR_prefix") ? old("LPAR_prefix") : (!empty($server) ? $server->LPAR_prefix: null), [
-                    "class" => "form-control","style"=>"width:385px", "placeholder" => "$server->LPAR_prefix.", 
+                    "class" => "form-control","style"=>"width:385px", "placeholder" => "Enter LPAR's prefix..", 
                      ])}}
             </td>
               
@@ -121,7 +112,7 @@
                     </td>
     <td style="text-align:center">
    <br>
-   <button name="btn" type="submit" value="save" class="btn btn-success"><i class="fa fa-check"></i>   Save</button>
+   <button name="btn" type="submit" value="save" class="btn btn-success"><i class="fa fa-check"></i>Save</button>
    
     <br>
             </td>
@@ -149,7 +140,3 @@
 
     
     @endsection
-
-
-
-    

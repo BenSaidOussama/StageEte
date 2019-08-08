@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LPAR extends Model
 {
     //
-    //private $id;
+    private $id;
     private $disired_memory;
     private $disired_proc_units ;
     private $disired_v_proc ;
@@ -22,9 +22,6 @@ class LPAR extends Model
     private $proc_pool;
     private $profil_name;
     private $shared;
-    private $min_memory;
-    private $min_proc_units;
-    private $min_v_proc;
 
     private $isAuto_StartWithMangedSys;
     private $isEnable_Connection_Monitoring;
@@ -35,7 +32,6 @@ class LPAR extends Model
     public function getIsAuto_StartWithMangedSys(){
         return $this->isAuto_StartWithMangedSys;
     }
-   
     public function getIsEnable_Connection_Monitoring(){
         return $this->isEnable_Connection_Monitoring;
     }
@@ -66,8 +62,6 @@ class LPAR extends Model
     public function setId($id){
         $this->id=$id;
     }
-   
-    
     public function setDisired_memory($disired_memory){
         $this->disired_memory=$disired_memory;
     }
@@ -156,6 +150,12 @@ class LPAR extends Model
     public function getShared(){
         return $this->shared;
     }
+    public function Servers(){
+        return $this->hasMany('\app\Server');
+    }
+    public function Scripts(){
+        return $this->hasOne('\app\Script');
+    }
     public function getMin_memory(){
         return $this->min_memory;
     }
@@ -165,6 +165,7 @@ class LPAR extends Model
     public function getMin_v_proc(){
         return $this->min_v_proc;
     }
+    ////
     public function setMin_memory($min_memory){
         $this->min_memory =$min_memory ;
     }
@@ -174,13 +175,7 @@ class LPAR extends Model
     public function setMin_v_proc($min_v_proc){
         $this->min_v_proc =$min_v_proc ;
     }
-    public function Servers(){
-        return $this->hasMany('\app\Server');
-    }
-    public function Scripts(){
-        return $this->hasOne('\app\Script');
-    }
-    public function Templates(){
+    public function Template(){
         return $this->hasMany('\app\Template_profile');
     }
     public function V_FCs(){
@@ -192,6 +187,7 @@ class LPAR extends Model
     public function V_SCSIs(){
         return $this->belongsTo('\app\V_SCSI');
     }
-
-    
+    public function Physical_IOs(){
+        return $this->belongsTo('\app\Physical_IO');
+    }
 }

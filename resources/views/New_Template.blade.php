@@ -1,13 +1,7 @@
 @extends('layout.head')
 @extends('layout.template')
 @section('content')
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Open modal
-  </button>
-
-
 <div class="container-fluid">
-  
 <div class="card shadow mb-4" style="width:90%; margin-left:50px">  
 <h1>LPAR Details</h1>
 <!DOCTYPE html>
@@ -16,33 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')}}">
-<script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')}}"></script>
-<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
-<script src="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
 
 <style>
-  
-
-
-
-.slideContainer {
-/*	width: 75%;
-	margin-top: 50px;
-  align-self: center; */
-}
-  
-  .slider {
-	/*-webkit-appearance: none;
-	width: 100%;
-	height: 5px;
-	background: linear-gradient(90deg, rgb(117, 252, 117) 5%, rgb(214, 214, 214) 0%);
-	outline: none;
-	opacity: 0.7;
-	-webkit-transition: .2s;
-	transition: opacity .2s;
-	border-radius: 12px;
-	box-shadow: 0px 1px 10px 1px black;*/
-	}
   
   .slider:hover {
 	opacity: 1;
@@ -93,7 +62,6 @@
 </style>
 </head>
 <body>
-    
     <button class="accordion"><i class="fas fa-angle-double-right"></i> Profile</button>
         <div class="panel">
         <table>
@@ -105,26 +73,27 @@
   
                 </td>
                 <td>
-                <input type="text" name="partition_id">
+                <input type="text" class ="form-control" name="partition_id">
                 </td>
                     
                 <td>
                    <label style="margin-left:30px"> Partition Name:</label>
                 </td>
                 <td>
-                <input type="text" name="partion_name" >
+                <input type="text" class ="form-control" name="partion_name" >
                 </td>
                 <td>
                 <label style="margin-left:30px">  Profile Name:</label>
                 </td>
                 <td>
-                <input type=text>
+                <input type=text class ="form-control">
                 </td>
         </tr>
     </table>
     <br>
     </div>
 
+    {!! Form::open(array('method' => 'POST'))!!}
 
 <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
     <div class="panel" >
@@ -137,21 +106,23 @@
                 <input  type="radio" name="gender" value="Dedicate"></td><td><B> Dedicate :  </B>
                
                Assign entire processors that can only be used by the partition
-
+          
     </div>
+  
 
-<button class="accordion"><i class="fas fa-angle-double-right"></i> Processor Settings</button>
-    <div class="panel" >
-    <p style="margin-left:50px" ><B>Specify the desired,minimum,and maximum</B></p>
-        <p style="margin-left:50px"><B>processing settings in the filed bellow.</B></p>
+<button class='accordion' name="showing" type="submit"><i class='fas fa-angle-double-right'></i> Processor Settings</button>
 
-            <table style="margin-left:50px">
+<div class='panel' >
+    <p style='margin-left:50px' ><B>Specify the desired,minimum,and maximum</B></p>
+        <p style='margin-left:50px'><B>processing settings in the filed bellow.</B></p>
+
+            <table style='margin-left:50px'>
             <tr>
                 <td>
                 Minimum processing units *
                 </td>
                 <td>
-                <input type='text' name="min_proc_units">
+                <input type='text' class ='form-control' name='min_proc_units'>
                 </td>
             </tr>
             <tr>
@@ -159,14 +130,14 @@
                     Desired processing units *
                 </td>
                 <td>
-                    <input type='text' name="desired_proc_units">
+                    <input type='text' name='desired_proc_units' class ='form-control'>
                 </td>
                 <td >
-                    <label style="margin-left:20px"> Minimum virtual processors *
+                    <label style='margin-left:20px'> Minimum virtual processors *
                     </label>
                 </td>
                 <td>
-                    <input type='text' name="min_v_proc">
+                    <input type='text' class ='form-control' name='min_v_proc'>
                 </td>
              </tr>
             <tr>
@@ -174,13 +145,13 @@
                     Maximum processing units *
                 </td>
                 <td>
-                    <input type='text' name="max_proc_units">
+                    <input type='text' name='max_proc_units' class ='form-control'>
                 </td>
                 <td>
-                <label style="margin-left:20px"> Desired virtual processing *
+                <label style='margin-left:20px'> Desired virtual processing *
                 </td>
                 <td>
-                    <input type='text' name="desired_v_proc">
+                    <input type='text' name='desired_v_proc' class ='form-control'>
                 </td>
             </tr>
             <tr>
@@ -188,22 +159,25 @@
                     Shared processor pool *
                 </td>
                 <td>
-                    <input type='text' name="shared_proc_pool">
+                    <input type='text' name='shared_proc_pool' class ='form-control'>
                 </td>
             
                 <td>
                   
-                    <label style="margin-left:20px">   Maximum virtual processorss *
+                    <label style='margin-left:20px'>   Maximum virtual processorss *
 
                 </td>
                 <td>
-                    <input type="text" name='max_v_proc'>
+                    <input type='text' name='max_v_proc' class ='form-control'>
                 </td>
             </tr>
             </table>
             <br>
     </div>
-    
+  
+    {!! Form::close()!!}
+
+  
 <button class="accordion"><i class="fas fa-angle-double-right"></i> Memory Settings</button>
 <div class="panel">
   <p > 
@@ -221,7 +195,7 @@
                 Minimum memory 
              </td>
             <td >
-                 <input  type="range" min="0" max="100" value="42" class="slider" id="myRange">
+                 <input  class ="form-control" type="range" min="0" max="100" value="42" class="slider" id="myRange">
             </td> 
             <td>
                  <span id="value"></span>GB
@@ -233,7 +207,7 @@
                 Desired memory 
              </td>
             <td >
-                 <input  type="range" min="0" max="100" value="42" class="slider1" id="myRange1">
+                 <input class ="form-control" type="range" min="0" max="100" value="42" class="slider1" id="myRange1">
             </td> 
             <td>
                  <span id="value1"></span>GB
@@ -245,7 +219,7 @@
                 Maximum memory 
              </td>
             <td >
-                 <input  type="range" min="0" max="100" value="42" class="slider2" id="myRange2">
+                 <input class ="form-control"  type="range" min="0" max="100" value="42" class="slider2" id="myRange2">
             </td> 
             <td>
                  <span id="value2"></span>GB
@@ -307,14 +281,9 @@
         </table>
            <br>
            <table>
-
            <tr> 
             <td>
-              
-                <button style="margin-left:200px" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true">
-              
-                </i>
-
+                <button style="margin-left:200px" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
     Virtal SCSI Adapter
   </button>
 
@@ -331,7 +300,38 @@
         
         <!-- Modal body -->
         <div class="modal-body">
-          Modal body..
+          <table>
+                <tr>
+                <td>
+                      <label>Adapter</label>
+                </td>
+                <td>
+                  <select class="form-control" class="" name="adapter">
+                    <option value="client_adapter">
+                      Client
+                    </option>
+                    <option  value="client_adapter">
+                      Server
+                    </option>
+                    </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                      <label>Partition</label>
+                </td>
+                <td>
+                <select class="form-control" class="" name="adapter">
+                    <option value="client_adapter">
+                      Client
+                    </option>
+                    <option  value="client_adapter">
+                      Server
+                    </option>
+                    </select>
+                </td>
+              </tr>
+</table>
         </div>
         
         <!-- Modal footer -->
@@ -344,12 +344,7 @@
   </div>
             </td>
             <td>
-            <button style="margin-left:50px" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true">
-                 ***
-                 
-
-                 ***
-               </i>   Virtual Ethernet Adapter</button>
+               <button style="margin-left:50px" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
                </td>
             <td>
             <button style="margin-left:50px" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
@@ -366,7 +361,7 @@
         <table> 
             <tr>
                 <td style="width:500px">
-              <input type=checkbox> Enable connection monitoring 
+              <input class ="form-control" style="color:red" type=checkbox> Enable connection monitoring 
                 </td>
                 <td>
                 
@@ -378,18 +373,18 @@
         
         <tr>
                 <td>
-             <input type=checkbox > Automatically start with managed system 
+             <input class ="form-control" type=checkbox > Automatically start with managed system 
                 </td>
                 <td>
-                <input type=checkbox >Normal
+                <input class ="form-control" type=checkbox >Normal
                 </td>
         </tr>
         <tr>
                 <td>
-             <input type=checkbox > Enable redundant error path reporting  
+             <input type=checkbox class ="form-control"> Enable redundant error path reporting  
                 </td>
                 <td>
-                <input type=checkbox >System Managment Services(SMS)
+                <input type=checkbox class ="form-control">System Managment Services(SMS)
                 </td>
               
         </tr>
@@ -494,7 +489,10 @@ slider2.addEventListener("mousemove", function() {
     slider2.style.background = color2;
 });
 </script>
-   
+<script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')}}"></script>
+<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
+<script src="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
+
 </body>
 </html>
 </div>

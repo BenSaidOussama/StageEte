@@ -11,7 +11,7 @@
   <div class="col-lg-12">
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">New Server   </h6>
+        <h6 class="m-0 font-weight-bold text-primary">New Server : </h6>
       </div>
       <div class="card-body">
       {!! Form::open(array('url' => '/createServer','method' => 'POST'))!!}
@@ -31,7 +31,7 @@
         <td>
             {{Form::text("Server_name",
             old("Server_name") ? old("Server_name") : (!empty($server) ? $server->Server_name : null), [
-            "class" => "form-control","style"=>"width:385px",   "placeholder" => "Enter Server's name", 
+            "class" => "form-group user-email","style"=>"width:385px",   "placeholder" => "Enter Server's name", 
             ])}}
                        
         </td>
@@ -41,20 +41,17 @@
             {{ Form::label("Description", null, ['class' => 'control-label']) }}
         </td>
         <td>
-            <br>
             {{Form::textarea('Server_description', old("Server_description") ? old("Server_description") : (!empty($server) ? $server->Server_description : null), 
-                         [  "class" => "form-control", 'style'=>"width:385px", "placeholder" => "Enter some details ..."])}}
+                         [  "class" => "form-group",  "placeholder" => "Enter some details ..."])}}
         </td>
             </tr>
         <tr>
            
         <td> 
-            <br>
             {{ Form::label("
                 Type", null, ['class' => 'control-label']) }}
          </td>
         <td>
-            <br>
         <select name="Server_type"  class="form-control">
                 <option name="Server_type" value="type1">POWER 5</option>
                 <option name="Server_type" value="type2">POWER 6</option>
@@ -68,26 +65,26 @@
     <tr>
         
         <td>
-            <br>
+            
         {{ Form::label("LPAR's prefix", null, ['class' => 'control-label']) }}
         </td>
         <td>
         <br>   
         {{Form::text("LPAR_prefix", 
                     old("LPAR_prefix") ? old("LPAR_prefix") : (!empty($server) ? $server->LPAR_prefix: null), [
-                    "class" => "form-control","style"=>"width:385px", "placeholder" => "Enter LPAR's prefix..", 
+                    "class" => "form-group user-email","style"=>"width:385px", "placeholder" => "Enter LPAR's prefix..", 
                      ])}}
             </td>
               
     </tr>
     <tr>
         <td>
-           <br>
+           
             {{ Form::label(" LPAR's number ", null, ['class' => 'control-label']) }}
         </td>
         <td>
-            <br>
-            <input type='number' class="form-control" value="" name="Server_LPARs_nbr" style='width:385px'>
+            
+            <input type='number' value="" name="Server_LPARs_nbr" style='width:385px'>
 
                     </td>  
                     </tr>
@@ -112,7 +109,7 @@
                     </td>
     <td style="text-align:center">
    <br>
-   <button name="btn" type="submit" value="save" class="btn btn-success"><i class="fa fa-check"></i>   Save</button>
+   <button name="btn" type="submit" value="save" class="btn btn-success"><i class="fa fa-check"></i>Save</button>
     <br>
             </td>
     </tr>
@@ -139,7 +136,3 @@
 
     
     @endsection
-
-
-
-    

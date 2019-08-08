@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class V_SCSI extends Model
 {
+    //
     private $id;
     private $isClientAdapter;
     private $isServerAdapter;
@@ -61,8 +62,7 @@ class V_SCSI extends Model
     public function LPARs(){
         return $this->hasMany('\app\LPAR');
     }
-    public function Templates(){
+    public function templates(){
         return $this->hasMany('\app\Template_profile');
     }
- 
 }

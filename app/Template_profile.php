@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Template_profile extends Model
 {
+    //
     private $id;
     private $disired_memory;
     private $disired_proc_units ;
@@ -18,9 +19,6 @@ class Template_profile extends Model
     private $proc_pool;
     private $profil_name;
     private $shared;
-    private $min_memory;
-    private $min_v_proc;
-    private $min_proc_units;
     private $isAuto_StartWithMangedSys;
     private $isEnable_Connection_Monitoring;
     private $isEnable_redundant_Error_Path_report;
@@ -58,11 +56,9 @@ class Template_profile extends Model
         $this->isSMS_BootMode=$isSMS_BootMode;
     }
 
-
     public function setId($id){
-        $thismin_v_proc->id=$id;
+        $this->id=$id;
     }
-    
     public function setDisired_memory($disired_memory){
         $this->disired_memory=$disired_memory;
     }
@@ -72,6 +68,7 @@ class Template_profile extends Model
     public function setDisired_v_proc($disired_v_proc){
         $this->disired_v_proc=$disired_v_proc;
     }
+   
     public function setMax_memory($max_memory){
         $this->max_memory=$max_memory;
     }
@@ -84,6 +81,7 @@ class Template_profile extends Model
     public function setMax_v_proc ($max_v_proc){
         $this->max_v_proc =$max_v_proc ;
     }
+   
     public function setTemplate_name ($template_name){
         $this->template_name =$template_name ;
     }
@@ -108,6 +106,12 @@ class Template_profile extends Model
     public function getDisired_v_proc(){
         return $this->disired_v_proc;
     }
+    public function getLPAR_name(){
+        return $this->LPAR_name;
+    }
+    public function getLPAR_type(){
+        return $this->LPAR_type;
+    }
     public function getMax_memory(){
         return $this->max_memory;
     }
@@ -121,8 +125,9 @@ class Template_profile extends Model
     public function getMax_v_proc(){
         return $this->max_v_proc;
     }
+   
     public function getTemplate_name(){
-        return $this->partition_name;
+        return $this->template_name;
     }
     public function getProc_pool(){
         return $this->proc_pool;
@@ -133,6 +138,12 @@ class Template_profile extends Model
     public function getShared(){
         return $this->shared;
     }
+    public function Servers(){
+        return $this->hasMany('\app\Server');
+    }
+    public function Scripts(){
+        return $this->hasOne('\app\Script');
+    }
     public function getMin_memory(){
         return $this->min_memory;
     }
@@ -142,6 +153,7 @@ class Template_profile extends Model
     public function getMin_v_proc(){
         return $this->min_v_proc;
     }
+    ////
     public function setMin_memory($min_memory){
         $this->min_memory =$min_memory ;
     }
@@ -151,16 +163,10 @@ class Template_profile extends Model
     public function setMin_v_proc($min_v_proc){
         $this->min_v_proc =$min_v_proc ;
     }
-    public function Servers(){
-        return $this->hasMany('\app\Server');
-    }
-    public function Scripts(){
-        return $this->hasOne('\app\Script');
-    }
     public function Clients(){
         return $this->hasMany('\app\Client');
     }
-    public function LPARs(){
+    public function LPAR(){
         return $this->belongsTo('\app\LPAR');
     }
     public function V_FCs(){
@@ -172,4 +178,8 @@ class Template_profile extends Model
     public function V_SCSIs(){
         return $this->belongsTo('\app\V_SCSI');
     }
+    public function Physical_IOs(){
+        return $this->belongsTo('\app\Physical_IO');
+    }
 }
+

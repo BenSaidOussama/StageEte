@@ -1,10 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-Use App\Template_profile;
-
-use Illuminate\Http\Request;
 use App\Client;
+use Illuminate\Http\Request;
 
 class TemplateController extends Controller
 {
