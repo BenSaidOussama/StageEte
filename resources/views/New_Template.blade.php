@@ -659,7 +659,6 @@
 
   if(variable_input.value>0){
     mypanel.style.display="block";
-    //variable_input.style.display="block";
   }
   else{
     mypanel.style.display="none";
