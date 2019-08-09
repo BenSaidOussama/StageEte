@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Server;
+use App\Client;
 use App\Template_profile;
 use App\LPAR;
-use App\Client;
 use DB;
 use App\Quotation;
 
-class serverController extends Controller
+
+class ServerController extends Controller
 {
-    //
-    
     public function EditServer($id){
         
         $server= Server::find($id);
@@ -36,7 +35,7 @@ class serverController extends Controller
         $server->Server_description=$request->input('Server_description');
         $server->LPAR_prefix=$request->input('LPAR_prefix');
         $server->Server_type=$request->input('Server_type');
-        $server->Server_LPARs_nbr=$request->input('Server_LPARs_nbr');
+        $server->Server_LPARs_nbr=$server->Server_LPARs_nbr+$request->input('Server_LPARs_nbr');
 
 
         if($request->input('template')=="no template"){
@@ -45,7 +44,7 @@ class serverController extends Controller
                 $lpar=new LPAR();
                 $lpar->LPAR_name=$server->LPAR_prefix.$i;
                 $lpar->Server_FK_id=$id;
-                array_push($array,$lpar);
+                
                 $lpar->save();
             }
 
@@ -78,12 +77,16 @@ class serverController extends Controller
                 $lpar->isNormal_BootMode=$template->isNormal_BootMode;
                 $lpar->isSMS_BootMode=$template->isSMS_BootMode;
                 $lpar->save();
-                array_push($array,$lpar);
             }
             
         }
         $server->save();
     }
+    $array = DB::table('l_p_a_r_s')
+        ->where('Server_FK_id', '=', $server->id)
+        ->paginate(2);
+    
+
     //return $array;
         return view('/ViewClient_Server_lpars',compact('server','array','client'));
 
@@ -174,6 +177,8 @@ class serverController extends Controller
         $client->save();
 
       return view('/view_client',compact('server','client','array'));
-     //   return view('/view_client',compact('server','client','array'));
 
-    }}
+
+    }
+    
+}
