@@ -309,8 +309,8 @@
           <tbody>
             <tr>
               <th scope="row">1</th>
-              <td>ddd</td>
-              <td>ddd</td>
+              <td></td>
+              <td></td>
               <td></td>
             </tr>
             <tr>
