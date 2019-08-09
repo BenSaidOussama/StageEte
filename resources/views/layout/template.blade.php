@@ -23,15 +23,15 @@
 <body id="page-top">
 
   <!-- Page Wrapper -->
-  <div id="wrapper">
+  <div  id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div >
-        <img src="{{asset('https://www.focus-corporation.com/sites/all/themes/focus/logo.png')}}" width="150" height="60" style="margin-top:25px;" alt="focus">
+        <img src="{{asset('img/Logo_Focus1.png')}}" width="150" height="60" style="margin-top:25px;" alt="focus">
         
         <div class="sidebar-brand-text mx-3">IBM Power </div>
         </div>
@@ -41,7 +41,7 @@
       <hr class="sidebar-divider my-0" style="margin-top:50px;">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
+      <li  class="nav-item active">
         <a class="nav-link" href="index.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>

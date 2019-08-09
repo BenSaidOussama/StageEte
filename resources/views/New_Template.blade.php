@@ -1,11 +1,10 @@
 @extends('layout.head')
 @extends('layout.template')
 @section('content')
-<div class="container-fluid">
-<div class="card shadow mb-4" style="width:90%; margin-left:50px">  
-<h1>LPAR Details</h1>
 <!DOCTYPE html>
 <html>
+
+
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -61,7 +60,19 @@
 }
 </style>
 </head>
-<body>
+<body><!-- Begin Page Content -->
+<div class="container-fluid">
+
+<!-- Page Heading -->
+<h1 class="h3 mb-4 text-gray-800">Create New template</h1>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Template details </h6>
+      </div>
+      <div class="card-body">
     <button class="accordion"><i class="fas fa-angle-double-right"></i> Profile</button>
         <div class="panel">
         <table>
@@ -93,36 +104,35 @@
     <br>
     </div>
 
-    {!! Form::open(array('method' => 'POST'))!!}
-
 <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
     <div class="panel" >
    
-                    <input type="radio"  name="gender" value="Shared">
+                    <input type="radio"  name="gender"  onclick='displaying_shared()' value="Shared">
                     <B>Shared : </B>
 
-                   Assign partial processor units from the shared processor pool.
-<br>
-                <input  type="radio" name="gender" value="Dedicate"></td><td><B> Dedicate :  </B>
-               
-               Assign entire processors that can only be used by the partition
+                      Assign partial processor units from the shared processor pool.
+                    <br>
+                    <input  type="radio" name="gender"  onclick='displaying_dedicated()' value="Dedicate"></td><td><B> Dedicate :  </B>
+                  
+                     Assign entire processors that can only be used by the partition
           
     </div>
   
 
-<button class='accordion' name="showing" type="submit"><i class='fas fa-angle-double-right'></i> Processor Settings</button>
+<button class='accordion'  ><i class='fas fa-angle-double-right'></i> Processor Settings</button>
 
 <div class='panel' >
-    <p style='margin-left:50px' ><B>Specify the desired,minimum,and maximum</B></p>
-        <p style='margin-left:50px'><B>processing settings in the filed bellow.</B></p>
+  
+    <p id="proc_shared"  style='margin-left:50px;display: none;' ><B>Specify the desired,minimum,and maximum</B></p>
+        <p id="proc_settings_shared" style='margin-left:50px;display: none;'><B>processing settings in the filed bellow.</B></p>
 
-            <table style='margin-left:50px'>
+            <table id="table_shared" style='margin-left:50px;display: none;' >
             <tr>
                 <td>
                 Minimum processing units *
                 </td>
                 <td>
-                <input type='text' class ='form-control' name='min_proc_units'>
+                <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
                 </td>
             </tr>
             <tr>
@@ -130,14 +140,14 @@
                     Desired processing units *
                 </td>
                 <td>
-                    <input type='text' name='desired_proc_units' class ='form-control'>
+                    <input type='number' step="0.1" name='desired_proc_units' class ='form-control'>
                 </td>
                 <td >
                     <label style='margin-left:20px'> Minimum virtual processors *
                     </label>
                 </td>
                 <td>
-                    <input type='text' class ='form-control' name='min_v_proc'>
+                    <input type='number' step="0.1" class ='form-control' name='min_v_proc'>
                 </td>
              </tr>
             <tr>
@@ -145,13 +155,13 @@
                     Maximum processing units *
                 </td>
                 <td>
-                    <input type='text' name='max_proc_units' class ='form-control'>
+                    <input type='number' step="0.1" name='max_proc_units' class ='form-control'>
                 </td>
                 <td>
                 <label style='margin-left:20px'> Desired virtual processing *
                 </td>
                 <td>
-                    <input type='text' name='desired_v_proc' class ='form-control'>
+                    <input type='number' step="0.1" name='desired_v_proc' class ='form-control'>
                 </td>
             </tr>
             <tr>
@@ -159,8 +169,19 @@
                     Shared processor pool *
                 </td>
                 <td>
-                    <input type='text' name='shared_proc_pool' class ='form-control'>
+                    <select id="selects" name='shared_proc_pool' class ='form-control' editable='true'>
+                      <option value="Default pool">
+                        Default pool
+                      </option>
+                      <option value="Other pool">
+                        Other pool
+                      </option>
+</select>
+<input style="padding-top:1px;display:none;" name="pool" id="pool">
+
+
                 </td>
+                
             
                 <td>
                   
@@ -168,15 +189,41 @@
 
                 </td>
                 <td>
-                    <input type='text' name='max_v_proc' class ='form-control'>
+                    <input type='number' step="0.1" name='max_v_proc' class ='form-control'>
                 </td>
             </tr>
             </table>
+
+          <table id="table_dedicated" style='margin-left:50px;display: none;' >
+                      <tr>
+                          <td>
+                          Minimum processing units *
+                          </td>
+                          <td>
+                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                          Minimum processing units *
+                          </td>
+                          <td>
+                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                          Minimum processing units *
+                          </td>
+                          <td>
+                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                          </td>
+                     </tr>
+              </table>
             <br>
     </div>
   
-    {!! Form::close()!!}
-
+  
   
 <button class="accordion"><i class="fas fa-angle-double-right"></i> Memory Settings</button>
 <div class="panel">
@@ -195,10 +242,10 @@
                 Minimum memory 
              </td>
             <td >
-                 <input  class ="form-control" type="range" min="0" max="100" value="42" class="slider" id="myRange">
+                 <input  class ="form-control" type="range" min="0" max="100" step="0.1" value="42" class="slider" id="myRange">
             </td> 
-            <td>
-                 <span id="value"></span>GB
+            <td style="text-align:right">
+            <input style="width:50%; " step="0.1" type="number" id="value" >GB
             </td>
             
         </tr>
@@ -207,10 +254,10 @@
                 Desired memory 
              </td>
             <td >
-                 <input class ="form-control" type="range" min="0" max="100" value="42" class="slider1" id="myRange1">
+                 <input class ="form-control" type="range" min="0" max="100" step="0.1" value="42" class="slider1" id="myRange1">
             </td> 
-            <td>
-                 <span id="value1"></span>GB
+            <td style="text-align:right">
+            <input style="width:50%; "type="number" step="0.1" id="value1" >GB
             </td>
             
         </tr>
@@ -219,10 +266,10 @@
                 Maximum memory 
              </td>
             <td >
-                 <input class ="form-control"  type="range" min="0" max="100" value="42" class="slider2" id="myRange2">
+                 <input class ="form-control"  type="range" step="0.1" min="0" max="100" value="42" class="slider2" id="myRange2">
             </td> 
-            <td>
-                 <span id="value2"></span>GB
+            <td style="text-align:right">
+            <input style="width:50%; "type="number" step="0.1" id="value2" >GB
             </td>
             
         </tr>
@@ -427,10 +474,13 @@ for (i = 0; i < acc.length; i++) {
 var slider = document.getElementById("myRange");
 var output = document.getElementById("value");
 
-output.innerHTML = slider.value;
+output.value = slider.value;
 
 slider.oninput = function() {
-  output.innerHTML = this.value;
+  output.value = this.value;
+}
+output.oninput = function() {
+  slider.value = this.value;
 }
 
 var start_value = slider.getAttribute("value");
@@ -450,12 +500,14 @@ slider.addEventListener("mousemove", function() {
 var slider1 = document.getElementById("myRange1");
 var output1 = document.getElementById("value1");
 
-output1.innerHTML = slider1.value;
+output1.value = slider1.value;
 
 slider1.oninput = function() {
-  output1.innerHTML = this.value;
+  output1.value = this.value;
 }
-
+output1.oninput = function() {
+  slider1.value = this.value;
+}
 var start_value1 = slider1.getAttribute("value");
 
 var x1 = start_value;
@@ -471,10 +523,13 @@ slider1.addEventListener("mousemove", function() {
 var slider2 = document.getElementById("myRange2");
 var output2 = document.getElementById("value2");
 
-output2.innerHTML = slider2.value;
+output2.value = slider2.value;
 
 slider2.oninput = function() {
-  output2.innerHTML = this.value;
+  output2.value = this.value;
+}
+output2.oninput = function() {
+  slider2.value = this.value;
 }
 
 var start_value2 = slider2.getAttribute("value");
@@ -488,15 +543,37 @@ slider2.addEventListener("mousemove", function() {
     color2= 'linear-gradient(90deg, rgb(117, 252, 117)' + x2 + '% , rgb(214, 214, 214)' + x2 + '%)';
     slider2.style.background = color2;
 });
+      function displaying_shared(){
+        document.getElementById("proc_shared").style.display = 'block';
+        document.getElementById("proc_settings_shared").style.display = 'block';
+        document.getElementById("table_shared").style.display = 'block';
+        document.getElementById("table_dedicated").style.display = 'none';
+
+
+      }
+      function displaying_dedicated(){
+        document.getElementById("proc_shared").style.display = 'none';
+        document.getElementById("proc_settings_shared").style.display = 'none';
+        document.getElementById("table_shared").style.display = 'none';
+        document.getElementById("table_dedicated").style.display = 'block';
+
+
+      }
 </script>
+
+
+
 <script src="{{asset('https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')}}"></script>
 <script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')}}"></script>
 <script src="{{asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')}}"></script>
 
+
+</div>
+
+</div>
+</div>
+
+</div>
 </body>
 </html>
-</div>
-
-</div>
-
 @endsection
