@@ -15,9 +15,9 @@ class AddFkIo extends Migration
     {
         Schema::table('physical__i_o_s', function (Blueprint $table) {
             $table->Integer('Template_FK_id')->unsigned()->nullable();
-            $table->foreign('Template_FK_id')->references('id')->on('template_profiles');
+            $table->foreign('Template_FK_id')->references('id')->on('template_profiles')->onDelete('cascade');
             $table->Integer('LPAR_FK_id')->unsigned()->nullable();
-            $table->foreign('LPAR_FK_id')->references('id')->on('l_p_a_r_s');
+            $table->foreign('LPAR_FK_id')->references('id')->on('l_p_a_r_s')->onDelete('cascade');
         });
     }
 
