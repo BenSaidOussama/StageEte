@@ -107,7 +107,7 @@
 <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
     <div class="panel" >
    
-                    <input type="radio"  name="gender"  onclick='displaying_shared()' value="Shared">
+                    <input type="radio"  name="gender" checked onclick='displaying_shared()' value="Shared">
                     <B>Shared : </B>
 
                       Assign partial processor units from the shared processor pool.
@@ -123,10 +123,10 @@
 
 <div class='panel' >
   
-    <p id="proc_shared"  style='margin-left:50px;display: none;' ><B>Specify the desired,minimum,and maximum</B></p>
-        <p id="proc_settings_shared" style='margin-left:50px;display: none;'><B>processing settings in the filed bellow.</B></p>
+    <p id="proc_shared"  style='margin-left:50px;display: block;' ><B>Specify the desired,minimum,and maximum</B></p>
+        <p id="proc_settings_shared" style='margin-left:50px;display: block;'><B>processing settings in the filed bellow.</B></p>
 
-            <table id="table_shared" style='margin-left:50px;display: none;' >
+            <table id="table_shared" style='margin-left:50px;display: block;' >
             <tr>
                 <td>
                 Minimum processing units *
@@ -169,20 +169,18 @@
                     Shared processor pool *
                 </td>
                 <td>
-                    <select id="selects" name='shared_proc_pool' class ='form-control' editable='true'>
-                      <option value="Default pool">
+                    <select id="select" name='shared_proc_pool' onclick='verifier()' class ='form-control' editable='true'>
+                    
+                    <option value="Default pool">
                         Default pool
                       </option>
                       <option value="Other pool">
                         Other pool
                       </option>
-</select>
-<input style="padding-top:1px;display:none;" name="pool" id="pool">
-
-
+                    </select>
+                    <input type="text" style="display:none" id="input_pool" name="input_pool_name">
                 </td>
                 
-            
                 <td>
                   
                     <label style='margin-left:20px'>   Maximum virtual processorss *
@@ -193,30 +191,30 @@
                 </td>
             </tr>
             </table>
-
+       <p id="p_dedicated" style="display: none"> <B>    Specify the desired, minimum, and maximum processing settings in the fields below.</B></p>
           <table id="table_dedicated" style='margin-left:50px;display: none;' >
                       <tr>
                           <td>
-                          Minimum processing units *
+                          Minimum processors*
                           </td>
                           <td>
-                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                          Minimum processing units *
-                          </td>
-                          <td>
-                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                          <input type='number' class ='form-control' name='min_proc_units'>
                           </td>
                       </tr>
                       <tr>
                           <td>
-                          Minimum processing units *
+                          Desired processors*
                           </td>
                           <td>
-                          <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                          <input type='number'  class ='form-control' name='min_proc_units'>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                          Maximum processors:
+                          </td>
+                          <td>
+                          <input type='number'  class ='form-control' name='min_proc_units'>
                           </td>
                      </tr>
               </table>
@@ -288,11 +286,8 @@
               Maximum virtual adapters:
            </td>
            <td>
-           <select style="margin-left:0px" name="server" style="width:30%;margin-left:320px;margin-top:-25px" class="form-control form-control-sm" >
-            @for($i=0;$i<=100;$i++)
-                <option value="$i">{{$i}}</option>
-            @endfor
-        </select>
+            <input type="number" style="margin-left:0px" name="server" style="width:30%;margin-left:320px;margin-top:-25px" class="form-control form-control-sm" > 
+        
            </td>
            </tr>
            </table>
@@ -331,72 +326,151 @@
            <table>
            <tr> 
             <td>
-                <button style="margin-left:200px" data-toggle="modal" data-target="#myModal" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
-    Virtal SCSI Adapter
-  </button>
+                <button style="margin-left:200px" data-toggle="modal" data-target="#myModal1" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+                  Virtal SCSI Adapter
+                </button>
 
-  <!-- The Modal -->
-  <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <table>
-                <tr>
-                <td>
-                      <label>Adapter</label>
-                </td>
-                <td>
-                  <select class="form-control" class="" name="adapter">
-                    <option value="client_adapter">
-                      Client
-                    </option>
-                    <option  value="client_adapter">
-                      Server
-                    </option>
-                    </select>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                      <label>Partition</label>
-                </td>
-                <td>
-                <select class="form-control" class="" name="adapter">
-                    <option value="client_adapter">
-                      Client
-                    </option>
-                    <option  value="client_adapter">
-                      Server
-                    </option>
-                    </select>
-                </td>
-              </tr>
-</table>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-    </div>
-  </div>
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <table>
+                          <tr>
+                          <td>
+                                <label>Adapter</label>
+                          </td>
+                          <td>
+                            <select class="form-control" id='pool_select' name="adapter">
+                              <option value="client_adapter">
+                                Client
+                              </option>
+                              <option  value="other">
+                                Server
+                              </option>
+                              </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                                <label>Partition</label>
+                          </td>
+                          <td>
+                          <select class="form-control" class="" name="adapter">
+                              <option value="client_adapter">
+                                Client
+                              </option>
+                              <option  value="client_adapter">
+                                Server
+                              </option>
+                              </select>
+                          </td>
+                        </tr>
+          </table>
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
             </td>
             <td>
-               <button style="margin-left:50px" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
-               </td>
+               <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
+              
+                <!-- The Modal -->
+            <div class="modal fade" id="myModal2">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <table>
+                          <tr>
+                          <td>
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                          </td>
+                          <td>
+                          
+                          </td>
+                        </tr>
+          </table>
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+              </td>
             <td>
-            <button style="margin-left:50px" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
-            </td>
+            <button style="margin-left:50px" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
+           <!-- The Modal -->
+           <div class="modal fade" id="myModal3">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <table>
+                          <tr>
+                          <td>
+                          </td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                          </td>
+                          <td>
+                          
+                          </td>
+                        </tr>
+          </table>
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </td>
 
           </tr>
           </table>
@@ -549,6 +623,7 @@ slider2.addEventListener("mousemove", function() {
         document.getElementById("proc_settings_shared").style.display = 'block';
         document.getElementById("table_shared").style.display = 'block';
         document.getElementById("table_dedicated").style.display = 'none';
+        document.getElementById("p_dedicated").style.display = 'none';
 
 
       }
@@ -557,8 +632,18 @@ slider2.addEventListener("mousemove", function() {
         document.getElementById("proc_settings_shared").style.display = 'none';
         document.getElementById("table_shared").style.display = 'none';
         document.getElementById("table_dedicated").style.display = 'block';
+        document.getElementById("p_dedicated").style.display = 'block';
+      }
+      function verifier(){
+        var select_var = document.getElementById("select");
+        var input_var = document.getElementById("input_pool");
 
+        if(select_var.value!="Default pool"){ 
+          document.getElementById("input_pool").style.display="block";
+          input_var.placeholder="enter a pool ...";
+          input_var.value ="";
 
+        }
       }
 </script>
 
