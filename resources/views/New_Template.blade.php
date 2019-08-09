@@ -58,6 +58,7 @@
   background-color: white;
   overflow: hidden;
 }
+
 </style>
 </head>
 <body><!-- Begin Page Content -->
@@ -276,7 +277,7 @@
 </div>
 
 <button class="accordion" ><i class="fas fa-angle-double-right"></i> physical I/O</button>
-<div  >
+<div class="panel" id="panel1"  >
   <br>
   <?php 
   $j=0;
@@ -285,7 +286,7 @@
     $j=$j+1;}
   
     ?>
- <input id="secret_input" value="{{$j}}" hidden>
+ <input id="secret_input" value="{{$j}}" style="display:none">
           <table class="table table-hover"  >
           <thead>
             <tr>
@@ -653,6 +654,17 @@
         
 
 <script>
+  var variable_input = document.getElementById("secret_input");
+  var mypanel = document.getElementById("panel1");
+
+  if(variable_input.value>0){
+    mypanel.style.display="block";
+    //variable_input.style.display="block";
+  }
+  else{
+    mypanel.style.display="none";
+
+  }
     
 var acc = document.getElementsByClassName("accordion");
 var i;
@@ -759,6 +771,7 @@ slider2.addEventListener("mousemove", function() {
         document.getElementById("table_dedicated").style.display = 'block';
         document.getElementById("p_dedicated").style.display = 'block';
       }
+     
       function verifier(){
         var select_var = document.getElementById("select");
         var input_var = document.getElementById("input_pool");
@@ -771,6 +784,7 @@ slider2.addEventListener("mousemove", function() {
         }
 
       }
+    
       
 
     
