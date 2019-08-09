@@ -309,9 +309,9 @@
           <tbody>
             <tr>
               <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
               <th scope="row">2</th>
@@ -323,7 +323,7 @@
               <th scope="row">3</th>
               <td colspan="2">Larry the Bird</td>
               <td>@twitter</td>
-              ookkkkk
+             
             </tr>
           </tbody>
         </table>
