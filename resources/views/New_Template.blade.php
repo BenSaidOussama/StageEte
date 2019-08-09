@@ -483,7 +483,7 @@
         <table> 
             <tr>
                 <td style="width:500px">
-              <input class ="form-control" style="color:red" type=checkbox> Enable connection monitoring 
+              <input  style="color:red" type=checkbox> Enable connection monitoring 
                 </td>
                 <td>
                 
@@ -495,18 +495,18 @@
         
         <tr>
                 <td>
-             <input class ="form-control" type=checkbox > Automatically start with managed system 
+             <input  type=checkbox > Automatically start with managed system 
                 </td>
                 <td>
-                <input class ="form-control" type=checkbox >Normal
+                <input  type=checkbox >Normal
                 </td>
         </tr>
         <tr>
                 <td>
-             <input type=checkbox class ="form-control"> Enable redundant error path reporting  
+             <input type=checkbox > Enable redundant error path reporting  
                 </td>
                 <td>
-                <input type=checkbox class ="form-control">System Managment Services(SMS)
+                <input type=checkbox>System Managment Services(SMS)
                 </td>
               
         </tr>
