@@ -84,7 +84,7 @@
   
                 </td>
                 <td>
-                <input type="text" class ="form-control" name="partition_id">
+                <input type="text" class ="form-control" id="okk" name="partition_id">
                 </td>
                     
                 <td>
@@ -273,6 +273,130 @@
         </tr>
 
     </table>
+</div>
+
+<button class="accordion" ><i class="fas fa-angle-double-right"></i> physical I/O</button>
+<div  >
+  <br>
+  <?php 
+  $j=0;
+  foreach($array as $i)
+  {
+    $j=$j+1;}
+  
+    ?>
+ <input id="secret_input" value="{{$j}}" hidden>
+          <table class="table table-hover"  >
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Index Slot</th>
+              <th scope="col">Type</th>
+              <th scope="col">Required/Desired</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $i=0;?>
+            @foreach($array as $phy)
+            <?php $i=$i+1;?>
+            <tr>
+              <th scope="row">{{$i}}</th>
+              <td>{{$phy->index_slot}}</td>
+              <td>{{$phy->type}}</td>
+              <td>
+              <?php 
+              if( $phy->isrequired==TRUE){
+              echo'Required';}
+              else{
+                echo'Desired';
+              }
+              ?>  
+              
+             </td>
+            </tr>
+            @endforeach
+            
+          </tbody>
+</table> 
+<p>
+<button style="margin-left:350px" data-toggle="modal" data-target="#myModal1" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+                  Add physical I/O
+                </button>
+</p>
+
+            <!-- The Modal -->
+            <div class="modal fade" id="myModal1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  
+                  <!-- Modal body -->
+
+                  <div class="modal-body">
+                  {!! Form::open(array('url' => '/actioncreatePhysicalIO','method' => 'POST'))!!}
+
+                    <table>
+                          <tr>
+                          <td>
+                                <label>Index Slot</label>
+                          </td>
+                          <td>
+                            <input type="text" class="form-control" name="index_slot">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                                <label>Type</label>
+                          </td>
+                          <td>
+                          <select class="form-control" name="type_physical_IO">
+                              <option value="type1">
+                                type1
+                              </option>
+                              <option  value="type2">
+                              type2
+                              </option>
+                              </select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                                <label>Is Required</label>
+                          </td>
+                          <td>
+                          <input checked  type="radio" value="required" name="req_des">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                                <label>Is Desired</label>
+                          </td>
+                          <td>
+                          <input  type="radio" value="desired" name="req_des">
+                          </td>
+                        </tr>
+          </table>
+                  </div>
+                  
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
+                  
+
+                    <button type="submit" class="btn btn-success"  >Save</button>
+                
+                    {!!Form::close()!!}
+  </div>
+                  
+                </div>
+              </div>
+            </div>
+{{$array->links()}}
 </div>
 
 <button class="accordion"> <i class="fas fa-angle-double-right"></i>   Virtual Adapters</button>
@@ -495,7 +619,7 @@
         
         <tr>
                 <td>
-             <input  type=checkbox > Automatically start with managed system 
+             <input type=checkbox > Automatically start with managed system 
                 </td>
                 <td>
                 <input  type=checkbox >Normal
@@ -506,7 +630,7 @@
              <input type=checkbox > Enable redundant error path reporting  
                 </td>
                 <td>
-                <input type=checkbox>System Managment Services(SMS)
+                <input type=checkbox >System Managment Services(SMS)
                 </td>
               
         </tr>
@@ -544,6 +668,7 @@ for (i = 0; i < acc.length; i++) {
     }
   });
 }
+
 
 ///Script Minimum
 var slider = document.getElementById("myRange");
@@ -644,7 +769,11 @@ slider2.addEventListener("mousemove", function() {
           input_var.value ="";
 
         }
+
       }
+      
+
+    
 </script>
 
 

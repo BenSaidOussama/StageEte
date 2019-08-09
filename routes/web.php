@@ -39,5 +39,8 @@ Route::post('/template','ClientController@ReadClients');
 Route::put('/delete/Client/{id_c}/Server/{id_s}/{id}','LparController@delete');
 Route::put('/edit/Client/{id_c}/Server/{id_s}/{id}','LparController@edit');
 Route::put('/addTemplate/Client/{id}','TemplateController@Gotoadd');
+Route::get('/addTemplate/Client/{id}','TemplateController@Gotoadd');
+
 Route::post('/delete/{id}','ServerController@deleteServer');
+Route::post('/actioncreatePhysicalIO','TemplateController@createphysicalIO');
 
