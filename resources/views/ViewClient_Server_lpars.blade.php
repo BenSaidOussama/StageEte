@@ -210,10 +210,6 @@ use App\Template_profile;
     </tr>
     @endforeach
     </table>
-<<<<<<< HEAD
-    {{$array->links()}}
-=======
->>>>>>> 6aea0e9f01e549b240a052f2f451f9c5ff995161
 </div>
 </div>
       </div></div></div></div>

@@ -9,9 +9,10 @@ class Template_profile extends Model
     //
     private $id;
     private $disired_memory;
+    private $max_memory ;
     private $disired_proc_units ;
     private $disired_v_proc ;
-    private $max_memory ;
+    
     private $max_proc_units ;
     private $max_v_adapters;
     private $max_v_proc;

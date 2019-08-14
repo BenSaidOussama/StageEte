@@ -9,7 +9,6 @@ class V_FC extends Model
     //
     private $id;
     private $isrequired;
-    private $server_adapter_id;
     private $server_partition;
     private $wwpn;
     private $wwpn_lpm;

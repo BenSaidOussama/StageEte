@@ -14,7 +14,8 @@
         <h6 class="m-0 font-weight-bold text-primary">  Edit Server : {{$server->Server_name}}</h6>
       </div>
       <div class="card-body">
-      {!! Form::open(array('url' => '/saveUpdate','method' => 'POST'))!!}
+      {!!Form::open(['action' => ['ServerController@saveUpdate',$server->id], 'method' => 'POST'])!!}       
+
 <div class="col-lg-2">
 </div>
 <div class="col-lg-8">

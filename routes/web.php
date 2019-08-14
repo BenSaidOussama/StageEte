@@ -27,9 +27,9 @@ Route::post('/editServer/{id}','ServerController@EditServer');
 Route::get('/editServer/{id}','ServerController@EditServer');
 
 Route::post('/saveUpdate/server/{id_s}','ServerController@saveUpdate');
-Route::get('/saveUpdate',function(){
+/*Route::get('/saveUpdate',function(){
     return view('ViewClient_Server_lpars');
-});
+});*/
 Route::post('/NewServer/Client/{id}','ServerController@NewServer');
 Route::post('/createServer','ServerController@createServer');
 Route::get('/ok', function () {
@@ -42,5 +42,10 @@ Route::put('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 Route::get('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 
 Route::post('/delete/{id}','ServerController@deleteServer');
-Route::post('/actioncreatePhysicalIO','TemplateController@createphysicalIO');
+Route::post('/addTemplate/Client/{id}/actioncreatePhysicalIO','TemplateController@createphysicalIO');
+Route::post('/addTemplate/Client/{id}/actioncreateSCSI','TemplateController@createSCSI');
+Route::post('/addTemplate/Client/{id}/actioncreateEthernet','TemplateController@createEthernet');
+Route::post('/addTemplate/Client/{id}/actioncreateFC','TemplateController@createFC');
+Route::post('/addTemplate/Client/{id}/actioncreateTemplate','TemplateController@createTemplate');
+
 

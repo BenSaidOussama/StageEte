@@ -18,7 +18,6 @@
             <h1 class="h3 mb-4 text-gray-800">
               Client Details</td>
           <td style="width:700px">
-              {!!Form::open(['action' => ['TemplateController@Gotoadd',$client->id], 'method' => 'PUT', 'class' => 'pull-right'])!!}    
                   <button type="submit" class="btn btn-secondary" style="margin-left:50x"><i class="fas fa-plus"></i> New template</button>
                 
         {!! Form::close() !!}

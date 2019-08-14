@@ -29,6 +29,7 @@ class ServerController extends Controller
         if($request->input('btn')=="save"){
         $id=$request->input('id');
         $server= Server::find($id);
+       // die($server);
    
         $id_client=$server->Client_FK_id;
         $client=Client::find($id_client);
