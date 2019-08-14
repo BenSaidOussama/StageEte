@@ -198,19 +198,6 @@ class TemplateController extends Controller
     public function createTemplate(Request $request,$id){
         $client=Client::find($id);
     $template=new Template_profile();
-<<<<<<< HEAD
-    die($request->input('partition_desired_hidden'));
-   // die($request->input('template_name_hidden'));
-    $template->template_name=$request->input('template_name_hidden');
-    $template->profil_name=$request->input('profile_name_hidden');
-    $template->partition_id=$request->input('partition_id_hidden');
-    $template->partition_name=$request->input('partition_name_hidden');
-    $template->partition_min_proc=$request->input('partition_min_proc_hidden');
-    $template->partition_max_proc=$request->input('partition_max_proc_hidden');
-    if(!isset($_POST['clickkk'])){
-        if( $request->input('clickkk')=='Shared'){
-            $template->$shared=TRUE;
-=======
 
     die($request->input('sync_conf_hidden'));
     $template->template_name=$request->input('template_name_hidden');
@@ -221,7 +208,6 @@ class TemplateController extends Controller
    
         if( $request->input('radio_hidden')=='Shared'){
             $template->shared=TRUE;
->>>>>>> 4449b92dc373ee425f107851d3fe5ac0732a08a8
             $template->min_proc=0;
             $template->max_proc=0;
             $template->desired_proc=0;
