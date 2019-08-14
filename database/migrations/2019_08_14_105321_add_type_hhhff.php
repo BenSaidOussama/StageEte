@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFKLpar extends Migration
+class AddTypeHhhff extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddFKLpar extends Migration
      */
     public function up()
     {
-        Schema::table('v_ethernets', function (Blueprint $table) {
-            $table->Integer('LPAR_FK_id')->unsigned()->nullable();
-            $table->foreign('LPAR_FK_id')->references('id')->on('l_p_a_r_s');
+        Schema::table('template_profiles', function (Blueprint $table) {
+            $table->boolean('sync_conf')->default (TRUE);
         });
     }
 
@@ -26,7 +25,7 @@ class AddFKLpar extends Migration
      */
     public function down()
     {
-        Schema::table('v_ethernets', function (Blueprint $table) {
+        Schema::table('template_profiles', function (Blueprint $table) {
             //
         });
     }
