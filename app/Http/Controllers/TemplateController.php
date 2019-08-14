@@ -198,14 +198,14 @@ class TemplateController extends Controller
     public function createTemplate(Request $request,$id){
         $client=Client::find($id);
     $template=new Template_profile();
-    $template->template_name=$request->input('template_name');
-    $template->profil_name=$request->input('profile_name');
+   // die($request->input('template_name_hidden'));
+    $template->template_name=$request->input('template_name_hidden');
+    $template->profil_name=$request->input('profile_name_hidden');
     $template->partition_id=$request->input('partition_id');
     $template->partition_name=$request->input('partion_name');
     
-    if(!isset($_post['radio_s'])){
-        $radioVal = $_POST['radio_s'];
-        if($radioVal=='Shared'){
+    if(!isset($_POST['clickkk'])){
+        if( $request->input('clickkk')=='Shared'){
             $template->$shared=TRUE;
             $template->min_proc=0;
             $template->max_proc=0;
@@ -246,13 +246,39 @@ class TemplateController extends Controller
         $template->max_memory=$request->input('max_memo') ;
         $template->min_memory =$request->input('min_memo');
 
-   /* $template->$isAuto_StartWithMangedSys;
-    $template->$isEnable_Connection_Monitoring;
-    $template->$isEnable_redundant_Error_Path_report;
-    $template->$isNormal_BootMode;
-    $template->$isSMS_BootMode;*/
-
-
+        if(!isset($_POST['boot_mode'])){
+            if($request->input('boot_mode')=="normal"){
+                $template->isNormal_BootMode=TRUE;
+                $template->isSMS_BootMode=FALSE;
+            }
+            else{
+                $template->isNormal_BootMode=FALSE;
+                $template->isSMS_BootMode=TRUE;
+            }
+            
+        }
+        if(!isset($_POST['check'])){
+            if($request->input('check')=="redund"){
+                $template->isAuto_StartWithMangedSys=FALSE;
+                $template->isEnable_Connection_Monitoring=FALSE;
+                $template->isEnable_redundant_Error_Path_report=TRUE;
+        
+            }
+            elseif($request->input('check')=="auto"){
+                $template->isAuto_StartWithMangedSys=TRUE;
+                $template->isEnable_Connection_Monitoring=FALSE;
+                $template->isEnable_redundant_Error_Path_report=FALSE;
+        
+            }
+            else{
+                $template->isAuto_StartWithMangedSys=FALSE;
+                $template->isEnable_Connection_Monitoring=TRUE;
+                $template->isEnable_redundant_Error_Path_report=FALSE;
+        
+            }
+            
+        }
+        $template->save();
     }
     
 }

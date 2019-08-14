@@ -84,7 +84,7 @@
   
                                         </td>
                                         <td>
-                                            <input type="text" class ="form-control"  name="template_name">
+                                            <input type="text" class ="form-control"  name="template_name" id="id_template_name">
                                         </td>
                                         <td style="text-align:center">
                                             <label >Partition ID:</label>
@@ -103,7 +103,7 @@
                                             <label >  Profile Name:</label>
                                         </td>
                                         <td>
-                                            <input type=text class ="form-control" name="profile_name">
+                                            <input type=text class ="form-control" name="profile_name" id="id_profile_name">
                                         </td>
                                     </tr>
                                 </table>
@@ -112,11 +112,11 @@
 
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
                             <div class="panel" >
-                                <input type="radio"  name="radio_s" checked onclick='displaying_shared()' value="Shared">
+                                <input type="radio"  name="clickkk" checked onclick='displaying_shared()' value="Shared">
                                 <B>Shared : </B>
                                 Assign partial processor units from the shared processor pool.
                                 <br>
-                                <input  type="radio" name="radio_s"  onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
+                                <input type="radio" name="clickkk"  onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
                                 Assign entire processors that can only be used by the partitio
                             </div>
                         <button class='accordion'  ><i class='fas fa-angle-double-right'></i> Processor Settings</button>
@@ -862,7 +862,7 @@
         <table> 
             <tr>
                 <td style="width:500px">
-              <input  style="color:red" type=checkbox> Enable connection monitoring 
+              <input  style="color:red" name="check" type="checkbox" value="cnx_monit" > Enable connection monitoring 
                 </td>
                 <td>
                 
@@ -874,18 +874,18 @@
         
         <tr>
                 <td>
-                <input type=checkbox name=""> Automatically start with managed system 
+                <input type=checkbox name="check" value="auto"> Automatically start with managed system 
                 </td>
                 <td>
-                <input  type=checkbox >Normal
+                <input  type="checkbox" name="boot_mode" value='normal' checked>Normal
                 </td>
         </tr>
         <tr>
                 <td>
-             <input type=checkbox > Enable redundant error path reporting  
+             <input type='checkbox' name="check" value="redund" > Enable redundant error path reporting  
                 </td>
                 <td>
-                <input type=checkbox >System Managment Services(SMS)
+                <input type="checkbox" name="boot_mode" value="sms">System Managment Services(SMS)
                 </td>
               
         </tr>
@@ -897,18 +897,39 @@
         
         {!!Form::open(['action' => ['TemplateController@createTemplate',$client->id], 'method' => 'POST'])!!}       
             <button type="submit" class="btn btn-success"style="margin-left:400px">Success</button>
+
+<input type="text" value="" name="template_name_hidden" id="id_template_name_hidden" hidden>        
+<input type="text" value="" name="profile_name_hidden" id="id_profile_name_hidden" hidden>        
+   
         {!!Form::close()!!}
           </td>
         </tr>
 
 </table>
         </div>
-
-   
-
-        
-
 <script>
+//add_hidden
+//template_name
+var input_template_name = document.getElementById("id_template_name");
+var input_template_name_hidden = document.getElementById("id_template_name_hidden");
+
+input_template_name_hidden.value = input_template_name.value;
+
+input_template_name.oninput = function() {
+  input_template_name_hidden.value = this.value;
+}
+//profile_name
+var input_profile_name = document.getElementById("id_profile_name");
+var input_profile_name_hidden = document.getElementById("id_profile_name_hidden");
+
+input_profile_name_hidden.value = input_profile_name.value;
+
+input_profile_name.oninput = function() {
+  input_profile_name_hidden.value = this.value;
+}
+
+
+
 //panel:Pysical IO
   var variable_input = document.getElementById("secret_input");
   var mypanel = document.getElementById("panel1");

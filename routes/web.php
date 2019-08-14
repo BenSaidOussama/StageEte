@@ -42,6 +42,8 @@ Route::put('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 Route::get('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 
 Route::post('/delete/{id}','ServerController@deleteServer');
+Route::get('/delete/{id}','ServerController@deleteServer');
+
 Route::post('/addTemplate/Client/{id}/actioncreatePhysicalIO','TemplateController@createphysicalIO');
 Route::post('/addTemplate/Client/{id}/actioncreateSCSI','TemplateController@createSCSI');
 Route::post('/addTemplate/Client/{id}/actioncreateEthernet','TemplateController@createEthernet');
