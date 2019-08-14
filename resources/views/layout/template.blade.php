@@ -95,7 +95,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <!--<h6 class="collapse-header"></h6>-->
-            <a class="collapse-item" href="{{action('')}}">Client</a>
+            <a class="collapse-item" href="">Client</a>
             <a class="collapse-item" href="">Template</a>
             <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
             <div class="collapse-divider"></div>
