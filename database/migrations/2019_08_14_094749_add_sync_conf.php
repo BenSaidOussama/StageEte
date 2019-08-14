@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTempName extends Migration
+class AddSyncConf extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddTempName extends Migration
     public function up()
     {
         Schema::table('template_profiles', function (Blueprint $table) {
-            $table->String('template_name');
+            $table->boolean('sync_conf')->default(TRUE);
         });
     }
 

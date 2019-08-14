@@ -79,30 +79,28 @@
                                 <table>
                                     <br>
                                     <tr>
-                                    <td style="text-align:center">
-                                            <label >Template_name:</label>
+                                    <td style="text-align:center;width:15%" >
+                                            <label >Sync Configuration:</label>
   
                                         </td>
-                                        <td>
+                                        <td style="text-align:center;width:15%">
+                                            <select  class ="form-control" name="sync_conf" id="id_sync_conf">
+                                            <option value="on"> ON</option>
+                                            <option value="off"> OFF</option>
+                                            </select>
+                                        </td>
+                                    <td style="text-align:center;width:15%">
+                                            <label >Template name:</label>
+  
+                                        </td>
+                                        <td style="text-align:center;width:15%">
                                             <input type="text" class ="form-control"  name="template_name" id="id_template_name">
                                         </td>
-                                        <td style="text-align:center">
-                                            <label >Partition ID:</label>
-  
-                                        </td>
-                                        <td>
-                                            <input type="number" class ="form-control"  name="partition_id">
-                                        </td>
-                                        <td style="text-align:center">
-                                            <label > Partition Name:</label>
-                                        </td>
-                                        <td>
-                                            <input type="text" class ="form-control" name="partion_name" >
-                                        </td>
-                                        <td style="text-align:center">
+                                       
+                                        <td style="text-align:center;width:15%">
                                             <label >  Profile Name:</label>
                                         </td>
-                                        <td>
+                                        <td style="text-align:center;width:15%">
                                             <input type=text class ="form-control" name="profile_name" id="id_profile_name">
                                         </td>
                                     </tr>
@@ -112,11 +110,11 @@
 
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
                             <div class="panel" >
-                                <input type="radio"  name="clickkk" checked onclick='displaying_shared()' value="Shared">
+                                <input type="radio" id="radio_shared" name="clickkk" checked onclick='displaying_shared()' value="Shared">
                                 <B>Shared : </B>
                                 Assign partial processor units from the shared processor pool.
                                 <br>
-                                <input type="radio" name="clickkk"  onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
+                                <input type="radio" name="clickkk" id="radio_dedicated" class="radio_shared"   onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
                                 Assign entire processors that can only be used by the partitio
                             </div>
                         <button class='accordion'  ><i class='fas fa-angle-double-right'></i> Processor Settings</button>
@@ -129,44 +127,60 @@
                                         Minimum processing units *
                                         </td>
                                         <td>
-                                        <input type='number' step="0.1" class ='form-control' name='min_proc_units'>
+                                        <input type='number' placeholder="0.1" step="0.1" class ='form-control' name='min_proc_units' id="id_min_proc_units">
+                                        </td>
+                                        <td style='text-align:right'>
+                                             Minimum virtual processors *
+                                        </td>
+                                        <td>
+                                            <input type='number' step="0.1" placeholder="0.1" class ='form-control' name='min_v_proc' id="id_min_v_proc">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td >
+                                        <br>
                                             Desired processing units *
                                         </td>
                                         <td>
-                                            <input type='number' step="0.1" name='desired_proc_units' class ='form-control'>
+                                        <br>
+                                            <input type='number' step="0.1" placeholder="0.1" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
                                         </td>
-                                        <td >
-                                            <label style='margin-left:20px'>
-                                             Minimum virtual processors *
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <input type='number' step="0.1" class ='form-control' name='min_v_proc'>
-                                        </td>
+                                        <td style='text-align:right' >
+                                        <br>
+                                                 Desired virtual processors *
+                                            </td>
+                                            <td>
+                                            <br>
+                                                <input type='number' step="0.1" placeholder="0.1" name='desired_v_proc' class ='form-control'>
+                                            </td>
+                                        
                                      </tr>
                                         <tr>
                                             <td>
+                                            <br>
                                                 Maximum processing units *
                                             </td>
                                             <td>
-                                                <input type='number' step="0.1" name='max_proc_units' class ='form-control'>
+                                            <br>
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_proc_units' class ='form-control' id="id_max_proc_units">
+                                            </td>
+                                            <td style="text-align:center">
+                                            <br>
+                                                  Maximum virtual processorss *
                                             </td>
                                             <td>
-                                                <label style='margin-left:20px'> Desired virtual processing *</label>
+                                            <br>
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_v_proc' class ='form-control'>
                                             </td>
-                                            <td>
-                                                <input type='number' step="0.1" name='desired_v_proc' class ='form-control'>
-                                            </td>
+                                            
                                         </tr>
                                         <tr>
                                             <td>
+                                            <br>
                                                 Shared processor pool *
                                             </td>
                                             <td>
+                                            <br>
                                                 <select id="select" name='shared_proc_pool' onclick='verifier()' class ='form-control' editable='true'>
                                                     <option value="Default pool">
                                                         Default pool
@@ -175,16 +189,14 @@
                                                         Other pool
                                                     </option>
                                                 </select>
-                                                <input type="text" style="display:none" id="input_pool" name="input_pool_name">
                                             </td>
                                             <td>
-
-                                                <label style='margin-left:20px'>   Maximum virtual processorss *</label>
-
                                             </td>
                                             <td>
-                                                <input type='number' step="0.1" name='max_v_proc' class ='form-control'>
+                                            <br>
+                                            <input type="text" style="display:none" class ='form-control' id="input_pool" name="input_pool_name">
                                             </td>
+                                           
                                         </tr>
                                     </table>
                                        <p id="p_dedicated" style="display: none"> <B>    Specify the desired, minimum, and maximum processing settings in the fields below.</B></p>
@@ -194,23 +206,28 @@
                                                           Minimum processors*
                                                           </td>
                                                           <td>
-                                                          <input type='number' class ='form-control' name='min_proc'>
+                                                          
+                                                          <input type='number' placeholder="1" class ='form-control' name='min_proc'>
                                                           </td>
                                                       </tr>
                                                       <tr>
                                                           <td>
+                                                          <br>
                                                           Desired processors*
                                                           </td>
                                                           <td>
-                                                          <input type='number'  class ='form-control' name='desired_proc'>
+                                                          <br>
+                                                          <input type='number' placeholder="1" class ='form-control' name='desired_proc'>
                                                           </td>
                                                       </tr>
                                                       <tr>
                                                           <td>
+                                                          <br>
                                                           Maximum processors:
                                                           </td>
                                                           <td>
-                                                          <input type='number'  class ='form-control' name='max_proc'>
+                                                          <br>
+                                                          <input type='number' placeholder="1"  class ='form-control' name='max_proc'>
                                                           </td>
                                                      </tr>
                                               </table>
@@ -900,7 +917,12 @@
 
 <input type="text" value="" name="template_name_hidden" id="id_template_name_hidden" hidden>        
 <input type="text" value="" name="profile_name_hidden" id="id_profile_name_hidden" hidden>        
-   
+<input type="text" value="" name="radio_hidden" id="id_radio_hidden" hidden>        
+<input type="text" value="" name="max_proc_units_hidden" id="id_max_proc_units_hidden" hidden>        
+<input type="text" value="" name="min_proc_units_hidden" id="id_min_proc_units_hidden" hidden>        
+<input type="text" value="" name="desired_proc_units_hidden" id="id_desired_proc_units_hidden" hidden>        
+<input type="text" value="" name="sync_conf_hidden" id="id_sync_conf_hidden" hidden>        
+
         {!!Form::close()!!}
           </td>
         </tr>
@@ -909,6 +931,17 @@
         </div>
 <script>
 //add_hidden
+//sync_conf
+var input_sync_conf = document.getElementById("id_sync_conf");
+var input_sync_conf_hidden = document.getElementById("id_sync_conf_hidden");
+
+input_sync_conf_hidden.value = input_sync_conf.value;
+input_sync_conf.oninput = function() {
+  input_sync_conf_hidden.value = this.value;
+}
+
+
+
 //template_name
 var input_template_name = document.getElementById("id_template_name");
 var input_template_name_hidden = document.getElementById("id_template_name_hidden");
@@ -927,6 +960,40 @@ input_profile_name_hidden.value = input_profile_name.value;
 input_profile_name.oninput = function() {
   input_profile_name_hidden.value = this.value;
 }
+
+
+//proc_units
+// max_proc_units
+var input_max_proc_units = document.getElementById("id_max_proc_units");
+var input_max_proc_units_hidden = document.getElementById("id_max_proc_units_hidden");
+
+input_max_proc_units_hidden.value = input_max_proc_units.value;
+
+input_max_proc_units.oninput = function() {
+  input_max_proc_units_hidden.value = this.value;
+}
+// min_proc_units
+var input_min_proc_units = document.getElementById("id_min_proc_units");
+var input_min_proc_units_hidden = document.getElementById("id_min_proc_units_hidden");
+
+input_min_proc_units_hidden.value = input_min_proc_units.value;
+
+input_min_proc_units.oninput = function() {
+  input_min_proc_units_hidden.value = this.value;
+}
+// desired_proc_units
+var input_desired_proc_units = document.getElementById("id_desired_proc_units");
+var input_desired_proc_units_hidden = document.getElementById("id_desired_proc_units_hidden");
+
+input_desired_proc_units_hidden.value = input_desired_proc_units.value;
+
+input_desired_proc_units.oninput = function() {
+  input_desired_proc_units_hidden.value = this.value;
+}
+
+
+
+
 
 
 
@@ -1044,12 +1111,23 @@ slider2.addEventListener("mousemove", function() {
     color2= 'linear-gradient(90deg, rgb(117, 252, 117)' + x2 + '% , rgb(214, 214, 214)' + x2 + '%)';
     slider2.style.background = color2;
 });
+var input_radio_hidden = document.getElementById("id_radio_hidden");
+var input_radio = document.getElementById("radio_shared");
+var input_radio1 = document.getElementById("radio_dedicated");
+
+input_radio_hidden.value=input_radio.value;
+
+
       function displaying_shared(){
         document.getElementById("proc_shared").style.display = 'block';
         document.getElementById("proc_settings_shared").style.display = 'block';
         document.getElementById("table_shared").style.display = 'block';
         document.getElementById("table_dedicated").style.display = 'none';
         document.getElementById("p_dedicated").style.display = 'none';
+        input_radio_hidden.value=input_radio.value;
+
+
+
 
 
       }
@@ -1059,6 +1137,8 @@ slider2.addEventListener("mousemove", function() {
         document.getElementById("table_shared").style.display = 'none';
         document.getElementById("table_dedicated").style.display = 'block';
         document.getElementById("p_dedicated").style.display = 'block';
+        input_radio_hidden.value=input_radio1.value;
+
       }
      
       function verifier(){
