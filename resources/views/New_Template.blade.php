@@ -77,7 +77,7 @@
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Profile</button>
                             <div class="panel">
                                 <table>
-                                    <br>
+                                    
                                     <tr>
                                     <td style="text-align:center;width:15%" >
                                             <label >Sync Configuration:</label>
@@ -1183,7 +1183,6 @@ input_radio_hidden.value=input_radio.value;
           input_var.value ="";
 
         }
-
       }
     function selection_type_Adapters(){
       $select=document.getElementById('id_type_select_adapters');
