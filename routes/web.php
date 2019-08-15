@@ -44,10 +44,10 @@ Route::get('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 Route::post('/delete/{id}','ServerController@deleteServer');
 Route::get('/delete/{id}','ServerController@deleteServer');
 
-Route::post('/addTemplate/Client/{id}/actioncreatePhysicalIO','TemplateController@createphysicalIO');
-Route::post('/addTemplate/Client/{id}/actioncreateSCSI','TemplateController@createSCSI');
-Route::post('/addTemplate/Client/{id}/actioncreateEthernet','TemplateController@createEthernet');
-Route::post('/addTemplate/Client/{id}/actioncreateFC','TemplateController@createFC');
+Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreatePhysicalIO','TemplateController@createphysicalIO');
+Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateSCSI','TemplateController@createSCSI');
+Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateEthernet','TemplateController@createEthernet');
+Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateFC','TemplateController@createFC');
 Route::post('/addTemplate/Client/{id}/actioncreateTemplate','TemplateController@createTemplate');
 
 

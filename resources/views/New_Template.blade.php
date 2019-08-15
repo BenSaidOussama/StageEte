@@ -358,11 +358,11 @@
                   <!-- Modal body -->
 
                   <div class="modal-body">
-                  {!!Form::open(['action' => ['TemplateController@createphysicalIO',$client->id], 'method' => 'POST'])!!}       
+                  {!!Form::open(['action' => ['TemplateController@createphysicalIO',$client->id,$template->id], 'method' => 'POST'])!!}       
               
                     <table>
                           <tr>
-                          <td>
+                          <td style="width:40%;text-align:center">
                           
                                 <label>Index Slot</label>
                           </td>
@@ -372,37 +372,38 @@
                           </td>
                         </tr>
                         <tr>
-                          <td>
+                          <td style="width:40%;text-align:center">
                           <br>
                                 <label>Type</label>
                           </td>
                           <td>
                           <br>
                           <select class="form-control" name="type_physical_IO">
-                              <option value="type1">
-                                type1
+                          <option value="Ethernet">
+                                Ethernet
                               </option>
-                              <option  value="type2">
-                              type2
+                              <option  value="Red Controller">
+                              Red Controller
+                              </option>
+                              <option  value="FC">
+                              Fibre Channel
+                              </option>
+                              <option  value="other">
+                              Other
                               </option>
                               </select>
                           </td>
                         </tr>
                         <tr>
-                          <td>
+                          <td style="width:40%;text-align:center">
                           <br>
-                                <label>Is Required</label>
+                                <label>Required</label>
                           </td>
                           <td>
                           <br>
+                          Yes
                           <input checked  type="radio" value="required" name="req_des">
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                                <label>Is Desired</label>
-                          </td>
-                          <td>
+                          No
                           <input  type="radio" value="desired" name="req_des">
                           </td>
                         </tr>
@@ -439,7 +440,7 @@
            <label>   Maximum virtual adapters:</label>
            </td>
            <td style="width:20%">
-            <input type="number" name="server"  class="form-control form-control-sm" > 
+            <input type="number" placeholder="0" value="{{$template->max_v_adapters}}" name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
            </td>
            <td style="width:30%">
            </td>
@@ -478,7 +479,8 @@
           <tbody>
           <?php
             $i=0;?>
-            @foreach($array1 as $fc)
+          @if($array1!="[]")
+           @foreach($array1 as $fc)
            <?php $i=$i+1;?>
             <tr>
               <th style="text-align:center" scope='row'>{{$i}}</th>
@@ -486,16 +488,17 @@
               <td style="text-align:center">{{$fc->id}}</td>
               <td style="text-align:center">
               <?php
-              if($fc->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              if($fc->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
+              echo"No
               ";}
               ?>
               </td>
             </tr>
 
             @endforeach
+            @endif
             <?php
             $j=$i;?>
             @foreach($array2 as $ethernet)
@@ -505,10 +508,10 @@
               <td style="text-align:center">Virtual {{$ethernet->type}} Adapter</td>
               <td style="text-align:center">{{$ethernet->id}}</td>
               <td style="text-align:center"><?php
-              if($ethernet->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              if($ethernet->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
+              echo"No
               ";}
               ?></td>
             </tr>
@@ -522,15 +525,15 @@
               <td style="text-align:center">Virtual {{$scsi->type}} Adapter</td>
               <td style="text-align:center">{{$scsi->id}}</td>
               <td style="text-align:center"><?php
-              if($scsi->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              if($scsi->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
+              echo"No
               ";}
               ?></td>
             </tr>
             @endforeach
-            <input id="secret_input_all" name="secret_input_all1" value="{{$k}}" hidden>
+            <input id="secret_input_all" name="secret_input_all1" hidden value="{{$k}}" >
           </tbody>
         </table>
         </div>
@@ -547,6 +550,8 @@
           <tbody>
           <?php
             $i=0;?>
+            @if($array1!="[]")
+
             @foreach($array1 as $fc)
            <?php $i=$i+1;?>
             <tr>
@@ -554,14 +559,15 @@
               <td style="text-align:center">Virtual {{$fc->type}} Adapter</td>
               <td style="text-align:center">{{$fc->id}}</td>
               <td style="text-align:center"><?php
-              if($fc->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              if($fc->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
+              echo"No
               ";}
               ?></td>
             </tr>
             @endforeach
+            @endif
             <input id="secret_input_all" name="secret_input_all1" value="{{$i}}" hidden>
           </tbody>
         </table>
@@ -586,10 +592,10 @@
               <td style="text-align:center">Virtual {{$ethernet->type}} Adapter</td>
               <td style="text-align:center">{{$ethernet->id}}</td>
               <td style="text-align:center"><?php
-              if($ethernet->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              if($ethernet->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
+              echo"No
               ";}
               ?></td>
             </tr>
@@ -618,12 +624,12 @@
               <th style="text-align:center" scope='row'>{{$k}}</th>
               <td style="text-align:center">Virtual {{$scsi->type}} Adapter</td>
               <td style="text-align:center">{{$scsi->id}}</td>
-              <td style="text-align:center"><?php
-              if($scsi->isrequired=="TRUE")
-              echo"<i class='fa fa-check-circle' style='font-size:16px;color:green'></i>";
+              <td style="text-align:center">
+              <?php
+              if($scsi->isrequired==TRUE)
+              echo"Yes";
               else{
-              echo"<i class='fa fa-exclamation-triangle' style='color:red' aria-hidden='true'></i>
-              ";}
+              echo"No";}
               ?></td>
             </tr>
             @endforeach
@@ -637,11 +643,11 @@
            <table>
            <tr> 
             <td>
-                <button style="margin-left:200px" data-toggle="modal" data-target="#myModal4" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
+                <button style="margin-left:200px" id="btn_scsi" data-toggle="modal" data-target="#myModal4" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
                   Virtal SCSI Adapter
                 </button>
 
-                {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id], 'method' => 'POST'])!!}       
+                {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id,$template->id], 'method' => 'POST'])!!}       
 
             <!-- The Modal -->
             <div class="modal fade" id="myModal4">
@@ -708,10 +714,11 @@
                         </td>
                         <td>
                         <br>
-                        <input type="radio" checked value="yes" name="req_SCSI">
                         Yes
-                        <input type="radio" value="no" name="req_SCSI">
+                        <input type="radio" checked value="yes" name="req_SCSI">
                         No
+                        <input type="radio" value="no" name="req_SCSI">
+                        
                         </td>
                         <tr>
                         </tr>
@@ -728,9 +735,9 @@
             {!!Form::close()!!}
             </td>
             <td>
-               <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
-               {!!Form::open(['action' => ['TemplateController@createEthernet',$client->id], 'method' => 'POST'])!!}       
-
+               <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" id="btn_ethernet" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
+               {!!Form::open(['action' => ['TemplateController@createEthernet',$client->id,$template->id], 'method' => 'POST'])!!}       
+               
                 <!-- The Modal -->
             <div class="modal fade" id="myModal2">
               <div class="modal-dialog">
@@ -739,7 +746,7 @@
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">New virtual Ethernet Adapter</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button"  class="close" data-dismiss="modal">&times;</button>
                   </div>
                   
                   <!-- Modal body -->
@@ -782,7 +789,7 @@
                   
                   <!-- Modal footer -->
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-success"  >Save</button>
+                    <button type="submit" class="btn btn-success"   >Save</button>
                     <button type="button" class="btn btn-danger"  data-dismiss="modal">Close</button>
                   </div>
                   
@@ -792,8 +799,9 @@
             {!!Form::close()!!}
               </td>
             <td>
-            <button style="margin-left:50px" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
-            {!!Form::open(['action' => ['TemplateController@createFC',$client->id], 'method' => 'POST'])!!}       
+            <button style="margin-left:50px" id="btn_fc" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
+            {!!Form::open(['action' => ['TemplateController@createFC',$client->id,$template->id], 'method' => 'POST'])!!}       
+            <input type="text" name="max_v_adapters_hidden" hidden value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
 
            <!-- The Modal -->
            <div class="modal fade" id="myModal3">
@@ -922,7 +930,7 @@
 <input type="text" value="" name="min_proc_units_hidden" id="id_min_proc_units_hidden" hidden>        
 <input type="text" value="" name="desired_proc_units_hidden" id="id_desired_proc_units_hidden" hidden>        
 <input type="text" value="" name="sync_conf_hidden" id="id_sync_conf_hidden" hidden>        
-
+<input id="hidden">
         {!!Form::close()!!}
           </td>
         </tr>
@@ -930,6 +938,52 @@
 </table>
         </div>
 <script>
+
+ //max_v_adapters
+ 
+ document.getElementById("btn_ethernet").disabled=true;
+ document.getElementById("btn_fc").disabled=true;
+ document.getElementById("btn_scsi").disabled=true;
+
+ var secret_input_all_elem=document.getElementById("secret_input_all");
+ var input_max_v_adapters=document.getElementById("id_max_v_adapters");
+ var input_max_v_adapters_hidden=document.getElementById("id_max_v_adapters_hidden");
+
+ 
+ if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem.value)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
+ 
+   input_max_v_adapters.oninput = function() {
+    input_max_v_adapters_hidden.value=input_max_v_adapters.value;
+   if( input_max_v_adapters_hidden.value<secret_input_all_elem.value){
+    alert("Number invalid! Please Delete from the table :( !");
+    document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+   }
+      if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
+    else{
+      document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+    }}
+
+    
+
+
 //add_hidden
 //sync_conf
 var input_sync_conf = document.getElementById("id_sync_conf");
@@ -939,7 +993,6 @@ input_sync_conf_hidden.value = input_sync_conf.value;
 input_sync_conf.oninput = function() {
   input_sync_conf_hidden.value = this.value;
 }
-
 
 
 //template_name
@@ -1188,6 +1241,9 @@ input_radio_hidden.value=input_radio.value;
 
       }
     }
+
+   
+   
 
 
     
