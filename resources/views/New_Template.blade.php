@@ -183,6 +183,7 @@
                                             <br>
                                                 <select id="select" name='shared_proc_pool' onclick='verifier()' class ='form-control' editable='true'>
                                                     <option value="Default pool">
+                                                    
                                                         Default pool
                                                     </option>
                                                     <option value="Other pool">
@@ -258,11 +259,13 @@
                                         <td style="text-align:right">
                                         <input style="width:50%; "type="number" name="desired_memo" step="0.1" id="value1"  >GB
                                         </td>
+                                        
 
                                     </tr>
                                     <tr>
                                         <td >
                                             Maximum memory 
+
                                          </td>
                                         <td >
                                              <input class ="form-control"  type="range" name="max_memo" step="0.1" min="0" max="100" value="42" class="slider2" id="myRange2">
