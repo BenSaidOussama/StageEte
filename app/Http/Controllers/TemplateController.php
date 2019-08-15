@@ -99,8 +99,10 @@ class TemplateController extends Controller
         $scsi->type="SCSI";
 
         if($adapter=="Client"){
+             
             $scsi->isClientAdapter=TRUE;
             $scsi->isServerAdapter=FALSE;
+            
         }
         else{
             $scsi->isClientAdapter=FALSE;
@@ -255,6 +257,7 @@ class TemplateController extends Controller
             else{
                 $template->isNormal_BootMode=FALSE;
                 $template->isSMS_BootMode=TRUE;
+                
             }
             
         }
@@ -272,6 +275,7 @@ class TemplateController extends Controller
         
             }
             else{
+                
                 $template->isAuto_StartWithMangedSys=FALSE;
                 $template->isEnable_Connection_Monitoring=TRUE;
                 $template->isEnable_redundant_Error_Path_report=FALSE;
@@ -283,4 +287,5 @@ class TemplateController extends Controller
     
     
 }
+
 }

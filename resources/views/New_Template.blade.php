@@ -314,6 +314,7 @@
                     echo'Desired';
                   }
                   ?>  
+                  
 
                  </td>
                   
@@ -638,7 +639,7 @@
            <tr> 
             <td>
                 <button style="margin-left:200px" data-toggle="modal" data-target="#myModal4" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i>
-                  Virtal SCSI Adapter
+                  Virtual SCSI Adapter
                 </button>
 
                 {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id], 'method' => 'POST'])!!}       
@@ -657,7 +658,17 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table >
+                    <tr>
+                    <td style="width:40%;text-align:center">
+                          <br>
+                                <label>Adapter Id</label>
+                          </td>
+                            <td>
+                          <input type="text" class ="form-control" name="SCSI_Type" >
+                    </td>
+                    </tr>
                           <tr>
+                         
                           <td style="width:40%;text-align:center">
                           <br>
                                 <label>Adapter</label>
@@ -745,6 +756,15 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table>
+                    <tr>
+                    <td >
+                          <br>
+                                <label>Adapter Id</label>
+                          </td>
+                            <td>
+                          <input type="text" class ="form-control" name="SCSI_Type" >
+                    </td>
+                    </tr> 
                           <tr>
                           <td><br>
                           PV_id 
@@ -810,6 +830,15 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table>
+                    <tr>
+                    <td >
+                          <br>
+                                <label>Adapter Id</label>
+                          </td>
+                            <td>
+                          <input type="text" class ="form-control" name="SCSI_Type" >
+                    </td>
+                    </tr> 
                           <tr>
                             <td>
                             <br>
