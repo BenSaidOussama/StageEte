@@ -85,8 +85,8 @@
                                         </td>
                                         <td style="text-align:center;width:15%">
                                             <select  class ="form-control" name="sync_conf" id="id_sync_conf">
-                                            <option value="on"> ON</option>
-                                            <option value="off"> OFF</option>
+                                            <option value="on"> On</option>
+                                            <option value="off"> Off</option>
                                             </select>
                                         </td>
                                     <td style="text-align:center;width:15%">
