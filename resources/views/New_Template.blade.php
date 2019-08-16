@@ -80,7 +80,7 @@
                                     
                                     <tr>
                                     <td style="text-align:center;width:15%" >
-                                            <label >Sync Configuration:</label>
+                                            <label >Synchrone Configuration:</label>
   
                                         </td>
                                         <td style="text-align:center;width:15%">
@@ -648,6 +648,7 @@
                 </button>
 
                 {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id,$template->id], 'method' => 'POST'])!!}       
+                <input type="text" name="max_v_adapters_hidden"  value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
 
             <!-- The Modal -->
             <div class="modal fade" id="myModal4">
@@ -737,7 +738,8 @@
             <td>
                <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" id="btn_ethernet" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
                {!!Form::open(['action' => ['TemplateController@createEthernet',$client->id,$template->id], 'method' => 'POST'])!!}       
-               
+               <input type="text" name="max_v_adapters_hidden1" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden1"  class="form-control form-control-sm" > 
+
                 <!-- The Modal -->
             <div class="modal fade" id="myModal2">
               <div class="modal-dialog">
@@ -778,9 +780,9 @@
                           </td>
                           <td>
                           <br>
-                          <input type="radio" checked value ="no" name="ethernet_req" >
+                          <input type="radio" checked value ="yes" name="ethernet_req" >
                           Yes
-                          <input type="radio"   value ="yes" name="ethernet_req" >
+                          <input type="radio"   value ="no" name="ethernet_req" >
                           No
                           </td>
                         </tr>
@@ -801,7 +803,7 @@
             <td>
             <button style="margin-left:50px" id="btn_fc" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
             {!!Form::open(['action' => ['TemplateController@createFC',$client->id,$template->id], 'method' => 'POST'])!!}       
-            <input type="text" name="max_v_adapters_hidden" hidden value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
+            <input type="text" name="max_v_adapters_hidden2" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden2"  class="form-control form-control-sm" > 
 
            <!-- The Modal -->
            <div class="modal fade" id="myModal3">
@@ -948,6 +950,8 @@
  var secret_input_all_elem=document.getElementById("secret_input_all");
  var input_max_v_adapters=document.getElementById("id_max_v_adapters");
  var input_max_v_adapters_hidden=document.getElementById("id_max_v_adapters_hidden");
+ var input_max_v_adapters_hidden1=document.getElementById("id_max_v_adapters_hidden1");
+ var input_max_v_adapters_hidden2=document.getElementById("id_max_v_adapters_hidden2");
 
  
  if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem.value)){
@@ -957,9 +961,26 @@
          document.getElementById("btn_scsi").disabled=false;
 
     }
+    if((input_max_v_adapters_hidden2.value>0)&&(input_max_v_adapters_hidden2.value!=secret_input_all_elem.value)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
+if((input_max_v_adapters_hidden1.value>0)&&(input_max_v_adapters_hidden1.value!=secret_input_all_elem.value)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
  
    input_max_v_adapters.oninput = function() {
     input_max_v_adapters_hidden.value=input_max_v_adapters.value;
+    input_max_v_adapters_hidden1.value=input_max_v_adapters.value;
+    input_max_v_adapters_hidden2.value=input_max_v_adapters.value;
+
    if( input_max_v_adapters_hidden.value<secret_input_all_elem.value){
     alert("Number invalid! Please Delete from the table :( !");
     document.getElementById("btn_ethernet").disabled=true;
@@ -967,7 +988,45 @@
          document.getElementById("btn_scsi").disabled=true;
 
    }
+   if( input_max_v_adapters_hidden1.value<secret_input_all_elem.value){
+    alert("Number invalid! Please Delete from the table :( !");
+    document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+   }if( input_max_v_adapters_hidden2.value<secret_input_all_elem.value){
+    alert("Number invalid! Please Delete from the table :( !");
+    document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+   }
       if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
+    else{
+      document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+    }
+    if((input_max_v_adapters_hidden1.value>0)&&(input_max_v_adapters_hidden1.value!=secret_input_all_elem)){
+         
+         document.getElementById("btn_ethernet").disabled=false;
+         document.getElementById("btn_fc").disabled=false;
+         document.getElementById("btn_scsi").disabled=false;
+
+    }
+    else{
+      document.getElementById("btn_ethernet").disabled=true;
+         document.getElementById("btn_fc").disabled=true;
+         document.getElementById("btn_scsi").disabled=true;
+
+    } if((input_max_v_adapters_hidden2.value>0)&&(input_max_v_adapters_hidden2.value!=secret_input_all_elem)){
          
          document.getElementById("btn_ethernet").disabled=false;
          document.getElementById("btn_fc").disabled=false;

@@ -135,11 +135,10 @@ class TemplateController extends Controller
         $array3=[];
         $template=Template_profile::find($id_t);
         $client=Client::find($id);
-        if($request->input('max_v_adapters')!=NULL){
-            $template->max_v_adapters=$request->input('max_v_adapters');
+        if(!isset($_post["max_v_adapters"])){
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
+            $template->save();
         }
-        $template->save();
-        
         $array1 = DB::table('v__f_c_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get(); 
         
@@ -199,11 +198,13 @@ class TemplateController extends Controller
         $array2=[];
         $array3=[];
         $template=Template_profile::find($id_t);
+        if(!isset($_post["max_v_adapters"])){
 
-        if($request->input('max_v_adapters')!=NULL){
-            $template->max_v_adapters=$request->input('max_v_adapters');
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden1');
+
+           $template->save();
+
         }
-        $template->save();
         $client=Client::find($id);
            
         $array1 = DB::table('v__f_c_s')
@@ -221,8 +222,9 @@ class TemplateController extends Controller
         $ethernet->type="Ethernet";
         $ethernet->isrequired=TRUE;
         $ethernet->Template_FK_id=$id_t;
-        if(!isset($_REQUEST['ethernet_req'])){
-            $radioVal = $_REQUEST["ethernet_req"];
+        
+        if(!isset($_post['ethernet_req'])){
+            $radioVal = $request->input("ethernet_req");
             if($radioVal=='no'){
                 $ethernet->isrequired=FALSE;
                 }
@@ -247,17 +249,11 @@ class TemplateController extends Controller
         $array3=[];
         $client=Client::find($id);
         $template=Template_profile::find($id_t);
-        //die($request->input('max_v_adapters'));
         if(!isset($_post["max_v_adapters"])){
-            //die($request->input('max_v_adapters_hidden'));
 
-            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden2');
 
-           // die('ok');
            $template->save();
-           //die('ok');
-
-           //die($template->max_v_adapters);
 
         }
         $array2 = DB::table('v_ethernets')
@@ -284,11 +280,15 @@ class TemplateController extends Controller
                 else{
                     $fc->isrequired=TRUE;
                 }
+        }if(!isset($_post['fc_req'])){
+            $radioVal = $request->input("fc_req");
+            if($radioVal=='no'){
+                $fc->isrequired=FALSE;
+                }
         }
         $fc->save();
         $array1 = DB::table('v__f_c_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
-//die($request->input('max_v_adapters_hidden'));
         return(view('/New_Template',compact('array1','array2','array3','array','client','template')));
 
     }
