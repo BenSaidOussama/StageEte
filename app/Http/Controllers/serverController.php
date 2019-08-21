@@ -107,6 +107,8 @@ class ServerController extends Controller
         $server= new Server();
 
         $client=Client::find($request->input('id'));
+        $client->Client_servers_nbr=$client->Client_servers_nbr+1;
+        $client->save();
         $array=[];
         $server->Client_FK_id=$request->input('id');
         $server->Server_name=$request->input('Server_name');
@@ -154,12 +156,16 @@ class ServerController extends Controller
                 $lpar->isNormal_BootMode=$template->isNormal_BootMode;
                 $lpar->isSMS_BootMode=$template->isSMS_BootMode;
                 $lpar->save();
-                array_push($array,$lpar);
+                array_push($array1,$lpar);
             }
             
         }
+        $templates = DB::table('template_profiles')
+        ->where('Client_FK_id', '=',$client->id )->get();
+        $array = DB::table('servers')
+        ->where('Client_FK_id', '=',$client->id )->get();
     
-        return view('/ViewClient_Server_lpars',compact('server','array','client'));
+        return view('/view_client',compact('server','array','client','templates'));
 
     }
     public function deleteServer($id){
@@ -175,10 +181,25 @@ class ServerController extends Controller
        // die($array);
         $client->Client_servers_nbr=$client->Client_servers_nbr-1;
         $client->save();
+        $templates = DB::table('template_profiles')
+        ->where('Client_FK_id', '=',$client->id )->get();
+ 
 
-      return view('/view_client',compact('server','client','array'));
+      return view('/view_client',compact("client",'array','templates'));
 
 
     }
-    
+    public function ViewServer($id){
+        $server=Server::find($id);
+        $id_client=$server->Client_FK_id;
+       // die($server);
+        $client=Client::find($id_client);
+       // die($client);
+        $array= DB::table('l_p_a_r_s')
+        ->where('Server_FK_id', '=',$id )->get();
+
+        return view('/ViewClient_Server_lpars',compact('server','array','client'));
+
+    }
+
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSyncConf extends Migration
+class AddFkScsi extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddSyncConf extends Migration
      */
     public function up()
     {
-        Schema::table('template_profiles', function (Blueprint $table) {
-            $table->boolean('sync_conf')->default(TRUE);
+        Schema::table('v__s_c_s_i_s', function (Blueprint $table) {
+            $table->Integer("Template_FK_id")->nullable()->unsigned();
+            $table->foreign('Template_FK_id')->references('id')->on('template_profiles')->onDelete('cascade');
+    
         });
     }
 
@@ -25,7 +27,7 @@ class AddSyncConf extends Migration
      */
     public function down()
     {
-        Schema::table('template_profiles', function (Blueprint $table) {
+        Schema::table('v__s_c_s_i_s', function (Blueprint $table) {
             //
         });
     }

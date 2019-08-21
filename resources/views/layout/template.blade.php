@@ -20,19 +20,20 @@
 
 </head>
 
-<body id="page-top">                                       
+<body id="page-top">
 
   <!-- Page Wrapper -->
-  <div  id="wrapper">
+  <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{action('ClientController@welcome')}}">
+
         <div >
-        <img src="{{asset('img/Logo_Focus1.png')}}" width="150" height="60" style="margin-top:25px;" alt="focus">
-        
+        <img src="{{asset('img/Logo_Focus1.png')}}" width="150" height="60" style="margin-top:70px;" alt="focus">
+        <p>
         <div class="sidebar-brand-text mx-3">IBM Power </div>
         </div>
       </a>
@@ -40,9 +41,12 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0" style="margin-top:50px;">
 
+       <!-- Nav Item - Dashboard -->
+       <hr class="sidebar-divider my-0">
+
       <!-- Nav Item - Dashboard -->
-      <li  class="nav-item active">
-        <a class="nav-link" href="index.html">
+      <li class="nav-item active">
+        <a class="nav-link" href="{{action('ClientController@welcome')}}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -56,27 +60,49 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-
       
-      </li>
-
-      <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" id="clients" first-click="true" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Clients</span>
+        <a class="nav-link collapsed" href="#" id="clients"   first-click="true" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-folder"></i>
+         
+        <span>Clients</span></a>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded" id="clients-display">
-           <!-- <h6 class="collapse-header" id="clients-header"></h6>-->
-            <!-- <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a> -->
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded" id="clients-header">
+            <a class="collapse-item"></a>
+         
           </div>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" id="servers"  first-click="true"  data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <i class="fas fa-fw fa-folder"></i>
+          <span>Servers</span></a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">     
+        <div class="bg-white py-2 collapse-inner rounded" id="servers-header">
+            <a class="collapse-item"></a>
+          </div>
+        </div>
+      </li>
+
+
+
+     <li class="nav-item">
+        <a class="nav-link collapsed" tp id="templates" first-click="true"  href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Templates</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded" id="templates-header">
+            <a class="collapse-item"></a>
+          </div>
+        </div>
+      </li>
+
+
+     
+    
+     
 
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -86,39 +112,25 @@
         Addons
       </div>
 
+
+     
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>New</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <!--<h6 class="collapse-header"></h6>-->
-            <a class="collapse-item" href="">Client</a>
-            <a class="collapse-item" href="">Template</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-          </div>
-        </div>
-      </li>
+     
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+      <li  class="nav-item active">
+        <a class="nav-link" href="{{action('ClientContoller@ListClient')}}">
+        <i class="fas fa-fw fa-table"></i>
+          <span>Clients List</span></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{action('ClientContoller@NewClientTemplate')}}">
+        <i class="fas fa-plus"></i>       
+           <span>New Client</span></a>
+      </li>
+     
 
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
+      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -341,7 +353,7 @@
 
     </div>
     <!-- End of Content Wrapper -->
-
+   
   </div>
   <!-- End of Page Wrapper -->
 
@@ -386,8 +398,10 @@
   <script src="{{asset('js/demo/chart-area-demo.js')}}"></script>
   <script src="{{asset('js/demo/chart-pie-demo.js')}}"></script>
   <script type="text/javascript">
+  var http="http://localhost/IBMPower/public/";
   $(document).ready(function() {
-    $("#clients").on('click',function() {
+    $("#servers").on('click',function() {
+
         if($(this).attr('first-click') == 'true')
         {
         $.ajaxSetup({
@@ -401,7 +415,22 @@
             data: {},
             success : function(data) {
                 data.forEach((item) => {
-                  $("#clients-header").append("<a class=\"collapse-item client-elem\">"+item.Client_name+"</a>")
+                        $.ajax({
+                          method: 'post',
+                          url : '/IBMPower/public/servers/'+item.id,
+                          data1: {},
+                          success : function(data1) {
+                            console.log("yess");
+                              $("#servers-header").append("<a class=\"collapse-item client-elem\">"+"<label style='font-size:12px;color:gray'>"+item.Client_name+"</label>"+"</a>")
+                              data1.forEach((item1) => {
+                                console.log(item1.id)
+                                $("#servers-header").append("<a href=\"http://localhost/IBMPower/public/server/"+item1.id+"\" class=\"collapse-item client-elem\">"+"<label style='font-size:10px'>"+item1.Server_name+"</label>"+"</a>")
+                              });
+                          },
+                          error: function(data1) {
+                              console.log("no");
+                          }
+                      });
                 });
             },
             error: function(data) {
@@ -409,15 +438,118 @@
             }
         });
         $(this).attr('first-click','false');
-    }
+    
+    
+    
+      }
     else
     {
         $(".client-elem").remove();
         $(this).attr('first-click','true');
     }
-    });
   });
-  </script>
-</body>
 
+
+    /////////////////////////////////////templates_menu
+    $("#templates").on('click',function() {
+
+if($(this).attr('first-click') == 'true')
+{
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+$.ajax({
+    method: 'post',
+    url : '/IBMPower/public/template',
+    data: {},
+    success : function(data) {
+        data.forEach((item) => {
+                $.ajax({
+                  method: 'post',
+                  url : '/IBMPower/public/templates/'+item.id,
+                  data1: {},
+                  success : function(data1) {
+                    console.log("yess");
+
+                      
+                      $("#templates-header").append("<a  class=\"collapse-item client-elem\">"+"<label style='font-size:12px;color:gray'>"+item.Client_name+"</label>"+"</a>")
+                      data1.forEach((item1) => {
+                        $("#templates-header").append("<a href=\"http://localhost/IBMPower/public/addTemplate/Client/"+item.id+"/actioncreateTemplate/"+item1.id+"\" class=\"collapse-item client-elem\">"+"<label style='font-size:10px'>"+item1.template_name+"</label>"+"</a>")
+                      });
+                  },
+                  error: function(data1) {
+                      console.log("no");
+                  }
+              });
+        });
+    },
+    error: function(data) {
+        console.log("no");
+    }
+});
+$(this).attr('first-click','false');
+}
+else
+{
+$(".client-elem").remove();
+$(this).attr('first-click','true');
+}
+});
+/////////////////////////////
+$("#clients").on('click',function() {
+
+if($(this).attr('first-click') == 'true')
+{
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+$.ajax({
+    method: 'post',
+    url : '/IBMPower/public/template',
+    data: {},
+    success : function(data) {
+        data.forEach((item) => {
+                
+                      
+                      $("#clients-header").append("<a href=\"http://localhost/IBMPower/public/view_client/Client/"+item.id+"\"  class=\"collapse-item client-elem\">"+"<label style='font-size:12px;color:gray'>"+item.Client_name+"</label>"+"</a>")
+                
+        });
+    },
+    error: function(data) {
+        console.log("no");
+    }
+});
+$(this).attr('first-click','false');
+}
+else
+{
+$(".client-elem").remove();
+$(this).attr('first-click','true');
+}
+});
+  
+
+
+
+
+});
+  </script>
+
+    </body>
 </html>
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
