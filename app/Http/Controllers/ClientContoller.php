@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Client;
 use App\Server;
 use App\Http\Requests\client_Request;
-
+use DB;
+use App\Quotation;
 class ClientContoller extends Controller
 {
     //
-    public function fct1 () {
+    public function NewClientTemplate() {
         return view('create');
-    }
+    } //
     public function createClient(Request $request)
     {
         $client = new Client();
@@ -28,6 +29,7 @@ class ClientContoller extends Controller
                 $server=new Server();
                 $server->Client_FK_id=$client->id;
                 $server->Server_name=$client->Client_name.'_Server'.$i;
+                $server->LPAR_prefix='';
                 $server->save();
                 array_push($array,$server);
             }             
@@ -43,5 +45,67 @@ class ClientContoller extends Controller
         }
         return $array;
     }
+    public function ListClient(Request $request){
+        $array=[];
+        $array = DB::table('clients')->paginate(4);
+        return view("AllClient",compact('array'));
+    }
+    public function EditClient($id){
+        
+        $client= Client::find($id);
+        $array=[];
+        return view('/Edit_Client',compact('client'));
+    }
+    public function DeleteClient($id){
+        
+        $client=Client::find($id);
+      
+        $client->delete();
+        $array = DB::table('clients')->paginate(4);
 
+      return view('/AllClient',compact('array'));
+    }
+    public function SaveUpdateClient(Request $request,$id){
+        
+        $client= Client::find($id);
+        $client->Client_name=$request->input('Client_name');
+        $client->Client_adresse=$request->input('Client_adresse');
+        $client->Client_description=$request->input('Client_description');
+        $client->Client_mail=$request->input('Client_mail');
+        $client->save();
+        $array = DB::table('servers')
+       ->where('Client_FK_id', '=',$client->id )->get();
+       $templates = DB::table('template_profiles')
+       ->where('Client_FK_id', '=',$client->id )->get();
+
+        return view('/view_client',compact('array','client','templates'));
+    }
+    public function ViewClient($id){
+        $client=Client::find($id);
+        $array = DB::table('servers')
+            ->where('Client_FK_id', '=',$client->id )->get();
+        $templates = DB::table('template_profiles')->where('Client_FK_id', '=',$client->id )->get();
+
+        return(view('view_client',compact('client','array','templates')));
+    }
+    public function ReadServers($id){
+        $array=[];
+        $client=Client::find($id);
+        $array1 = DB::table('servers')
+        ->where('Client_FK_id', '=',$client->id )->get();
+        foreach($array1 as $i){
+            array_push($array,$i);
+
+        }
+        return $array;
+    }
+    public function GoToEditClient($id){
+        $client=Client::find($id);
+         $array = DB::table('servers')
+        ->where('Client_FK_id', '=',$client->id )->get();
+        $templates = DB::table('template_profiles')
+        ->where('Client_FK_id', '=',$client->id )->get();
+ //die($templates);
+         return view('/view_client',compact('array','client','templates'));
+    }
 }

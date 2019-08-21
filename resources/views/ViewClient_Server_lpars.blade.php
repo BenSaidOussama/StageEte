@@ -15,7 +15,7 @@ use App\Template_profile;
         {!! Form::close() !!}</h1>
 
 <div class="row">
-<div class="col-lg-12">
+<div class="col-lg-6">
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Server : {{$server->Server_name}} </h6>

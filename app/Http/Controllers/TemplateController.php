@@ -297,89 +297,267 @@ class TemplateController extends Controller
 
 
 
-    public function createTemplate(Request $request,$id){
+    public function createTemplate(Request $request,$id,$id_t){
         $client=Client::find($id);
-    $template=new Template_profile();
+        $template=Template_profile::find($id_t);
+        //die($template);
 
-    die($request->input('sync_conf_hidden'));
     $template->template_name=$request->input('template_name_hidden');
     $template->profil_name=$request->input('profile_name_hidden');
-    $template->synch_conf=$request->input('sync_conf_hidden');
-
-    
-   
+    if($request->input('sync_conf_hidden')=="off"){
+        $template->sync_conf=FALSE;
+    }
+    else{
+        $template->sync_conf=TRUE;
+    }
         if( $request->input('radio_hidden')=='Shared'){
             $template->shared=TRUE;
-            $template->min_proc=0;
-            $template->max_proc=0;
-            $template->desired_proc=0;
-        
-            $template->disired_proc_units=$request->input('desired_proc_units');
-            $template->min_proc_units=$request->input('min_proc_units');
-            $template->max_proc_units=$request->input('max_proc_units');
 
-            $template->disired_v_proc=$request->input('desired_v_proc');
-            $template->max_v_proc=$request->input('max_v_proc');
-            $template->min_v_proc=$request->input('min_v_proc');
-           
-            $shared=$request->input('shared_proc_pool');
+            $template->min_proc=NULL;
+            $template->max_proc=NULL;
+            $template->desired_proc=NULL;
+
+            $template->disired_proc_units=$request->input('desired_proc_units_hidden');
+            $template->min_proc_units=$request->input('min_proc_units_hidden');
+            $template->max_proc_units=$request->input('max_proc_units_hidden');
+         
+            $template->disired_v_proc=$request->input('desired_v_proc_hidden');
+            $template->max_v_proc=$request->input('max_v_proc_hidden');
+            $template->min_v_proc=$request->input('min_v_proc_hidden');
+
+            $shared=$request->input('proc_pool_hidden');
             if($shared=="Default pool"){
                 $template->proc_pool=$shared;
             }
             else{
-                $template->proc_pool=$request->input('input_pool_name');
+                $template->proc_pool=$request->input('input_pool_hidden');
             }
         }
         else{
             $template->shared=FALSE;
-            $template->min_proc=$request->input('min_proc');
-            $template->max_proc=$request->input('max_proc');
-            $template->desired_proc=$request->input('desired_proc');
+            
 
-            $template->disired_proc_units=0 ;
-            $template->disired_v_proc=0 ;
-            $template->max_proc_units=0 ;
-            $template->max_v_adapters=0;
-            $template->max_v_proc=0;
-            $template->min_v_proc=0;
-            $template->min_proc_units=0 ;
-            $template->proc_pool=null;
+            $template->min_proc=$request->input('min_proc_hidden');
+            $template->max_proc=$request->input('max_proc_hidden');
+            $template->desired_proc=$request->input('desired_proc_hidden');
+           
+
+            $template->disired_proc_units= NULL;
+            $template->disired_v_proc= NULL;
+            $template->max_proc_units=NULL ;
+            $template->max_v_proc=NULL;
+            $template->min_v_proc=NULL;
+            $template->min_proc_units=NULL ;
+            $template->proc_pool=NULL;
         }
-        $template->disired_memory=$request->input('desired_memo');
-        $template->max_memory=$request->input('max_memo') ;
-        $template->min_memory =$request->input('min_memo');
+        //die($request->input('max_v_adapters_hidden3'));
+        
+        $template->disired_memory=$request->input('value1_hidden');
+        $template->max_memory=$request->input('value2_hidden') ;
+        $template->min_memory =$request->input('value_hidden');
 
-        if(!isset($_POST['boot_mode'])){
-            if($request->input('boot_mode')=="normal"){
-                $template->isNormal_BootMode=TRUE;
-                $template->isSMS_BootMode=FALSE;
-            }
-            else{
+        //$template->max_v_adapters=$request->input('max_v_adapters_hidden3');
+
+        $template->isNormal_BootMode=TRUE;
+        $template->isSMS_BootMode=FALSE;
+
+            if($request->input('boot_mode_hidden')=="sms"){
                 $template->isNormal_BootMode=FALSE;
                 $template->isSMS_BootMode=TRUE;
             }
-            
-        }
-        if(!isset($_POST['check'])){
-            if($request->input('check')=="redund"){
+            else{
+                $template->isNormal_BootMode=TRUE;
+                $template->isSMS_BootMode=FALSE;
+            }
+
+            $template->isAuto_StartWithMangedSys=TRUE;
+            $template->isEnable_Connection_Monitoring=FALSE;
+            $template->isEnable_redundant_Error_Path_report=FALSE;
+
+            if($request->input('check_hidden')=="redund"){
                 $template->isAuto_StartWithMangedSys=FALSE;
                 $template->isEnable_Connection_Monitoring=FALSE;
                 $template->isEnable_redundant_Error_Path_report=TRUE;
         
             }
-            elseif($request->input('check')=="auto"){
-                $template->isAuto_StartWithMangedSys=TRUE;
-                $template->isEnable_Connection_Monitoring=FALSE;
-                $template->isEnable_redundant_Error_Path_report=FALSE;
-        
-            }
-            else{
+            elseif($request->input('check_hidden')=="cnx_monit"){
                 $template->isAuto_StartWithMangedSys=FALSE;
                 $template->isEnable_Connection_Monitoring=TRUE;
                 $template->isEnable_redundant_Error_Path_report=FALSE;
         
+            }
+            else{
+                $template->isAuto_StartWithMangedSys=TRUE;
+                $template->isEnable_Connection_Monitoring=FALSE;
+                $template->isEnable_redundant_Error_Path_report=FALSE;
+               
+        
             }     
-        }
+          
+          //die($request->input('max_v_adapters_hidden3'));
+        
         $template->save();
+        $array = DB::table('physical__i_o_s')
+        ->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        $array1 = DB::table('v__f_c_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
+        
+        $array2 = DB::table('v_ethernets')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        
+    
+        $array3 = DB::table('v__s_c_s_i_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+     
+        return(view('View_template',compact('template','array','array1','array2','array3')));
 }
+public function DeleteTemplate($id){
+
+    $template=Template_profile::find($id);
+    $id_client=$template->Client_FK_id;
+    $template->delete();
+    $client=Client::find($id_client);
+    $array = DB::table('servers')
+    ->where('Client_FK_id', '=',$client->id )->get();
+    $templates = DB::table('template_profiles')
+    ->where('Client_FK_id', '=',$client->id )->get();
+ 
+    return view('view_client',compact('client','array','templates'));
+
+}
+public function GoToEdit($id){
+    $template=Template_profile::find($id);
+    $id_c=$template->Client_FK_id;
+    $client=Client::find($id_c);
+    $array = DB::table('physical__i_o_s')
+        ->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        $array1 = DB::table('v__f_c_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
+        
+        $array2 = DB::table('v_ethernets')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        
+    
+        $array3 = DB::table('v__s_c_s_i_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+     
+    return(view('Edit_Template',compact('template','array','array1','array2','array3','client')));
+}
+public function EditTemplate($id,Request $request){
+    $template=Template_profile::find($id);
+    $id_client=$template->Client_FK_id;
+    $client=Client::find($id_client);
+/*
+    $template->template_name=$request->input('template_name_hidden');
+    $template->profil_name=$request->input('profile_name_hidden');
+    if($request->input('sync_conf_hidden')=="off"){
+        $template->sync_conf=FALSE;
+    }
+    else{
+        $template->sync_conf=TRUE;
+    }
+        if( $request->input('radio_hidden')=='Shared'){
+            $template->shared=TRUE;
+
+            $template->min_proc=NULL;
+            $template->max_proc=NULL;
+            $template->desired_proc=NULL;
+
+            $template->disired_proc_units=$request->input('desired_proc_units_hidden');
+            $template->min_proc_units=$request->input('min_proc_units_hidden');
+            $template->max_proc_units=$request->input('max_proc_units_hidden');
+         
+            $template->disired_v_proc=$request->input('desired_v_proc_hidden');
+            $template->max_v_proc=$request->input('max_v_proc_hidden');
+            $template->min_v_proc=$request->input('min_v_proc_hidden');
+
+            $shared=$request->input('proc_pool_hidden');
+            if($shared=="Default pool"){
+                $template->proc_pool=$shared;
+            }
+            else{
+                $template->proc_pool=$request->input('input_pool_hidden');
+            }
+        }
+        else{
+            $template->shared=FALSE;
+            
+
+            $template->min_proc=$request->input('min_proc_hidden');
+            $template->max_proc=$request->input('max_proc_hidden');
+            $template->desired_proc=$request->input('desired_proc_hidden');
+           
+
+            $template->disired_proc_units= NULL;
+            $template->disired_v_proc= NULL;
+            $template->max_proc_units=NULL ;
+            $template->max_v_proc=NULL;
+            $template->min_v_proc=NULL;
+            $template->min_proc_units=NULL ;
+            $template->proc_pool=NULL;
+        }
+        //die($request->input('max_v_adapters_hidden3'));
+        
+        $template->disired_memory=$request->input('value1_hidden');
+        $template->max_memory=$request->input('value2_hidden') ;
+        $template->min_memory =$request->input('value_hidden');
+
+        //$template->max_v_adapters=$request->input('max_v_adapters_hidden3');
+
+        $template->isNormal_BootMode=TRUE;
+        $template->isSMS_BootMode=FALSE;
+
+            if($request->input('boot_mode_hidden')=="sms"){
+                $template->isNormal_BootMode=FALSE;
+                $template->isSMS_BootMode=TRUE;
+            }
+            else{
+                $template->isNormal_BootMode=TRUE;
+                $template->isSMS_BootMode=FALSE;
+            }
+
+            $template->isAuto_StartWithMangedSys=TRUE;
+            $template->isEnable_Connection_Monitoring=FALSE;
+            $template->isEnable_redundant_Error_Path_report=FALSE;
+
+            if($request->input('check_hidden')=="redund"){
+                $template->isAuto_StartWithMangedSys=FALSE;
+                $template->isEnable_Connection_Monitoring=FALSE;
+                $template->isEnable_redundant_Error_Path_report=TRUE;
+        
+            }
+            elseif($request->input('check_hidden')=="cnx_monit"){
+                $template->isAuto_StartWithMangedSys=FALSE;
+                $template->isEnable_Connection_Monitoring=TRUE;
+                $template->isEnable_redundant_Error_Path_report=FALSE;
+        
+            }
+            else{
+                $template->isAuto_StartWithMangedSys=TRUE;
+                $template->isEnable_Connection_Monitoring=FALSE;
+                $template->isEnable_redundant_Error_Path_report=FALSE;
+               
+        
+            }     
+          
+          //die($request->input('max_v_adapters_hidden3'));
+        
+        $template->save();
+*/
+
+    $array = DB::table('physical__i_o_s')
+        ->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        $array1 = DB::table('v__f_c_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
+        
+        $array2 = DB::table('v_ethernets')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+        
+    
+        $array3 = DB::table('v__s_c_s_i_s')
+        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
+     
+    return view("Edit_Template",compact('client','array','array1','array2','array3','template'));
+}
+
 }

@@ -13,29 +13,41 @@
 Route::get('/template1', function () {
     return view('First');
 });
-Route::get('/', function () {
-    return view('create');
-});
-Route::get('/view_client', function () {
-    return view('view_client');
-});
+
+Route::get('/EditClientDetails/{id}','ClientContoller@GoToEditClient');
+
+Route::get('/','ClientController@welcome');
+Route::get('/view_client/Client/{id}', 'ClientContoller@ViewClient');
 Route::get('/table', function () {
     return view('welcome');
 });
+Route::get('/Clients','ClientContoller@ListClient');
+Route::get('/actioncreate','ClientContoller@NewClientTemplate');
 Route::post('/actioncreate','ClientController@createClient');
 Route::post('/editServer/{id}','ServerController@EditServer');
 Route::get('/editServer/{id}','ServerController@EditServer');
 
 Route::post('/saveUpdate/server/{id_s}','ServerController@saveUpdate');
+Route::get('/server/{id_s}','ServerController@ViewServer');
+
 /*Route::get('/saveUpdate',function(){
     return view('ViewClient_Server_lpars');
 });*/
+Route::get('/editClient/{id}','ClientContoller@EditClient');
+Route::get('/deleteClient/{id}','ClientContoller@DeleteClient');
+Route::post('/SaveClient/{id}','ClientContoller@SaveUpdateClient');
+
+
 Route::post('/NewServer/Client/{id}','ServerController@NewServer');
 Route::post('/createServer','ServerController@createServer');
 Route::get('/ok', function () {
     return view('template');
 });
-Route::post('/template','ClientController@ReadClients');
+Route::get('/template','ClientController@ReadClients');
+Route::post('/servers/{id}','ClientController@ReadServers');
+Route::post('/templates/{id}','ClientController@ReadTemplates');
+
+
 Route::put('/delete/Client/{id_c}/Server/{id_s}/{id}','LparController@delete');
 Route::put('/edit/Client/{id_c}/Server/{id_s}/{id}','LparController@edit');
 
@@ -49,6 +61,10 @@ Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreatePhysicalIO','T
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateSCSI','TemplateController@createSCSI');
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateEthernet','TemplateController@createEthernet');
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateFC','TemplateController@createFC');
-Route::post('/addTemplate/Client/{id}/actioncreateTemplate','TemplateController@createTemplate');
+Route::post('/addTemplate/Client/{id}/actioncreateTemplate/{id_t}','TemplateController@createTemplate');
+Route::get('DeleteTemplate/{id_t}','TemplateController@DeleteTemplate');
+Route::put('EditTemplate/{id_t}','TemplateController@EditTemplate');
+Route::post('/template','ClientController@ReadClients');
+Route::get('/addTemplate/Client/{id}/actioncreateTemplate/{id_t}','TemplateController@createTemplate');
 
-
+Route::get('/editTemplate/{id}','TemplateController@GoToEdit');
