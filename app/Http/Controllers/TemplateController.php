@@ -1,12 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\CreatePhysicalIORequest;
+use App\Http\Requests\CreateEthernetRequest;
+use App\Http\Requests\CreateFCRequest;
+use App\Http\Requests\CreateSCSIRequest;
+
 use App\Client;
 use App\Physical_IO;
 use App\V_SCSI;
 use App\V_ethernet;
+use App\Server;
+use App\Http\Requests\CreateTemplateRequest;
+
 use App\V_FC;
 use App\Template_profile;
+use App\VSwitch;
+
 
 
 use Illuminate\Http\Request;
@@ -15,6 +25,21 @@ use App\Quotation;
 
 class TemplateController extends Controller
 {
+    public function ReadTemplate($id_t){
+        $template=Template_profile::find($id_t);
+        $array1 = DB::table('v__f_c_s')
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get(); 
+
+        $array2 = DB::table('v_ethernets')
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
+        $array = DB::table('physical__i_o_s')
+      ->where('template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
+      
+        $array3 = DB::table('v__s_c_s_i_s')
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
+
+        return(view('View_template',compact('template',"array1","array",'array2','array3')));
+    }
     public function ReadTemplates(Request $request){
         $array=[];
         $templates = Template_profile::all();
@@ -40,7 +65,7 @@ class TemplateController extends Controller
        
         $template=new Template_profile();
 
-            $template->max_v_adapters=NULL;
+            $template->max_v_adapters=0;
             $template->proc_pool=NULL;
             $template->profil_name=NULL;
             $template->template_name=NULL;
@@ -59,21 +84,20 @@ class TemplateController extends Controller
             $template->Client_FK_id=$id;
 
             $template->save();
-            $client=Client::find($id);
 
-           //$array = DB::table('phyical__i_o_s')
-            //->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-    
-          /*  $array1 = DB::table('v__f_c_s')
-            ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
-    
-            $array2 = DB::table('v_ethernets')
-            ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-            
-            $array3 = DB::table('v__s_c_s_i_s')
-            ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-          */
-        return view("New_Template",compact('client','array','array1','array2','array3','template'));
+            $client=Client::find($id);
+            $vswitch1=new VSwitch();
+            $vswitch2=new VSwitch();
+            $vswitch1->name="Ethernet0(Default)";
+            $vswitch1->Template_FK_id=$template->id;
+            $vswitch2->name="Ethernet1(Default)";
+            $vswitch2->Template_FK_id=$template->id;
+            $vswitch1->save();
+            $vswitch2->save();
+            $vswitchs = DB::table('V_switches')
+            ->where('Template_FK_id', '=',$template->id )->get();
+          
+        return view("New_Template",compact('client','vswitchs','array','array1','array2','array3','template'));
     }
 
 
@@ -81,7 +105,7 @@ class TemplateController extends Controller
 
 
 
-    public function createphysicalIO(Request $request,$id,$id_t){
+    public function createphysicalIO(CreatePhysicalIORequest $request,$id,$id_t){
         $template=Template_profile::find($id_t);
         $client=Client::find($id);
         $array=[];
@@ -118,8 +142,9 @@ class TemplateController extends Controller
       $phy->save();
       $array = DB::table('physical__i_o_s')
       ->where('template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
-   
-      return(view('/New_Template',compact('array','array1','array2','array3','client','template')));
+      $vswitchs = DB::table('V_switches')
+      ->where('Template_FK_id', '=',$template->id )->get();
+      return(view('/Edit_Template',compact('array','vswitchs','array1','array2','array3','client','template')));
     }
 
 
@@ -128,17 +153,15 @@ class TemplateController extends Controller
 
 
 
-    public function createSCSI(Request $request,$id,$id_t){
+    public function createSCSI(CreateSCSIRequest $request,$id,$id_t){
         $array=[];
         $array1=[];
         $array2=[];
         $array3=[];
         $template=Template_profile::find($id_t);
         $client=Client::find($id);
-        if(!isset($_post["max_v_adapters"])){
-            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
-            $template->save();
-        }
+        
+
         $array1 = DB::table('v__f_c_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get(); 
         
@@ -153,7 +176,10 @@ class TemplateController extends Controller
         $partition=$request->input('partition_select');
         $type=$request->input('SCSI_Type');
         $scsi->type="SCSI";
-
+        if($template->max_v_adapters<$request->input('max_v_adapters_hidden')){
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
+            $template->save();
+        }
         if($adapter=="Client"){
             $scsi->isClientAdapter=TRUE;
             $scsi->isServerAdapter=FALSE;
@@ -179,12 +205,16 @@ class TemplateController extends Controller
                 $scsi->isrequired=FALSE;
                 }
         }
+        $scsi->Adpater_id=$request->input('adapter_id');
+
         $scsi->save();
+        $vswitchs = DB::table('V_switches')
+        ->where('Template_FK_id', '=',$template->id )->get();
         $array3 = DB::table('v__s_c_s_i_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
 
        // die($array1);
-       return(view('/New_Template',compact('array1','array2','array3','array','client','template')));
+       return(view('/Edit_Template',compact('vswitchs','array1','array2','array3','array','client','template')));
 
     }
 
@@ -192,18 +222,15 @@ class TemplateController extends Controller
 
 
 
-    public function createEthernet(Request $request,$id,$id_t){
+    public function createEthernet(CreateEthernetRequest $request,$id,$id_t){
         $array=[];
         $array1=[];
         $array2=[];
         $array3=[];
         $template=Template_profile::find($id_t);
-        if(!isset($_post["max_v_adapters"])){
-
-            $template->max_v_adapters=$request->input('max_v_adapters_hidden1');
-
-           $template->save();
-
+        if($template->max_v_adapters<$request->input('max_v_adapters_hidden')){
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
+            $template->save();
         }
         $client=Client::find($id);
            
@@ -222,6 +249,8 @@ class TemplateController extends Controller
         $ethernet->type="Ethernet";
         $ethernet->isrequired=TRUE;
         $ethernet->Template_FK_id=$id_t;
+        $ethernet->vswitch=$request->input('vswitch');
+
         
         if(!isset($_post['ethernet_req'])){
             $radioVal = $request->input("ethernet_req");
@@ -229,12 +258,16 @@ class TemplateController extends Controller
                 $ethernet->isrequired=FALSE;
                 }
         }
+        $ethernet->Adpater_id=$request->input('adapter_id');
+
         $ethernet->save();
         $array2 = DB::table('v_ethernets')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
       // die($array1);
        //die($array2);
-       return(view('/New_Template',compact('array1','array2','array3','array','client','template')));
+       $vswitchs = DB::table('V_switches')
+       ->where('Template_FK_id', '=',$template->id)->get();
+       return(view('/Edit_Template',compact('vswitchs','array1','array2','array3','array','client','template')));
 
     }
 
@@ -242,19 +275,16 @@ class TemplateController extends Controller
 
 
 
-    public function createFC(Request $request,$id,$id_t){
+    public function createFC(CreateFCRequest $request,$id,$id_t){
         $array=[];
         $array1=[];
         $array2=[];
         $array3=[];
         $client=Client::find($id);
         $template=Template_profile::find($id_t);
-        if(!isset($_post["max_v_adapters"])){
-
-            $template->max_v_adapters=$request->input('max_v_adapters_hidden2');
-
-           $template->save();
-
+        if($template->max_v_adapters<$request->input('max_v_adapters_hidden')){
+            $template->max_v_adapters=$request->input('max_v_adapters_hidden');
+            $template->save();
         }
         $array2 = DB::table('v_ethernets')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
@@ -286,10 +316,14 @@ class TemplateController extends Controller
                 $fc->isrequired=FALSE;
                 }
         }
+        $fc->Adpater_id=$request->input('adapter_id');
+
         $fc->save();
+        $vswitchs = DB::table('V_switches')
+        ->where('Template_FK_id', '=',$template->id )->get();
         $array1 = DB::table('v__f_c_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
-        return(view('/New_Template',compact('array1','array2','array3','array','client','template')));
+        return(view('/Edit_Template',compact('array1','vswitchs','array2','array3','array','client','template')));
 
     }
 
@@ -297,120 +331,90 @@ class TemplateController extends Controller
 
 
 
-    public function createTemplate(Request $request,$id,$id_t){
-        $client=Client::find($id);
+    public function createTemplate(CreateTemplateRequest $request,$id,$id_t){
         $template=Template_profile::find($id_t);
-        //die($template);
+    
+        $client=Client::find($template->Client_FK_id);
+        $template->template_name =$request->input('template_name_hidden');
+        $template->profil_name  =$request->input('profile_name_hidden');
+        
+        $template->min_memory =$request->input('value_hidden');
+        $template->disired_memory  =$request->input('value1_hidden');
+        $template->max_memory =$request->input('value2_hidden');
 
-    $template->template_name=$request->input('template_name_hidden');
-    $template->profil_name=$request->input('profile_name_hidden');
-    if($request->input('sync_conf_hidden')=="off"){
-        $template->sync_conf=FALSE;
-    }
-    else{
-        $template->sync_conf=TRUE;
-    }
-        if( $request->input('radio_hidden')=='Shared'){
-            $template->shared=TRUE;
-
-            $template->min_proc=NULL;
-            $template->max_proc=NULL;
-            $template->desired_proc=NULL;
-
-            $template->disired_proc_units=$request->input('desired_proc_units_hidden');
-            $template->min_proc_units=$request->input('min_proc_units_hidden');
-            $template->max_proc_units=$request->input('max_proc_units_hidden');
-         
-            $template->disired_v_proc=$request->input('desired_v_proc_hidden');
-            $template->max_v_proc=$request->input('max_v_proc_hidden');
-            $template->min_v_proc=$request->input('min_v_proc_hidden');
-
-            $shared=$request->input('proc_pool_hidden');
-            if($shared=="Default pool"){
-                $template->proc_pool=$shared;
+       if($request->input('radio_hidden')=='Shared'){
+           $template->shared=TRUE;
+            if($request->input('proc_pool_hidden')=="Other pool"){
+                $template->proc_pool =$request->input('input_pool_hidden');
             }
             else{
-                $template->proc_pool=$request->input('input_pool_hidden');
+                $template->proc_pool =$request->input('proc_pool_hidden');
             }
+           $template->max_proc_units =$request->input('max_proc_units_hidden');
+           $template->min_proc_units =$request->input('min_proc_units_hidden');
+           $template->disired_proc_units =$request->input('desired_proc_units_hidden');
+           $template->disired_v_proc  =$request->input('desired_v_proc_hidden');
+           $template->min_v_proc  =$request->input('min_v_proc_hidden');
+           $template->max_v_proc  =$request->input('max_v_proc_hidden');
+
+           
+       } 
+       else{
+        $template->shared=FALSE;
+        $template->desired_proc  =$request->input('desired_proc_hidden');
+        $template->min_proc  =$request->input('min_proc_hidden');
+        $template->max_proc  =$request->input('max_proc_hidden');
+        
+        } 
+        $template->max_v_adapters=$request->input('max_v_adapters_hidden3');
+        if($request->input('boot_mode_hidden')=='sms'){
+            $template->isSMS_BootMode=1;
+            $template->isNormal_BootMode=0;
         }
         else{
-            $template->shared=FALSE;
-            
-
-            $template->min_proc=$request->input('min_proc_hidden');
-            $template->max_proc=$request->input('max_proc_hidden');
-            $template->desired_proc=$request->input('desired_proc_hidden');
-           
-
-            $template->disired_proc_units= NULL;
-            $template->disired_v_proc= NULL;
-            $template->max_proc_units=NULL ;
-            $template->max_v_proc=NULL;
-            $template->min_v_proc=NULL;
-            $template->min_proc_units=NULL ;
-            $template->proc_pool=NULL;
+            $template->isSMS_BootMode=0;
+            $template->isNormal_BootMode=1;
         }
-        //die($request->input('max_v_adapters_hidden3'));
-        
-        $template->disired_memory=$request->input('value1_hidden');
-        $template->max_memory=$request->input('value2_hidden') ;
-        $template->min_memory =$request->input('value_hidden');
+        if($request->input('sync_conf_hidden')=='on'){
+            $template->sync_conf=1;
+        }
+        else{
+            $template->sync_conf=0;
+        }
+        if($request->input('check_hidden')=='auto'){
+            $template->isAuto_StartWithMangedSys=1;
+            $template->isEnable_redundant_Error_Path_report=0;
+            $template->isEnable_Connection_Monitoring=0;
 
-        //$template->max_v_adapters=$request->input('max_v_adapters_hidden3');
 
-        $template->isNormal_BootMode=TRUE;
-        $template->isSMS_BootMode=FALSE;
-
-            if($request->input('boot_mode_hidden')=="sms"){
-                $template->isNormal_BootMode=FALSE;
-                $template->isSMS_BootMode=TRUE;
-            }
-            else{
-                $template->isNormal_BootMode=TRUE;
-                $template->isSMS_BootMode=FALSE;
-            }
-
-            $template->isAuto_StartWithMangedSys=TRUE;
-            $template->isEnable_Connection_Monitoring=FALSE;
-            $template->isEnable_redundant_Error_Path_report=FALSE;
-
-            if($request->input('check_hidden')=="redund"){
-                $template->isAuto_StartWithMangedSys=FALSE;
-                $template->isEnable_Connection_Monitoring=FALSE;
-                $template->isEnable_redundant_Error_Path_report=TRUE;
-        
-            }
-            elseif($request->input('check_hidden')=="cnx_monit"){
-                $template->isAuto_StartWithMangedSys=FALSE;
-                $template->isEnable_Connection_Monitoring=TRUE;
-                $template->isEnable_redundant_Error_Path_report=FALSE;
-        
-            }
-            else{
-                $template->isAuto_StartWithMangedSys=TRUE;
-                $template->isEnable_Connection_Monitoring=FALSE;
-                $template->isEnable_redundant_Error_Path_report=FALSE;
-               
-        
-            }     
-          
-          //die($request->input('max_v_adapters_hidden3'));
-        
+        }
+        elseif($request->input('check_hidden')=='redund'){
+            $template->isEnable_redundant_Error_Path_report=1;
+            $template->isAuto_StartWithMangedSys=0;
+            $template->isEnable_Connection_Monitoring=0;
+        }
+        else{
+            $template->isEnable_Connection_Monitoring=1;
+            $template->isEnable_redundant_Error_Path_report=0;
+            $template->isAuto_StartWithMangedSys=0;
+        }
         $template->save();
-        $array = DB::table('physical__i_o_s')
-        ->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
         $array1 = DB::table('v__f_c_s')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
-        
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get(); 
+
         $array2 = DB::table('v_ethernets')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-        
-    
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
+        $array = DB::table('physical__i_o_s')
+      ->where('template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
+      
         $array3 = DB::table('v__s_c_s_i_s')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-     
-        return(view('View_template',compact('template','array','array1','array2','array3')));
-}
+        ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
+
+        return(view('View_template',compact('template',"array1","array",'array2','array3')));
+    
+
+
+      }
 public function DeleteTemplate($id){
 
     $template=Template_profile::find($id);
@@ -436,128 +440,14 @@ public function GoToEdit($id){
         
         $array2 = DB::table('v_ethernets')
         ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-        
+        $vswitchs = DB::table('V_switches')
+        ->where('Template_FK_id', '=',$template->id )->get();
     
         $array3 = DB::table('v__s_c_s_i_s')
         ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
      
-    return(view('Edit_Template',compact('template','array','array1','array2','array3','client')));
+    return(view('Edit_Template',compact('template',"vswitchs",'array','array1','array2','array3','client')));
 }
-public function EditTemplate($id,Request $request){
-    $template=Template_profile::find($id);
-    $id_client=$template->Client_FK_id;
-    $client=Client::find($id_client);
-/*
-    $template->template_name=$request->input('template_name_hidden');
-    $template->profil_name=$request->input('profile_name_hidden');
-    if($request->input('sync_conf_hidden')=="off"){
-        $template->sync_conf=FALSE;
-    }
-    else{
-        $template->sync_conf=TRUE;
-    }
-        if( $request->input('radio_hidden')=='Shared'){
-            $template->shared=TRUE;
 
-            $template->min_proc=NULL;
-            $template->max_proc=NULL;
-            $template->desired_proc=NULL;
-
-            $template->disired_proc_units=$request->input('desired_proc_units_hidden');
-            $template->min_proc_units=$request->input('min_proc_units_hidden');
-            $template->max_proc_units=$request->input('max_proc_units_hidden');
-         
-            $template->disired_v_proc=$request->input('desired_v_proc_hidden');
-            $template->max_v_proc=$request->input('max_v_proc_hidden');
-            $template->min_v_proc=$request->input('min_v_proc_hidden');
-
-            $shared=$request->input('proc_pool_hidden');
-            if($shared=="Default pool"){
-                $template->proc_pool=$shared;
-            }
-            else{
-                $template->proc_pool=$request->input('input_pool_hidden');
-            }
-        }
-        else{
-            $template->shared=FALSE;
-            
-
-            $template->min_proc=$request->input('min_proc_hidden');
-            $template->max_proc=$request->input('max_proc_hidden');
-            $template->desired_proc=$request->input('desired_proc_hidden');
-           
-
-            $template->disired_proc_units= NULL;
-            $template->disired_v_proc= NULL;
-            $template->max_proc_units=NULL ;
-            $template->max_v_proc=NULL;
-            $template->min_v_proc=NULL;
-            $template->min_proc_units=NULL ;
-            $template->proc_pool=NULL;
-        }
-        //die($request->input('max_v_adapters_hidden3'));
-        
-        $template->disired_memory=$request->input('value1_hidden');
-        $template->max_memory=$request->input('value2_hidden') ;
-        $template->min_memory =$request->input('value_hidden');
-
-        //$template->max_v_adapters=$request->input('max_v_adapters_hidden3');
-
-        $template->isNormal_BootMode=TRUE;
-        $template->isSMS_BootMode=FALSE;
-
-            if($request->input('boot_mode_hidden')=="sms"){
-                $template->isNormal_BootMode=FALSE;
-                $template->isSMS_BootMode=TRUE;
-            }
-            else{
-                $template->isNormal_BootMode=TRUE;
-                $template->isSMS_BootMode=FALSE;
-            }
-
-            $template->isAuto_StartWithMangedSys=TRUE;
-            $template->isEnable_Connection_Monitoring=FALSE;
-            $template->isEnable_redundant_Error_Path_report=FALSE;
-
-            if($request->input('check_hidden')=="redund"){
-                $template->isAuto_StartWithMangedSys=FALSE;
-                $template->isEnable_Connection_Monitoring=FALSE;
-                $template->isEnable_redundant_Error_Path_report=TRUE;
-        
-            }
-            elseif($request->input('check_hidden')=="cnx_monit"){
-                $template->isAuto_StartWithMangedSys=FALSE;
-                $template->isEnable_Connection_Monitoring=TRUE;
-                $template->isEnable_redundant_Error_Path_report=FALSE;
-        
-            }
-            else{
-                $template->isAuto_StartWithMangedSys=TRUE;
-                $template->isEnable_Connection_Monitoring=FALSE;
-                $template->isEnable_redundant_Error_Path_report=FALSE;
-               
-        
-            }     
-          
-          //die($request->input('max_v_adapters_hidden3'));
-        
-        $template->save();
-*/
-
-    $array = DB::table('physical__i_o_s')
-        ->where('template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-        $array1 = DB::table('v__f_c_s')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get(); 
-        
-        $array2 = DB::table('v_ethernets')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-        
-    
-        $array3 = DB::table('v__s_c_s_i_s')
-        ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-     
-    return view("Edit_Template",compact('client','array','array1','array2','array3','template'));
-}
 
 }

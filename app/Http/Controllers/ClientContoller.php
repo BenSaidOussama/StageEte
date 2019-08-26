@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Client;
 use App\Server;
 use App\Http\Requests\client_Request;
+use App\Http\Requests\EditClientRequest;
 use DB;
 use App\Quotation;
 class ClientContoller extends Controller
@@ -30,6 +31,8 @@ class ClientContoller extends Controller
                 $server->Client_FK_id=$client->id;
                 $server->Server_name=$client->Client_name.'_Server'.$i;
                 $server->LPAR_prefix='';
+                $server->Server_type=$request->input('Server_type');
+
                 $server->save();
                 array_push($array,$server);
             }             
@@ -65,7 +68,7 @@ class ClientContoller extends Controller
 
       return view('/AllClient',compact('array'));
     }
-    public function SaveUpdateClient(Request $request,$id){
+    public function SaveUpdateClient(EditClientRequest $request,$id){
         
         $client= Client::find($id);
         $client->Client_name=$request->input('Client_name');

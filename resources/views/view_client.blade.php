@@ -152,10 +152,30 @@
                 </tr>
                 </table><!-- Button trigger modal -->
 
+                <div class="row">
+            <div class="card-body">
+                 @if($errors->count()>0)
+    <br>
 
+       
+            <div class="alert alert-danger">
+                <button data-dismiss="alert" class="close" type="button">*</button>
+                <strong> Sorry you have to fill all the inputs !</strong>
+                <ul>
+                    @foreach($errors->all() as $message)
+                    <li>
+                        {{$message}}
+                    </li>
+                    @endforeach
+</ul>
+                </div>
+@endif
+</div>
+      </div>
+   
 <div class="row">
 
-  <div class="col-lg-6">
+  <div class="col-lg-12">
 
     <!-- Circle Buttons -->
     <div class="card shadow mb-4">
@@ -164,6 +184,30 @@
       </div>
       <div class="card-body">
      
+
+
+        
+<div class="row">
+            <div class="card-body">
+                 @if($errors->count()>0)
+    <br>
+
+       
+            <div class="alert alert-danger">
+                <button data-dismiss="alert" class="close" type="button">*</button>
+                <strong> Sorry you have to fill all the inputs !</strong>
+                <ul>
+                    @foreach($errors->all() as $message)
+                    <li>
+                        {{$message}}
+                    </li>
+                    @endforeach
+</ul>
+                </div>
+@endif
+</div>
+      </div>
+   
           <table>
           <tr>
           <td >
@@ -202,7 +246,7 @@
                 <td style="width:75%" >
               </td>
                <td>
-               <button style='width:120%' type="button"  data-toggle="modal" data-target="#exampleModal2" class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
+               <button style='width:120%;margin-left:1050%'  type="button"  data-toggle="modal" data-target="#exampleModal2" class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
                    
 <!-- Modal -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -320,6 +364,8 @@
     
 
   </div>
+    </div>
+<div class="row">
 
   <div class="col-lg-6">
 
@@ -372,17 +418,19 @@
                       <div class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Actions
-            </button>
+            </button >
             <div class="dropdown-menu"  aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('ServerController@EditServer', ['id' => $server->id])}}">
+           
+            <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('ServerController@ViewServer', ['id' => $server->id])}}">
             <i class="far fa-edit"   
-            ></i>   Edit </a>
+            ></i>Edit  </a>
 
             
             <a class="dropdown-item" style="color:#b30000;width:50px" href="{{action('ServerController@deleteServer', ['id' => $server->id])}}">
             <i class="fa fa-trash"   
             ></i> Delete </a>
 
+            
               
      
     </div>
@@ -399,8 +447,7 @@
 
   </div>
 
-</div>
-    <div class="row">
+
     
   <div class="col-lg-6">
 
@@ -451,7 +498,7 @@
           Actions
         </button>
         <div class="dropdown-menu"  aria-labelledby="btnGroupDrop1">
-       <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('TemplateController@GoToEdit', ['id' => $temp->id])}}">
+       <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('TemplateController@ReadTemplate', ['id' => $temp->id])}}">
         <i class="far fa-edit"   
         ></i>   Edit </a>
         

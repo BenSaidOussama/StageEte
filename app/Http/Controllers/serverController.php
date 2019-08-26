@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Server;
 use App\Client;
+use App\VSwitch;
+use App\Http\Requests\CreateServerRequest;
+use App\Http\Requests\EditServerRequest;
 use App\Template_profile;
 use App\LPAR;
 use DB;
@@ -17,34 +20,30 @@ class ServerController extends Controller
         
         $server= Server::find($id);
         $array=[];
-        $templates = Template_profile::all();
-        foreach(  $templates as $i){
-            array_push($array,$i);
-
-        }
-        return view('/Edit_Server',compact('server','array'));
+        $templates= DB::table('template_profiles')
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
+     
+        return view('/Edit_Server',compact('server','templates'));
     }
-    public function saveUpdate(Request $request){
+    public function saveUpdate(EditServerRequest $request,$id){
         $array=[];
-        if($request->input('btn')=="save"){
-        $id=$request->input('id');
+        
+       
         $server= Server::find($id);
-   
+        //  die($server);
         $id_client=$server->Client_FK_id;
         $client=Client::find($id_client);
         $server->Server_description=$request->input('Server_description');
         $server->LPAR_prefix=$request->input('LPAR_prefix');
         $server->Server_type=$request->input('Server_type');
-        $server->Server_LPARs_nbr=$server->Server_LPARs_nbr+$request->input('Server_LPARs_nbr');
-
-
         if($request->input('template')=="no template"){
             for ($i =0; $i < $request->input('Server_LPARs_nbr'); $i++)
             {
                 $lpar=new LPAR();
                 $lpar->LPAR_name=$server->LPAR_prefix.$i;
-                $lpar->Server_FK_id=$id;
-                
+                $lpar->Server_FK_id=$server->id;
+                array_push($array,$lpar);
                 $lpar->save();
             }
 
@@ -66,11 +65,11 @@ class ServerController extends Controller
                 $lpar->proc_pool= $template->proc_pool;
                 $lpar->profil_name=$template->profil_name;
                 $lpar->shared=$template->shared;
-                $lpar->Server_FK_id=$id;
+                $lpar->Server_FK_id=$server->id;
                 $lpar->min_memory=$template->min_memory;
                 $lpar->min_proc_units=$template->min_proc_units;
                 $lpar->min_v_proc=$template->min_v_proc;
-                $lpar->template_FK_id=$id_t;
+                $lpar->Template_FK_id=$id_t;
                 $lpar->isAuto_StartWithMangedSys=$template->isAuto_StartWithMangedSys;
                 $lpar->isEnable_Connection_Monitoring= $template->isEnable_Connection_Monitoring;
                 $lpar->isEnable_redundant_Error_Path_report=$template->isEnable_redundant_Error_Path_report;
@@ -80,29 +79,35 @@ class ServerController extends Controller
             }
             
         }
+        $server->Server_LPARs_nbr=$server->Server_LPARs_nbr+$request->input('Server_LPARs_nbr');
+        
+        $templates= DB::table('template_profiles')
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
+        $array = DB::table('servers')
+        ->where('Client_FK_id', '=',$client->id )->get();
+        
+     
         $server->save();
-    }
+    
     $array = DB::table('l_p_a_r_s')
-        ->where('Server_FK_id', '=', $server->id)
-        ->paginate(2);
+        ->where('Server_FK_id', '=', $server->id)->get();
     
 
     //return $array;
-        return view('/ViewClient_Server_lpars',compact('server','array','client'));
+        return view('/ViewClient_Server_lpars',compact("templates",'server','array','client'));
 
     }
     public function NewServer($id){
         $client= Client::find($id);
        // die($client);
        $array=[];
-       $templates = Template_profile::all();
-       foreach(  $templates as $i){
-           array_push($array,$i);
-
-       }
-        return view('/NewServer',compact('client','array'));
+       $templates= DB::table('template_profiles')
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
+        return view('/NewServer',compact('client','templates'));
     }
-    public function createServer(Request $request){
+    public function createServer(CreateServerRequest $request){
        
         $server= new Server();
 
@@ -149,14 +154,14 @@ class ServerController extends Controller
                 $lpar->min_memory=$template->min_memory;
                 $lpar->min_proc_units=$template->min_proc_units;
                 $lpar->min_v_proc=$template->min_v_proc;
-                $lpar->template_FK_id=$id_t;
+                $lpar->Template_FK_id=$id_t;
                 $lpar->isAuto_StartWithMangedSys=$template->isAuto_StartWithMangedSys;
                 $lpar->isEnable_Connection_Monitoring= $template->isEnable_Connection_Monitoring;
                 $lpar->isEnable_redundant_Error_Path_report=$template->isEnable_redundant_Error_Path_report;
                 $lpar->isNormal_BootMode=$template->isNormal_BootMode;
                 $lpar->isSMS_BootMode=$template->isSMS_BootMode;
                 $lpar->save();
-                array_push($array1,$lpar);
+                //array_push($array1,$lpar);
             }
             
         }
@@ -164,7 +169,7 @@ class ServerController extends Controller
         ->where('Client_FK_id', '=',$client->id )->get();
         $array = DB::table('servers')
         ->where('Client_FK_id', '=',$client->id )->get();
-    
+        
         return view('/view_client',compact('server','array','client','templates'));
 
     }
@@ -181,8 +186,9 @@ class ServerController extends Controller
        // die($array);
         $client->Client_servers_nbr=$client->Client_servers_nbr-1;
         $client->save();
-        $templates = DB::table('template_profiles')
-        ->where('Client_FK_id', '=',$client->id )->get();
+        $templates= DB::table('template_profiles')
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
  
 
       return view('/view_client',compact("client",'array','templates'));
@@ -197,8 +203,12 @@ class ServerController extends Controller
        // die($client);
         $array= DB::table('l_p_a_r_s')
         ->where('Server_FK_id', '=',$id )->get();
+        $templates= DB::table('template_profiles')
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
+  // die($array);
 
-        return view('/ViewClient_Server_lpars',compact('server','array','client'));
+        return view('/ViewClient_Server_lpars',compact('templates','server','array','client'));
 
     }
 

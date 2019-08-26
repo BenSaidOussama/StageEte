@@ -16,15 +16,16 @@
         <tr>
           <td style="width:850px"> 
             <h1 class="h3 mb-4 text-gray-800">
-              Template Details</td>
+              LPAR Details</td>
           <td style="width:25%;text-align:left">
-          {!!Form::open(['action' => ['TemplateController@GoToEdit',$template->id], 'method' => 'GET', 'class' => 'pull-right'])!!}       
+          {!!Form::open(['action' => ['LPARController@go_edit',$client->id,$server->id,$lpar->id], 'method' => 'GET', 'class' => 'pull-right'])!!}       
 
                   <button  type="submit" style='width:120%' class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
                 
         {!! Form::close() !!}
 </td><td style="width:120px">
-        {!!Form::open(['action' => ['TemplateController@DeleteTemplate',$template->id], 'method' => 'POST', 'class' => 'pull-right'])!!}       
+
+{!!Form::open(['action' => ['LPARController@delete',$client->id,$server->id,$lpar->id], 'method' => 'POST', 'class' => 'pull-right'])!!}       
                 <button type="submit"   class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
         {!! Form::close() !!}
 </td>
@@ -55,7 +56,7 @@
                         </td >
                         <td>
                            <?php
-                           if($template->sync_conf==FALSE) 
+                           if($lpar->sync_conf==FALSE) 
                            echo '  OFF';
                            else
                            echo '  ON';
@@ -65,11 +66,11 @@
                         <tr>
                         <td>
                         <label>
-                                Template name  :
+                                LPAR name  :
                             </label>
                         </td>
                         <td>
-                            {{$template->template_name}}
+                            {{$lpar->LPAR_name}}
                         </td>
                         </tr>
                         <tr>
@@ -79,7 +80,7 @@
                             </label>
                         </td>
                         <td>
-                            {{$template->profil_name}}
+                            {{$lpar->profil_name}}
                         </td>
                         </tr>
                     </table>
@@ -97,7 +98,7 @@
                   <div class="card-body">
 
                   <?php
-                  if($template->shared==1){
+                  if($lpar->shared==1){
                       echo'
                       <label >Processing units</label>
                       <table>
@@ -108,7 +109,7 @@
                        </label>
                       </td>
                       <td>'.
-                          $template->min_proc_units
+                          $lpar->min_proc_units
                     .'  </td>
                       </tr>
                       <tr>
@@ -118,7 +119,7 @@
                           </label>
                       </td>
                       <td>'.
-                      $template->disired_proc_units.               
+                      $lpar->disired_proc_units.               
                       '</td>
                       </tr>
                       <tr>
@@ -128,7 +129,7 @@
                           </label>
                       </td>
                       <td>'.
-                      $template->max_proc_units             
+                      $lpar->max_proc_units             
                       .'</td>
                       </tr>
                   </table>
@@ -143,7 +144,7 @@
                    </label>
                   </td>
                   <td>'.
-                      $template->min_v_proc
+                      $lpar->min_v_proc
                 .'  </td>
                   </tr>
                   <tr>
@@ -153,7 +154,7 @@
                       </label>
                   </td>
                   <td>'.
-                  $template->disired_v_proc.               
+                  $lpar->disired_v_proc.               
                   '</td>
                   </tr>
                   <tr>
@@ -163,7 +164,7 @@
                       </label>
                   </td>
                   <td>'.
-                  $template->max_v_proc             
+                  $lpar->max_v_proc             
                   .'</td>
                   </tr>
               </table> 
@@ -174,7 +175,7 @@
                       <label>  Shared processor pool :</label>
                       </td>
                       <td>'.
-                      $template->proc_pool.'
+                      $lpar->proc_pool.'
                       </td>
                       </tr>
                       </table>';
@@ -190,7 +191,7 @@
                      </label>
                     </td>
                     <td>'.
-                        $template->min_proc
+                        $lpar->min_proc
                   .'  </td>
                     </tr>
                     <tr>
@@ -200,7 +201,7 @@
                         </label>
                     </td>
                     <td>'.
-                    $template->desired_proc.               
+                    $lpar->desired_proc.               
                     '</td>
                     </tr>
                     <tr>
@@ -210,7 +211,7 @@
                         </label>
                     </td>
                     <td>'.
-                    $template->max_proc.               
+                    $lpar->max_proc.               
                     '</td>
                     </tr>
                     </table>';
@@ -236,7 +237,7 @@
                         <tr>
                             <td>
                             <?php 
-                            if($template->isEnable_Connection_Monitoring ==TRUE){
+                            if($lpar->isEnable_Connection_Monitoring ==TRUE){
                                 echo '<input  style="color:red" disabled checked name="check" type="radio" id="id_check3" value="cnx_monit" > 
                                <b> Enable connection monitoring </b>
                                 ';
@@ -252,7 +253,7 @@
                         <tr>
                             <td>
                             <?php 
-                            if($template->isAuto_StartWithMangedSys  ==TRUE){
+                            if($lpar->isAuto_StartWithMangedSys  ==TRUE){
                                 echo '<input disabled type=radio name="check" value="auto" checked id="id_check2">
                                <b>  Automatically start with managed system </b>';
                             }
@@ -266,7 +267,7 @@
                         <tr>
                             <td>
                             <?php 
-                            if($template->isEnable_redundant_Error_Path_report  ==TRUE){
+                            if($lpar->isEnable_redundant_Error_Path_report  ==TRUE){
                                 echo '<input type="radio" name="check" checked value="redund" disabled id="id_check1">
                              <b>    Enable redundant error path reporting  </b>
                                 ';
@@ -294,7 +295,7 @@
                             <td>
                             <br>
                                <?php
-                                if($template->isNormal_BootMode ==TRUE)
+                                if($lpar->isNormal_BootMode ==TRUE)
                                 {
                                    echo' <input  type="radio" name="boot_mode" id="id_boot_mode_nrml" disabled checked><b>Normal</b>';
                                 }
@@ -307,7 +308,7 @@
                             <td>
                                
                                <?php
-                                if($template->isSMS_BootMode  ==TRUE)
+                                if($lpar->isSMS_BootMode  ==TRUE)
                                 {
                                    echo'<input type="radio" name="boot_mode" disabled checked id="id_boot_mode_sms" value="sms">
                                    <b>System Managment Services(SMS)</b>
@@ -334,7 +335,7 @@
                 <!-- Card Content - Collapse -->
                 <div class="collapse show" id="collapseCardExample3">
                   <div class="card-body">
-                        <?php if($template->shared==TRUE)
+                        <?php if($lpar->shared==TRUE)
                         echo '
                         <input type="radio" id="radio_shared" name="clickkk" checked disabled value="Shared">
                         <B>Shared : </B> Assign partial processor units from the shared processor pool.
@@ -366,7 +367,7 @@
                         </label>
                         </td>
                         <td>
-                            {{$template->min_memory}}
+                            {{$lpar->min_memory}}
                         </td>
                         </tr>
                         <tr>
@@ -376,7 +377,7 @@
                         </label>
                         </td>
                         <td>
-                             {{$template->disired_memory}}
+                             {{$lpar->disired_memory}}
                         </td>
                         </tr>
                         <tr>
@@ -386,7 +387,7 @@
                         </label>
                         </td>
                         <td>
-                            {{$template->max_memory}}
+                            {{$lpar->max_memory}}
                         </td>
                         </tr>
                         </table>
@@ -424,7 +425,7 @@
            <label>   Maximum virtual adapters:</label>
            </td>
            <td style="width:10%">
-            <input type="number"  value="{{$template->max_v_adapters}}" disabled name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
+            <input type="number"  value="{{$lpar->max_v_adapters}}" disabled name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
            </td>
            <td style="width:5%">
                         </td>

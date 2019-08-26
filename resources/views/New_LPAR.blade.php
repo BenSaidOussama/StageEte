@@ -55,7 +55,7 @@
     <div class="container-fluid">
 
 <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Create New Tempalte</h1>
+        <h1 class="h3 mb-4 text-gray-800">Create New LPAR</h1>
         <div class="row">
 <div class="col-md-8 col-md-offset-2">
 
@@ -82,7 +82,7 @@
             <div class="col-lg-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Template details </h6>
+                        <h6 class="m-0 font-weight-bold text-primary">LPAR details </h6>
                     </div>
                     <div class="card-body">
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Profile</button>
@@ -101,7 +101,7 @@
                                             </select>
                                         </td>
                                     <td style="text-align:center;width:15%">
-                                            <label >Template name:</label>
+                                            <label >LPAR name:</label>
   
                                         </td>
                                         <td style="text-align:center;width:15%">
@@ -138,13 +138,13 @@
                                         Minimum processing units *
                                         </td>
                                         <td>
-                                        <input type='number' placeholder="0.1" step="0.1" min="0" class ='form-control' name='min_proc_units' id="id_min_proc_units">
+                                        <input type='number' placeholder="0.1" step="0.1" class ='form-control' name='min_proc_units' id="id_min_proc_units">
                                         </td>
                                         <td style='text-align:right'>
                                              Minimum virtual processors *
                                         </td>
                                         <td>
-                                            <input type='number' step="0.1" placeholder="0.1" min="0" class ='form-control' name='min_v_proc' id="id_min_v_proc">
+                                            <input type='number' step="0.1" placeholder="0.1" class ='form-control' name='min_v_proc' id="id_min_v_proc">
                                         </td>
                                     </tr>
                                     <tr>
@@ -154,7 +154,7 @@
                                         </td>
                                         <td>
                                         <br>
-                                            <input type='number' step="0.1" placeholder="0.1" min="0" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
+                                            <input type='number' step="0.1" placeholder="0.1" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
                                         </td>
                                         <td style='text-align:right' >
                                         <br>
@@ -162,7 +162,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='desired_v_proc' class ='form-control' id="id_desired_v_proc">
+                                                <input type='number' step="0.1" placeholder="0.1" name='desired_v_proc' class ='form-control' id="id_desired_v_proc">
                                             </td>
                                         
                                      </tr>
@@ -173,7 +173,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='max_proc_units' class ='form-control' id="id_max_proc_units">
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_proc_units' class ='form-control' id="id_max_proc_units">
                                             </td>
                                             <td style="text-align:center">
                                             <br>
@@ -181,7 +181,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='max_v_proc' class ='form-control' id="id_max_v_proc">
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_v_proc' class ='form-control' id="id_max_v_proc">
                                             </td>
                                             
                                         </tr>
@@ -218,7 +218,7 @@
                                                           </td>
                                                           <td>
                                                           
-                                                          <input type='number' placeholder="1" min="0" class ='form-control' name='min_proc' id="id_min_proc">
+                                                          <input type='number' placeholder="1" class ='form-control' name='min_proc' id="id_min_proc">
                                                           </td>
                                                       </tr>
                                                       <tr>
@@ -228,7 +228,7 @@
                                                           </td>
                                                           <td>
                                                           <br>
-                                                          <input type='number' placeholder="1" min="0" class ='form-control' name='desired_proc' id="id_desired_proc">
+                                                          <input type='number' placeholder="1" class ='form-control' name='desired_proc' id="id_desired_proc">
                                                           </td>
                                                       </tr>
                                                       <tr>
@@ -238,7 +238,7 @@
                                                           </td>
                                                           <td>
                                                           <br>
-                                                          <input type='number' placeholder="1" min="0"  class ='form-control' name='max_proc' id="id_max_proc">
+                                                          <input type='number' placeholder="1"  class ='form-control' name='max_proc' id="id_max_proc">
                                                           </td>
                                                      </tr>
                                               </table>
@@ -327,7 +327,7 @@
 
                  </td>
                   
-                    
+                   
                 </tr>
                   @endforeach
             
@@ -354,7 +354,7 @@
                   <!-- Modal body -->
 
                   <div class="modal-body">
-                  {!!Form::open(['action' => ['TemplateController@createphysicalIO',$client->id,$template->id], 'method' => 'POST'])!!}       
+                  {!!Form::open(['action' => ['LparController@createphysicalIO',$client->id,$lpar->id], 'method' => 'POST'])!!}       
               
                     <table>
                           <tr>
@@ -436,7 +436,7 @@
            <label>   Maximum virtual adapters:</label>
            </td>
            <td style="width:20%">
-            <input type="number" placeholder="0" min="0" name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
+            <input type="number" placeholder="0"  name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
            </td>
            <td style="width:30%">
            </td>
@@ -642,7 +642,7 @@
                   Virtal SCSI Adapter
                 </button>
 
-                {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id,$template->id], 'method' => 'POST'])!!}       
+                {!!Form::open(['action' => ['LparController@createSCSI',$client->id,$lpar->id], 'method' => 'POST'])!!}       
                 <input type="text" name="max_v_adapters_hidden"   hidden id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
 
             <!-- The Modal -->
@@ -660,8 +660,8 @@
                   <div class="modal-body">
                     <table >
                     <tr>
-                          <td><br>
-                          <label> Adapter Id</label>
+                          <td><br><label>
+                          Adapter Id:</label>
                           </td>
                           <td>
                           <br>
@@ -741,7 +741,7 @@
             </td>
             <td>
                <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" id="btn_ethernet" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
-               {!!Form::open(['action' => ['TemplateController@createEthernet',$client->id,$template->id], 'method' => 'POST'])!!}       
+               {!!Form::open(['action' => ['LparController@createEthernet',$client->id,$lpar->id], 'method' => 'POST'])!!}       
                <input type="text" name="max_v_adapters_hidden1" hidden id="id_max_v_adapters_hidden1"  class="form-control form-control-sm" > 
 
                 <!-- The Modal -->
@@ -760,7 +760,7 @@
                     <table>
                     <tr>
                           <td><br>
-                          <label>Adapter Id:</label>
+                          Adapter Id:
                           </td>
                           <td>
                           <br>
@@ -769,7 +769,7 @@
                         </tr>
                           <tr>
                           <td><br>
-                          <label> PV_id </label>
+                          PV_id 
                           </td>
                           <td>
                           <br>
@@ -779,7 +779,7 @@
                         <tr>
                           <td>
                           <br>
-                          <label>   VLANS </label>
+                          VLANS 
                           </td>
                           <td>
                           <br>
@@ -788,7 +788,7 @@
                           </tr>
                           <tr>
                           <td><br>
-                          <label>   VSwitch:</label>
+                          VSwitch:
                           </td>
                           <td>
                           <br>
@@ -805,7 +805,7 @@
                           <tr>
                           <td>
                           <br>
-                          <label> Required : </label>
+                          Required : 
                           </td>
                           <td>
                           <br>
@@ -831,7 +831,7 @@
               </td>
             <td>
             <button style="margin-left:50px" id="btn_fc" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
-            {!!Form::open(['action' => ['TemplateController@createFC',$client->id,$template->id], 'method' => 'POST'])!!}       
+            {!!Form::open(['action' => ['LparController@createFC',$client->id,$lpar->id], 'method' => 'POST'])!!}       
             <input type="text" name="max_v_adapters_hidden2" hidden  id="id_max_v_adapters_hidden2"  class="form-control form-control-sm" > 
 
            <!-- The Modal -->
@@ -850,8 +850,8 @@
                   <div class="modal-body">
                     <table>
                     <tr>
-                          <td><br><label>
-                          Adapter Id:</label>
+                          <td><br>
+                          Adapter Id:
                           </td>
                           <td>
                           <br>
@@ -861,7 +861,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  Server Partition </label>
+                            Server Partition
                             </td>
                             <td>  
                             <br>
@@ -871,7 +871,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  World Wide Port Name</label>
+                            World Wide Port Name
                             </td>
                             <td>
                             <br>
@@ -881,7 +881,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  World Wide Port Name LPM</label>
+                            World Wide Port Name LPM
                             </td>
                             <td>
                             <br>
@@ -891,7 +891,7 @@
                           <tr>
                           <td>
                           <br>
-                         <label> Required : </label>
+                          Required : 
                           </td>
                           <td>
                           <br>
@@ -960,7 +960,7 @@
         <td>
         <br>
         
-        {!!Form::open(['action' => ["TemplateController@createTemplate",$client->id,$template->id], 'method' => 'POST'])!!}       
+        {!!Form::open(['action' => ['LPARController@CreateLPAR',$lpar->id], 'method' => 'POST'])!!}       
             <button type="submit" class="btn btn-success"style="margin-left:400px">Success</button>
 
 <input type="text" value="" name="template_name_hidden" id="id_template_name_hidden" hidden>        
@@ -981,7 +981,7 @@
 <input type='text' value="" id="id_value_hidden" name="value_hidden" hidden>
 <input type='text' value="" id="id_value1_hidden" name="value1_hidden" hidden>
 <input type='text' value="" id="id_value2_hidden" name="value2_hidden" hidden>
-<input type="text" name="max_v_adapters_hidden3" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden3" hidden  > 
+<input type="text" name="max_v_adapters_hidden3" value="{{$lpar->max_v_adapters}}" id="id_max_v_adapters_hidden3" hidden  > 
 <input type="text" name="boot_mode_hidden" hidden id="id_boot_mode_hidden" hidden  > 
 <input type="text" name="check_hidden" id="id_check_hidden" hidden> 
 
@@ -1038,7 +1038,7 @@ input_check3.oninput = function() {
  var input_max_v_adapters_hidden2=document.getElementById("id_max_v_adapters_hidden2");
  var input_max_v_adapters_hidden3=document.getElementById("id_max_v_adapters_hidden3");
 
- if(secret_input_all_elem.value>=input_max_v_adapters.value){
+ if(secret_input_all_elem.value>=input_max_v_adapters_hidden3.value){
           document.getElementById("btn_ethernet").disabled=true;
           document.getElementById("btn_fc").disabled=true;
           document.getElementById("btn_scsi").disabled=true;}

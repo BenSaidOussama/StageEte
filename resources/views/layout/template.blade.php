@@ -476,7 +476,7 @@ $.ajax({
                       
                       $("#templates-header").append("<a  class=\"collapse-item client-elem\">"+"<label style='font-size:12px;color:gray'>"+item.Client_name+"</label>"+"</a>")
                       data1.forEach((item1) => {
-                        $("#templates-header").append("<a href=\"http://localhost/IBMPower/public/addTemplate/Client/"+item.id+"/actioncreateTemplate/"+item1.id+"\" class=\"collapse-item client-elem\">"+"<label style='font-size:10px'>"+item1.template_name+"</label>"+"</a>")
+                        $("#templates-header").append("<a href=\"http://localhost/IBMPower/public/Template/"+item1.id+"\" class=\"collapse-item client-elem\">"+"<label style='font-size:10px'>"+item1.template_name+"</label>"+"</a>")
                       });
                   },
                   error: function(data1) {

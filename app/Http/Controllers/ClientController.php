@@ -10,10 +10,12 @@ use App\LPAR;
 use App\Template_profile;
 use DB;
 use App\Quotation;
+use App\Http\Requests\CreateClientRequest;
+
 
 class ClientController extends Controller
 {
-    public function createClient(Request $request)
+    public function createClient(CreateClientRequest $request)
     {
         $client = new Client();
         $client->Client_adresse = $request->input('Client_adresse');
@@ -30,8 +32,9 @@ class ClientController extends Controller
                 $server->Server_name=$client->Client_name.'_Server'.$i;
                 $server->LPAR_prefix=NULL;
                 $server->Server_description=NULL;
-                $server->Server_type=NULL;
+                $server->Server_type=$request->input('Server_type');
                 $server->Server_LPARs_nbr=NULL;
+                $server->Server_type=$request->input('Server_type');
 
 
                 $server->save();
@@ -64,8 +67,10 @@ class ClientController extends Controller
     public function ReadTemplates($id){
         $array=[];
         $client=Client::find($id);
+       
         $array1 = DB::table('template_profiles')
-        ->where('Client_FK_id', '=',$client->id )->get();
+        ->where('template_name', '!=',null )->where('Client_FK_id','=',$client->id)->get();
+       
         foreach($array1 as $i){
             array_push($array,$i);
 

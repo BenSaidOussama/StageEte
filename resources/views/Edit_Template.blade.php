@@ -1,11 +1,6 @@
 @extends('layout.head')
 @extends('layout.template')
 @section('content')
-<!DOCTYPE html>
-<html>
-
-
-<head>
 <style>
   
   .slider:hover {
@@ -56,13 +51,35 @@
 }
 
 </style>
-</head>
-<body><!-- Begin Page Content -->
+
     <div class="container-fluid">
 
 <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Create New template</h1>
+        <h1 class="h3 mb-4 text-gray-800">Edit Template</h1>
 
+        <div class="row">
+<div class="col-md-8 col-md-offset-2">
+
+            <div class="card-body">
+                 @if($errors->count()>0)
+    <br>
+
+       
+            <div class="alert alert-danger">
+                <button data-dismiss="alert" class="close" type="button">*</button>
+                <strong> Sorry you have to fill all the inputs !</strong>
+                <ul>
+                    @foreach($errors->all() as $message)
+                    <li>
+                        {{$message}}
+                    </li>
+                    @endforeach
+</ul>
+                </div>
+@endif
+</div>
+</div></div>
+      
         <div class="row">
             <div class="col-lg-12">
                 <div class="card shadow mb-4">
@@ -80,35 +97,29 @@
   
                                         </td>
                                         <td style="text-align:center;width:15%">
-                                        <select  class ="form-control" name="sync_conf" id="id_sync_conf">
-                                        <?php if($template->sync_conf==TRUE)
-    
-                                       { echo'
-                                        <option value="on"> On</option>
-                                        <option value="off"> Off</option>
-                                        </select>
-                                        ';}
-                                        else {
-                                            echo' <option value="off"> Off</option>
+                                            <select  class ="form-control" name="sync_conf" id="id_sync_conf">
+                                            @if($template->sync_conf==1)
                                             <option value="on"> On</option>
+                                            <option value="off"> Off</option>
+                                            @else
+                                            <option value="off"> Off</option>
+                                            <option value="on"> On</option>
+                                            @endif
                                             </select>
-                                            ';
-                                        }?>
-                                            
                                         </td>
                                     <td style="text-align:center;width:15%">
                                             <label >Template name:</label>
   
                                         </td>
                                         <td style="text-align:center;width:15%">
-                                            <input type="text" class ="form-control"  name="template_name" value='{{$template->template_name}}' id="id_template_name">
+                                            <input type="text" value="{{$template->template_name}}" class ="form-control"  name="template_name" id="id_template_name">
                                         </td>
                                        
                                         <td style="text-align:center;width:15%">
                                             <label >  Profile Name:</label>
                                         </td>
                                         <td style="text-align:center;width:15%">
-                                            <input type=text class ="form-control" name="profile_name" value="{{$template->profil_name}}" id="id_profile_name">
+                                            <input type=text class ="form-control" value="{{$template->profil_name}}" name="profile_name" id="id_profile_name">
                                         </td>
                                     </tr>
                                 </table>
@@ -117,47 +128,39 @@
 
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Processor</button>
                             <div class="panel" >
-                                <?php
-                                if($template->shared==TRUE){ 
-                                    echo '<input type="radio"  checked id="radio_shared" name="clickkk" onclick="displaying_shared()" value="Shared">
-                                    <B>Shared : </B>
-                                    Assign partial processor units from the shared processor pool.
-                                    <br>
-                                    <input type="radio" name="clickkk" id="radio_dedicated" class="radio_shared"   onclick="displaying_dedicated()" value="Dedicate"><B> Dedicate :  </B>
-                                    Assign entire processors that can only be used by the partition';
-                                }
-                                else{
-                                    echo '<input type="radio" id="radio_shared" name="clickkk" onclick="displaying_shared()" value="Shared">
-                                    <B>Shared : </B>
-                                    Assign partial processor units from the shared processor pool.
-                                    <br>
-                                    <input type="radio" name="clickkk" checked id="radio_dedicated" class="radio_shared"   onclick="displaying_dedicated()" value="Dedicate"><B> Dedicate :  </B>
-                                    Assign entire processors that can only be used by the partition';
-                              
-                                }
-                                ?>
-                                <input type='text'  id="shared_hidden"  value="{{$template->shared}}">
+                            @if($template->shared=="1")
+                                <input type="radio" id="radio_shared" name="clickkk" checked onclick='displaying_shared()' value="Shared">
+                                <B>Shared : </B>
+                                Assign partial processor units from the shared processor pool.
+                                <br>
+                                <input type="radio" name="clickkk" id="radio_dedicated" class="radio_shared"   onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
+                                Assign entire processors that can only be used by the partition
+                            @else
+                            <input type="radio" id="radio_shared" name="clickkk"  onclick='displaying_shared()' value="Shared">
+                                <B>Shared : </B>
+                                Assign partial processor units from the shared processor pool.
+                                <br>
+                                <input type="radio" name="clickkk" checked id="radio_dedicated" class="radio_shared"   onclick='displaying_dedicated()' value="Dedicate"><B> Dedicate :  </B>
+                                Assign entire processors that can only be used by the partition
+                                @endif
                             </div>
-
                         <button class='accordion'  ><i class='fas fa-angle-double-right'></i> Processor Settings</button>
-                            <div class='panel' >    
-                              
-                                    <p id="proc_shared"  style="margin-left:50px;display: block;" ><B>Specify the desired,minimum,and maximum</B></p>
-                                    <p id="proc_settings_shared" style="margin-left:50px;display: block;"><B>processing settings in the filed bellow.</B></p>
-                                   
-                                    <table id="table_shared" style="margin-left:50px;display: block;" >
+                            <div class='panel' >  
+                                <p id="proc_shared"  style='margin-left:50px;display: block;' ><B>Specify the desired,minimum,and maximum</B></p>
+                                <p id="proc_settings_shared" style='margin-left:50px;display: block;'><B>processing settings in the filed bellow.</B></p>
+                                <table id="table_shared" style='margin-left:50px;display: block;' >
                                     <tr>
                                         <td>
                                         Minimum processing units *
                                         </td>
                                         <td>
-                                        <input type="number" placeholder="0.1" step="0.1"  value="{{$template->min_proc_units}}" class ="form-control" name="min_proc_units" id="id_min_proc_units">
+                                        <input type='number' value="{{$template->min_proc_units}}" placeholder="0.1" step="0.1" class ='form-control' name='min_proc_units' id="id_min_proc_units">
                                         </td>
-                                        <td style="text-align:right">
+                                        <td style='text-align:right'>
                                              Minimum virtual processors *
                                         </td>
                                         <td>
-                                            <input type="number" step="0.1" placeholder="0.1"  value="{{$template->min_v_proc}}" class ="form-control" name="min_v_proc" id="id_min_v_proc">
+                                            <input type='number' value="{{$template->min_v_proc}}" step="0.1" placeholder="0.1" class ='form-control' name='min_v_proc' id="id_min_v_proc">
                                         </td>
                                     </tr>
                                     <tr>
@@ -167,15 +170,15 @@
                                         </td>
                                         <td>
                                         <br>
-                                            <input type="number" step="0.1" placeholder="0.1" value="{{$template->disired_proc_units}}" name="desired_proc_units" class ="form-control" id="id_desired_proc_units">
+                                            <input type='number' value="{{$template->disired_proc_units}}"  step="0.1" placeholder="0.1" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
                                         </td>
-                                        <td style="text-align:right" >
+                                        <td style='text-align:right' >
                                         <br>
                                                  Desired virtual processors *
                                             </td>
                                             <td>
                                             <br>
-                                                <input type="number"  value="{{$template->disired_v_proc}}" step="0.1" placeholder="0.1" name="desired_v_proc" class ="form-control" id="id_desired_v_proc">
+                                                <input type='number' step="0.1" value="{{$template->disired_v_proc}}" placeholder="0.1" name='desired_v_proc' class ='form-control' id="id_desired_v_proc">
                                             </td>
                                         
                                      </tr>
@@ -186,7 +189,8 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type="number" step="0.1" placeholder="0.1"  value="{{$template->max_proc_units}}" name="max_proc_units" class ="form-control" id="id_max_proc_units">
+
+                                                <input type='number' step="0.1" value="{{$template->max_proc_units}}" placeholder="0.1" name='max_proc_units' class ='form-control' id="id_max_proc_units">
                                             </td>
                                             <td style="text-align:center">
                                             <br>
@@ -194,7 +198,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type="number" step="0.1"  value="{{$template->max_v_proc}}" placeholder="0.1" name="max_v_proc" class ="form-control" id="id_max_v_proc">
+                                                <input type='number' step="0.1" value="{{$template->max_v_proc}}" placeholder="0.1" name='max_v_proc' class ='form-control' id="id_max_v_proc">
                                             </td>
                                             
                                         </tr>
@@ -204,15 +208,23 @@
                                                 Shared processor pool *
                                             </td>
                                             <td>
-                                            <br> 
-                                            <?php if($template->proc_pool=="Other pool")
-                                            {echo'
-                                                <select id="id_proc_pool" name="shared_proc_pool" onclick="verifier()" class ="form-control" >
-                                                    <option value="Default pool">
+                                            <br>
+
+                                                <select id="id_proc_pool" name='shared_proc_pool' onclick='verifier()' class ='form-control' >
+                                               default
+                                               @if($template->proc_pool=='Default pool')    
+                                                <option value="Default pool">
                                                         Default pool
                                                     </option>
                                                     <option value="Other pool">
                                                         Other pool
+                                                    </option>
+                                                @else
+                                                    <option value="Other pool">
+                                                        Other pool
+                                                    </option>
+                                                    <option value="Default pool">
+                                                        Default pool
                                                     </option>
                                                 </select>
                                             </td>
@@ -220,64 +232,49 @@
                                             </td>
                                             <td>
                                             <br>
-                                            <input type="text" style="display:none" class ="form-control" id="id_input_pool" name="input_pool_name">
-                                          ';}
-                                          else{
-                                            echo'
-                                            <select id="id_proc_pool" name="shared_proc_pool" onclick="verifier()" class ="form-control" >
-                                                <option value="Default pool">
-                                                    Default pool
-                                                </option>
-                                                <option value="Other pool">
-                                                    Other pool
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        <br>
-                                        <input type="text" style="display:block" value="'.$template->proc_pool.'" class ="form-control" id="id_input_pool" name="input_pool_name">
-                                      ';
-                                          } ?>
-                                           </td>
+                                            <input type="text" value="{{$template->proc_pool}}" class ='form-control' id="id_input_pool" name="input_pool_name">
+                                            @endif
+                                            <input type="text" style="display:none" class ='form-control' id="id_input_pool" name="input_pool_name">
+                                            </td>
                                            
                                         </tr>
                                     </table>
-                                 <p id="p_dedicated" style="display: none"> <B>    Specify the desired, minimum, and maximum processing settings in the fields below.</B></p>
-                                    <table id="table_dedicated" style="margin-left:50px;display: none;" >
-                                                <tr>
-                                                    <td>
-                                                    Minimum processors*
-                                                    </td>
-                                                    <td>
-                                                    
-                                                    <input type="number" placeholder="1"  value="{{$template->min_proc}}" class ="form-control" name="min_proc" id="id_min_proc">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <br>
-                                                    Desired processors*
-                                                    </td>
-                                                    <td>
-                                                    <br>
-                                                    <input type="number" placeholder="1" value="{{$template->disired_proc}}" class ="form-control" name="desired_proc" id="id_desired_proc">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    <br>
-                                                    Maximum processors:
-                                                    </td>
-                                                    <td>
-                                                    <br>
-                                                    <input type="number" placeholder="1"  class ="form-control" value="{{$template->max_proc}}" name="max_proc" id="id_max_proc">
-                                                    </td>
-                                               </tr>
-                                        </table>
-                    
+                                    <input type="text" id="shared_1" value="{{$template->shared}}" hidden>
+
+                                       <p id="p_dedicated" style="display: none"> <B>    Specify the desired, minimum, and maximum processing settings in the fields below.</B></p>
+                                          <table id="table_dedicated" style='margin-left:50px;display: none;' >
+                                                      <tr>
+                                                          <td>
+                                                          Minimum processors*
+                                                          </td>
+                                                          <td>
+                                                          
+                                                          <input type='number' value='{{$template->min_proc}}' placeholder="1" class ='form-control' name='min_proc' id="id_min_proc">
+                                                          </td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>
+                                                          <br>
+                                                          Desired processors*
+                                                          </td>
+                                                          <td>
+                                                          <br>
+                                                          <input type='number' value='{{$template->desired_proc}}' placeholder="1" class ='form-control' name='desired_proc' id="id_desired_proc">
+                                                          </td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>
+                                                          <br>
+                                                          Maximum processors:
+                                                          </td>
+                                                          <td>
+                                                          <br>
+                                                          <input type='number' placeholder="1" value='{{$template->max_proc}}' class ='form-control' name='max_proc' id="id_max_proc">
+                                                          </td>
+                                                     </tr>
+                                              </table>
                                             <br>
+                                            
                                     </div>
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Memory Settings</button>
                             <div class="panel">
@@ -287,12 +284,11 @@
                                             Minimum memory 
                                          </td>
                                         <td >
-                                             <input  class ="form-control" type="range" min="0" max="100" step="0.1" value="42" class="slider" id="myRange">
+                                             <input  class ="form-control" value="{{$template->min_memory}}" type="range" min="0" max="100" step="0.1" value="0" class="slider" id="myRange">
                                         </td> 
                                         <td style="text-align:right">
-                                        <input style="width:50%; " step="0.1" type="number" id="id_value" name="min_memo" >GB
+                                        <input style="width:50%; " step="0.1"  value="{{$template->min_memory}}" type="number" id="id_value" name="min_memo" >GB
                                         </td>
-                                        <input value='{{$template->min_memory}}' id="memo_min" hidden>
 
                                     </tr>
                                     <tr>
@@ -300,13 +296,11 @@
                                             Desired memory 
                                          </td>
                                         <td >
-                                             <input class ="form-control"  type="range" min="0" max="100" step="0.1" value="42" class="slider1" id="myRange1">
+                                             <input class ="form-control"  value="{{$template->disired_memory}}" type="range" min="0" max="100" step="0.1" value="0" class="slider1" id="myRange1">
                                         </td> 
                                         <td style="text-align:right">
-                                        <input style="width:50%; "type="number" name="desired_memo" step="0.1" id="id_value1"  >GB
+                                        <input style="width:50%; "type="number" name="desired_memo"  value="{{$template->disired_memory}}" step="0.1" id="id_value1"  >GB
                                         </td>
-                                        <input value='{{$template->disired_memory}}' id="memo_des" hidden>
-
 
                                     </tr>
                                     <tr>
@@ -314,12 +308,11 @@
                                             Maximum memory 
                                          </td>
                                         <td >
-                                             <input class ="form-control"  type="range" name="max_memo"  step="0.1" min="0" max="100" value="42" class="slider2" id="myRange2">
+                                             <input class ="form-control"  type="range" name="max_memo"  value="{{$template->max_memory}}"  step="0.1" min="0" max="100" value="0" class="slider2" id="myRange2">
                                         </td> 
                                         <td style="text-align:right">
-                                        <input style="width:50%; "type="number" step="0.1" id="id_value2" >GB
+                                        <input style="width:50%; "type="number" step="0.1" id="id_value2"  value="{{$template->max_memory}}" >GB
                                         </td>
-                                        <input value='{{$template->max_memory}}' id="memo_max" hidden>
 
                                     </tr>
 
@@ -344,7 +337,7 @@
               <th scope="col">Index Slot</th>
               <th scope="col">Type</th>
               <th scope="col">Required/Desired</th>
-              <th scope="col">Actions</th>
+              
 
             </tr>
               </thead>
@@ -367,21 +360,7 @@
 
                  </td>
                   
-                    <td>
-                    <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Actions
-            </button>
-            <div class="dropdown-menu"  aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('ServerController@EditServer', ['id' => $phy->id])}}">
-            <i class="far fa-edit"   
-            ></i>   Edit </a>
-            <a class="dropdown-item" style="color:#b30000;width:50px" href="{{action('ServerController@deleteServer', ['id' => $phy->id])}}">
-            <i class="fa fa-trash"   
-            ></i> Delete </a>
-                        </div>
-    </div>
-                    </td>
+                  
                 </tr>
                   @endforeach
             
@@ -490,7 +469,7 @@
            <label>   Maximum virtual adapters:</label>
            </td>
            <td style="width:20%">
-            <input type="number" placeholder="0" value="{{$template->max_v_adapters}}" name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
+            <input type="number" placeholder="0"  name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
            </td>
            <td style="width:30%">
            </td>
@@ -618,7 +597,7 @@
             </tr>
             @endforeach
             @endif
-            <input id="secret_input_all" name="secret_input_all1" value="{{$i}}" hidden>
+            
           </tbody>
         </table>
         </div>
@@ -650,7 +629,7 @@
               ?></td>
             </tr>
             @endforeach
-            <input id="secret_input_all" name="secret_input_all1" value="{{$j}}" hidden >
+            
 
           </tbody>
         </table>
@@ -683,7 +662,6 @@
               ?></td>
             </tr>
             @endforeach
-            <input id="secret_input_all" name="secret_input_all1" value="{{$k}}" hidden>
           </tbody>
         </table>
         </div>
@@ -698,7 +676,7 @@
                 </button>
 
                 {!!Form::open(['action' => ['TemplateController@createSCSI',$client->id,$template->id], 'method' => 'POST'])!!}       
-                <input type="text" name="max_v_adapters_hidden" hidden  value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
+                <input type="text" name="max_v_adapters_hidden"   hidden id="id_max_v_adapters_hidden"  class="form-control form-control-sm" > 
 
             <!-- The Modal -->
             <div class="modal fade" id="myModal4">
@@ -714,6 +692,15 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table >
+                    <tr>
+                          <td><br>
+                         <label> Adapter Id:</label>
+                          </td>
+                          <td>
+                          <br>
+                          <input type="number" class ="form-control" name="adapter_id" >
+                          </td>
+                        </tr>
                           <tr>
                           <td style="width:40%;text-align:center">
                           <br>
@@ -788,7 +775,7 @@
             <td>
                <button style="margin-left:50px" class="btn btn-primary" data-toggle="modal" data-target="#myModal2" id="btn_ethernet" ><i class="fa fa-plus" aria-hidden="true"></i>   Virtual Ethernet Adapter</button>
                {!!Form::open(['action' => ['TemplateController@createEthernet',$client->id,$template->id], 'method' => 'POST'])!!}       
-               <input type="text" name="max_v_adapters_hidden1" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden1" hidden class="form-control form-control-sm" > 
+               <input type="text" name="max_v_adapters_hidden1" hidden id="id_max_v_adapters_hidden1"  class="form-control form-control-sm" > 
 
                 <!-- The Modal -->
             <div class="modal fade" id="myModal2">
@@ -804,6 +791,15 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table>
+                    <tr>
+                          <td><br>
+                          Adapter Id:
+                          </td>
+                          <td>
+                          <br>
+                          <input type="number" class ="form-control" name="adapter_id" >
+                          </td>
+                        </tr>
                           <tr>
                           <td><br>
                           PV_id 
@@ -823,6 +819,22 @@
                           <input type="text" class ="form-control" name="vlans" >
                           </td>
                           </tr>
+                          <tr>
+                          <td><br>
+                          VSwitch:
+                          </td>
+                          <td>
+                          <br>
+                          <select name="vswitch" class ="form-control">
+                          @foreach($vswitchs as $vs)
+                            <option value="{{$vs->id}}">
+                            {{$vs->name}}
+                            </option>
+                          @endforeach
+                          
+                          </select>
+                          </td>
+                        </tr>
                           <tr>
                           <td>
                           <br>
@@ -853,7 +865,7 @@
             <td>
             <button style="margin-left:50px" id="btn_fc" class="btn btn-primary"  data-toggle="modal" data-target="#myModal3"><i class="fa fa-plus" aria-hidden="true"></i>   Virtual FC Adapter</button>
             {!!Form::open(['action' => ['TemplateController@createFC',$client->id,$template->id], 'method' => 'POST'])!!}       
-            <input type="text" name="max_v_adapters_hidden2" value="{{$template->max_v_adapters}}" hidden id="id_max_v_adapters_hidden2"  class="form-control form-control-sm" > 
+            <input type="text" name="max_v_adapters_hidden2" hidden  id="id_max_v_adapters_hidden2"  class="form-control form-control-sm" > 
 
            <!-- The Modal -->
            <div class="modal fade" id="myModal3">
@@ -870,6 +882,15 @@
                   <!-- Modal body -->
                   <div class="modal-body">
                     <table>
+                    <tr>
+                          <td><br>
+                          Adapter Id:
+                          </td>
+                          <td>
+                          <br>
+                          <input type="number" class ="form-control" name="adapter_id" >
+                          </td>
+                        </tr>
                           <tr>
                             <td>
                             <br>
@@ -938,16 +959,16 @@
         <div class="panel">
         <table> 
             <tr>
+            @if($template->isEnable_Connection_Monitoring==1)
                 <td style="width:500px">
-                <?php 
-                if($template->isEnable_Connection_Monitoring==TRUE){
-                  echo'  <input  style="color:red" name="check" checked type="radio" id="id_check3" value="cnx_monit" > Enable connection monitoring ';
-    
-                }
-                else{
-                    echo'  <input  style="color:red" name="check"  type="radio" id="id_check3" value="cnx_monit" > Enable connection monitoring ';
-                }?>
+              <input  style="color:red" name="check" checked type="radio" id="id_check3" value="cnx_monit" > Enable connection monitoring 
                 </td>
+                @else
+                <td style="width:500px">
+              <input  style="color:red" name="check" type="radio" id="id_check3" value="cnx_monit" > Enable connection monitoring 
+                </td>
+                @endif
+
                 <td>
                 
                 <label>Boot mode</label>
@@ -957,48 +978,44 @@
 
         
         <tr>
+        @if($template->isAuto_StartWithMangedSys==1)
                 <td>
-                    <?php if($template->isAuto_StartWithMangedSys==TRUE){                  
-            echo'<input type="radio" name="check" checked value="auto" checked id="id_check2"> Automatically start with managed system';}
-            else{
-                echo'<input type="radio" name="check" value="auto" id="id_check2"> Automatically start with managed system'
-            ;}?>
+                <input type=radio name="check" value="auto" checked id="id_check2"> Automatically start with managed system 
                 </td>
+                @else
                 <td>
-            <?php if($template->isNormal_BootMode==TRUE){
-               echo' <input  type="radio" name="boot_mode" checked id="id_boot_mode_nrml" value="normal" checked>Normal';
-            }
-            else{
-                echo' <input  type="radio" name="boot_mode"  id="id_boot_mode_nrml" value="normal" checked>Normal';
-
-            }?>
+                <input type=radio name="check" value="auto"  id="id_check2"> Automatically start with managed system 
                 </td>
+                @endif
+                @if($template->isNormal_BootMode==1)
+                <td>
+                <input  type="radio" name="boot_mode" checked id="id_boot_mode_nrml" value='normal' checked>Normal
+                </td>
+                @else
+                <td>
+                <input  type="radio" name="boot_mode"  id="id_boot_mode_nrml" value='normal' checked>Normal
+                </td>@endif
         </tr>
         <tr>
+        @if($template->isEnable_redundant_Error_Path_report==1)
                 <td>
-                <?php if($template->isEnable_redundant_Error_Path_report==TRUE){
-     
-             echo '<input type="radio" name="check" checked value="redund" id="id_check1"> Enable redundant error path reporting  ';
-                }
-                else{
-            echo '<input type="radio" name="check" value="redund" id="id_check1"> Enable redundant error path reporting  ';
-
-                }
-                
-                ?></td>
+             <input type='radio' name="check" checked value="redund" id="id_check1"> Enable redundant error path reporting  
+                </td>
+                @else
                 <td>
-                    <?php
-                    if($template->isSMS_BootMode==TRUE){
-                        echo'
-                <input type="radio" name="boot_mode" id="id_boot_mode_sms" checked value="sms">System Managment Services(SMS)';
-                     }
-                     else{
-                        echo'
-                        <input type="radio" name="boot_mode" id="id_boot_mode_sms"  value="sms">System Managment Services(SMS)';
-                           
-                     }?> </td>
-              <input type="text"  value="{{$template->isSMS_BootMode}}" id="boot">
-            
+             <input type='radio' name="check"  value="redund" id="id_check1"> Enable redundant error path reporting  
+                </td>
+                @endif
+                @if($template->isSMS_BootMode==1)
+                <td>
+                <input type="radio" name="boot_mode" checked id="id_boot_mode_sms" value="sms">System Managment Services(SMS)
+                </td>
+                @else
+                <td>
+                <input type="radio" name="boot_mode"  id="id_boot_mode_sms" value="sms">System Managment Services(SMS)
+                </td>
+                @endif
+              
         </tr>
         </table>
         <table>
@@ -1007,7 +1024,7 @@
         <br>
         
         {!!Form::open(['action' => ['TemplateController@createTemplate',$client->id,$template->id], 'method' => 'POST'])!!}       
-            <button type="submit" class="btn btn-success"style="margin-left:400px">Success</button>
+            <button type="submit" class="btn btn-success"style="margin-left:400px">Save</button>
 
 <input type="text" value="" name="template_name_hidden" id="id_template_name_hidden" hidden>        
 <input type="text" value="" name="profile_name_hidden" id="id_profile_name_hidden" hidden>        
@@ -1015,7 +1032,7 @@
 <input type="text" value="" name="max_proc_units_hidden" id="id_max_proc_units_hidden" hidden>        
 <input type="text" value="" name="min_proc_units_hidden" id="id_min_proc_units_hidden" hidden>        
 <input type="text" value="" name="desired_proc_units_hidden" id="id_desired_proc_units_hidden" hidden>        
-<input type="text" value="" name="sync_conf_hidden" id="id_sync_conf_hidden"  hidden>        
+<input type="text" value="" name="sync_conf_hidden" id="id_sync_conf_hidden" hidden>        
 <input type="text" value="" name="min_v_proc_hidden" id="id_min_v_proc_hidden" hidden>        
 <input type="text" value="" name="max_v_proc_hidden" id="id_max_v_proc_hidden" hidden>        
 <input type="text" value="" name="desired_v_proc_hidden" id="id_desired_v_proc_hidden" hidden>        
@@ -1023,13 +1040,13 @@
 <input type="text" value=""  id="id_input_pool_hidden" name="input_pool_hidden" hidden>
 <input type='text' value="" name='max_proc_hidden' id="id_max_proc_hidden" hidden>
 <input type='text' value="" name='min_proc_hidden' id="id_min_proc_hidden" hidden>
-<input type='text' value="" name='desired_proc_hidden' id="id_desired_proc_hidden" hidden>
+<input type='text' value="" name='desired_proc_hidden'  id="id_desired_proc_hidden" hidden>
 <input type='text' value="" id="id_value_hidden" name="value_hidden" hidden>
 <input type='text' value="" id="id_value1_hidden" name="value1_hidden" hidden>
-<input type='text' id="id_value2_hidden" name="value2_hidden" hidden>
-<input type="text" name="max_v_adapters_hidden3" id="id_max_v_adapters_hidden3"  hidden > 
-<input type="text" name="boot_mode_hidden" id="id_boot_mode_hidden"  > 
-<input type="text" name="check_hidden" id="id_check_hidden" > 
+<input type='text' value="" id="id_value2_hidden" name="value2_hidden" hidden>
+<input type="text" name="max_v_adapters_hidden3" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden3" hidden  > 
+<input type="text" name="boot_mode_hidden" hidden id="id_boot_mode_hidden" hidden  > 
+<input type="text" name="check_hidden" id="id_check_hidden" hidden> 
 
         {!!Form::close()!!}
           </td>
@@ -1043,15 +1060,8 @@
 var input_boot_mode1 = document.getElementById("id_boot_mode_sms");
 var input_boot_mode2 = document.getElementById("id_boot_mode_nrml");
 var input_boot_mode_hidden = document.getElementById("id_boot_mode_hidden");
-var input_boot = document.getElementById("boot");
 
-if(boot.value=="1"){
-    input_boot_mode_hidden.value ="sms" ;
-}
-else{
-    input_boot_mode_hidden.value ="normal" ;
-
-}
+input_boot_mode_hidden.value =input_boot_mode2.value ;
 
 input_boot_mode1.oninput = function() {
   input_boot_mode_hidden.value = this.value;
@@ -1063,7 +1073,6 @@ input_boot_mode2.oninput = function() {
 var input_check1 = document.getElementById("id_check1");
 var input_check2 = document.getElementById("id_check2");
 var input_check3 = document.getElementById("id_check3");
-
 
 var input_check_hidden = document.getElementById("id_check_hidden");
 
@@ -1092,92 +1101,33 @@ input_check3.oninput = function() {
  var input_max_v_adapters_hidden2=document.getElementById("id_max_v_adapters_hidden2");
  var input_max_v_adapters_hidden3=document.getElementById("id_max_v_adapters_hidden3");
 
- 
- if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem.value)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
+ if(secret_input_all_elem.value>=input_max_v_adapters_hidden3.value){
+          document.getElementById("btn_ethernet").disabled=true;
+          document.getElementById("btn_fc").disabled=true;
+          document.getElementById("btn_scsi").disabled=true;}
+else{
 
-    }
-    if((input_max_v_adapters_hidden2.value>0)&&(input_max_v_adapters_hidden2.value!=secret_input_all_elem.value)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
+            document.getElementById("btn_ethernet").disabled=false;
+            document.getElementById("btn_fc").disabled=false;
+            document.getElementById("btn_scsi").disabled=false;
+}
+input_max_v_adapters.oninput = function() {
+          input_max_v_adapters_hidden.value=input_max_v_adapters.value;
+          input_max_v_adapters_hidden1.value=input_max_v_adapters.value;
+          input_max_v_adapters_hidden2.value=input_max_v_adapters.value;
 
-    }
-if((input_max_v_adapters_hidden1.value>0)&&(input_max_v_adapters_hidden1.value!=secret_input_all_elem.value)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
+          if(input_max_v_adapters.value<=secret_input_all_elem.value){
+            document.getElementById("btn_ethernet").disabled=true;
+            document.getElementById("btn_fc").disabled=true;
+            document.getElementById("btn_scsi").disabled=true;  
+          }
+          else{
+            document.getElementById("btn_ethernet").disabled=false;
+            document.getElementById("btn_fc").disabled=false;
+            document.getElementById("btn_scsi").disabled=false;
+}
 
-    }
-   
-   input_max_v_adapters.oninput = function() {
-    input_max_v_adapters_hidden.value=input_max_v_adapters.value;
-    input_max_v_adapters_hidden1.value=input_max_v_adapters.value;
-    input_max_v_adapters_hidden2.value=input_max_v_adapters.value;
-    input_max_v_adapters_hidden3.value=input_max_v_adapters.value;
-
-   if( input_max_v_adapters_hidden.value<secret_input_all_elem.value){
-        document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-   }
-   if( input_max_v_adapters_hidden1.value<secret_input_all_elem.value){
-    document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-   }if( input_max_v_adapters_hidden2.value<secret_input_all_elem.value){
-    document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-   }
-      if((input_max_v_adapters_hidden.value>0)&&(input_max_v_adapters_hidden.value!=secret_input_all_elem)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
-
-    }
-    else{
-      document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-    }
-    if((input_max_v_adapters_hidden1.value>0)&&(input_max_v_adapters_hidden1.value!=secret_input_all_elem)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
-
-    }
-    else{
-      document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-    } if((input_max_v_adapters_hidden2.value>0)&&(input_max_v_adapters_hidden2.value!=secret_input_all_elem)){
-         
-         document.getElementById("btn_ethernet").disabled=false;
-         document.getElementById("btn_fc").disabled=false;
-         document.getElementById("btn_scsi").disabled=false;
-
-    }
-    else{
-      document.getElementById("btn_ethernet").disabled=true;
-         document.getElementById("btn_fc").disabled=true;
-         document.getElementById("btn_scsi").disabled=true;
-
-    }}
-
-    
+}
 
 
 //add_hidden
@@ -1368,12 +1318,9 @@ for (i = 0; i < acc.length; i++) {
 var slider = document.getElementById("myRange");
 var output = document.getElementById("id_value");
 var output_hidden = document.getElementById("id_value_hidden");
-var output_memo_hidden = document.getElementById("memo_min");
 
-
-output.value = output_memo_hidden.value;
-output_hidden.value = output_memo_hidden.value;
-slider.value=output_memo_hidden.value;
+output.value = slider.value;
+output_hidden.value = slider.value;
 
 slider.oninput = function() {
   output.value = this.value;
@@ -1403,13 +1350,10 @@ slider.addEventListener("mousemove", function() {
 var slider1 = document.getElementById("myRange1");
 var output1 = document.getElementById("id_value1");
 var output1_hidden = document.getElementById("id_value1_hidden");
-var output1_memo_hidden = document.getElementById("memo_des");
 
 
-
-output1.value = output1_memo_hidden.value;
-output1_hidden.value = output1_memo_hidden.value;
-slider1.value=output1_memo_hidden.value;
+output1.value = slider1.value;
+output1_hidden.value = slider1.value;
 
 
 slider1.oninput = function() {
@@ -1437,13 +1381,10 @@ slider1.addEventListener("mousemove", function() {
 var slider2 = document.getElementById("myRange2");
 var output2 = document.getElementById("id_value2");
 var output2_hidden = document.getElementById("id_value2_hidden");
-var output2_memo_hidden = document.getElementById("memo_max");
 
 
-
-output2.value = output2_memo_hidden.value;
-output2_hidden.value = output2_memo_hidden.value;
-slider2.value=output2_memo_hidden.value;
+output2.value = slider2.value;
+output2_hidden.value = slider2.value;
 
 
 slider2.oninput = function() {
@@ -1471,23 +1412,25 @@ slider2.addEventListener("mousemove", function() {
 var input_radio_hidden = document.getElementById("id_radio_hidden");
 var input_radio = document.getElementById("radio_shared");
 var input_radio1 = document.getElementById("radio_dedicated");
-var input_radio_secret = document.getElementById("shared_hidden");
-if(input_radio_secret.value=="0"){
-    input_radio_hidden.value=input_radio1.value;
-    document.getElementById("proc_shared").style.display = 'none';
-        document.getElementById("proc_settings_shared").style.display = 'none';
-        document.getElementById("table_shared").style.display = 'none';
-        document.getElementById("table_dedicated").style.display = 'block';
-        document.getElementById("p_dedicated").style.display = 'block';}
 
-if(input_radio_secret.value=="1"){
-   input_radio_hidden.value=input_radio.value;
-        document.getElementById("proc_shared").style.display = 'block';
+///
+var input_rad = document.getElementById("shared_1");
+
+if(input_rad.value=="1"){
+  document.getElementById("proc_shared").style.display = 'block';
         document.getElementById("proc_settings_shared").style.display = 'block';
         document.getElementById("table_shared").style.display = 'block';
         document.getElementById("table_dedicated").style.display = 'none';
-        document.getElementById("p_dedicated").style.display = 'none';}
-
+        document.getElementById("p_dedicated").style.display = 'none';
+}
+else{
+  document.getElementById("proc_shared").style.display = 'none';
+        document.getElementById("proc_settings_shared").style.display = 'none';
+        document.getElementById("table_shared").style.display = 'none';
+        document.getElementById("table_dedicated").style.display = 'block';
+        document.getElementById("p_dedicated").style.display = 'block';
+}
+input_radio_hidden.value=input_radio.value;
 
 
       function displaying_shared(){
@@ -1583,6 +1526,5 @@ if(input_radio_secret.value=="1"){
 </div>
     </div>
     
-</body>
-</html>
+
 @endsection

@@ -9,58 +9,257 @@ use App\Template_profile;
 
 <!-- Page Heading -->
 <h1 class="h3 mb-4 text-gray-800">Server Details
-{!!Form::open(['action' => ['ServerController@EditServer',$server->id], 'method' => 'Post', 'class' => 'pull-right'])!!}
-         <button type="submit" class="btn btn-secondary" ><i class="fas fa-edit"></i> Edit Server</button>
+{!!Form::open(['action' => ['LPARController@Gotoadd',$server->id], 'method' => 'GET', 'class' => 'pull-right'])!!}       
 
-        {!! Form::close() !!}</h1>
+<button type="submit" class="btn btn-primary" style="margin-left:50x"><i class="fas fa-plus"></i> New LPAR</button>
 
+{!! Form::close() !!}</h1>
 <div class="row">
-<div class="col-lg-6">
+<div class="col-md-8 col-md-offset-2">
+
+            <div class="card-body">
+                 @if($errors->count()>0)
+    <br>
+
+       
+            <div class="alert alert-danger">
+                <button data-dismiss="alert" class="close" type="button">*</button>
+                <strong> Sorry you have to fill all the inputs !</strong>
+                <ul>
+                    @foreach($errors->all() as $message)
+                    <li>
+                        {{$message}}
+                    </li>
+                    @endforeach
+</ul>
+                </div>
+@endif
+</div>
+</div></div>
+<div class="row">
+
+ <div class="col-lg-6">
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Server : {{$server->Server_name}} </h6>
-      </div>
-      <div class="card-body">
-
-      <div class="col-lg-5">
-</div>
-      <div class="col-lg-4">
-          <table style="align:center">
+        <h6 class="m-0 font-weight-bold text-primary">Server Description </h6>
+        </div>
+        <div class="card-body">
+     
+          <table>
           <tr>
-          <td>
-              <label >Client     : </label>
+          <td >
+          <label>Name    :</label>
               </td>
-              <td><label >{{$client->Client_name}} </label>
+              <td>
+              {{$server->Server_name}}
               </td>
               </tr>
           <tr>
           <td >
-          <label>Description    :</label>
+          <label>Type   :</label>
               </td>
               <td>
-              <label>{{$server->Server_description}}
+              {{$server->Server_type}}
               </td>
               </tr>
               <tr>
           <td>
-          <label>Type :</label>
+          <label>Lpar Prefix    :</label>
               </td>
               <td>
-              <label>{{$server->Server_type}}
+             {{$server->LPAR_prefix}}
               </td>
               </tr>
-          
-          </table>
-        </div>
-        <div class="col-lg-3">
-        </div>
+          <tr>
+          <td>
+              <label >Description     : </label>
+              </td>
+              <td> {{$server->Server_description}}
+              </td>
+              </tr>
+              </table>
+            
+              
+               <button  type="button" style="margin-left:85%"  data-toggle="modal" data-target="#exampleModal22" class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
+                   
+<!-- Modal -->
+<div class="modal fade" id="exampleModal22" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><h1 class="h3 mb-4 text-gray-800">Edit Server </h1>
+</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+<!-- Page Heading -->
 
-      </div></div></div>
-
-
-
+<div class="row">
   <div class="col-lg-12">
+
+      <div class="card-body">
+      
+
+      {!!Form::open(['action' => ['ServerController@saveUpdate',$server->id], 'method' => 'POST'])!!}       
+
+        <table>
+       
+            <tr>
+                <td>
+                
+                    {{ Form::label("Name", null, ['class' => 'control-label']) }}
+                </td>  
+                <td> 
+                {{Form::text("Server_name",
+            old("Server_name") ? old("Server_name") : (!empty($server) ? $server->Server_name : null), [
+            "class" => "form-control","style"=>"width:385px",   "placeholder" => "$server->Server_name", 
+            ])}}
+                   
+                </td>  
+            </tr>  
+            <tr>
+                <td>
+                    <br>
+                    {{ Form::label("Description", null, ['class' => 'control-label']) }}
+                </td> 
+                <td> 
+                    <br> 
+                    <textarea class='form-control' name='Server_description' >{{$server->Server_description}}
+</textarea>
+                </td>
+            </tr>
+            <tr>         
+                <td>  
+                <br> 
+                {{ Form::label("
+                Type", null, ['class' => 'control-label']) }}
+                </td> 
+                <td>
+            <br>
+        <select name="Server_type"  class="form-control">
+                <option name="Server_type" value="POWER 5">POWER 5</option>
+                <option name="Server_type" value="POWER 6">POWER 6</option>
+                <option name="Server_type" value="POWER 7">POWER 7</option>
+                <option name="Server_type" value="POWER 8">POWER 8</option>
+                <option name="Server_type" value="POWER 9">POWER 9</option>
+        </select>
+        </td>
+            </tr>
+            <tr>
+                <td>
+                <br> 
+                {{ Form::label("LPAR's prefix", null, ['class' => 'control-label']) }}
+               </td> 
+               <td> 
+               <br> 
+               {{Form::text("LPAR_prefix", 
+                    old("LPAR_prefix") ? old("LPAR_prefix") : (!empty($server) ? $server->LPAR_prefix: null), [
+                    "class" => "form-control","style"=>"width:385px", "placeholder" => "Enter LPAR's prefix..", 
+                     ])}}
+                </td>   
+            </tr>  
+           
+            <tr><tr>
+        <td>
+           <br>
+            {{ Form::label(" LPAR's number ", null, ['class' => 'control-label']) }}
+        </td>
+        <td>
+            <br>
+            <input type='number' value="" class="form-control" name="Server_LPARs_nbr" style='width:385px'>
+
+                    </td>  
+                    </tr>
+                    <tr>
+                        <td>
+                        <br>
+            {{ Form::label("Template used ", null, ['class' => 'control-label']) }}
+                    </td>
+                    <td>
+                    <br>
+        <select name="template" class="form-control">
+        <option value="no template">No Template</option>
+                @foreach($templates as $template)
+                    <option value="{{ $template->id }}">{{ $template->template_name }}</option>
+                @endforeach  
+         </select>
+             <br>    
+        </td>
+    </tr>
+    
+            <br>
+    </table>
+    
+
+    <br>
+    
+ 
+      </div>
+      
+      
+    </div></div>
+    </div> <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i>Save</button>
+      </div></div>
+    </div></div>
+
+
+            {!!Form::close()!!} </div></div></div>
+    <div class="col-lg-6">
     <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Client Description </h6>
+        </div>
+        <div class="card-body"  style='height:159px'>
+       
+          <table>
+          <tr>
+          <td >
+          <label>Name    :</label>
+              </td>
+              <td>
+              {{$client->Client_name}}
+              </td>
+              </tr>
+          <tr>
+          <td >
+          <label>Mail    :</label>
+              </td>
+              <td>
+              {{$client->Client_mail}}
+              </td>
+              </tr>
+              <tr>
+          <td>
+          <label>Address    :</label>
+              </td>
+              <td>
+             {{$client->Client_adresse}}
+              </td>
+              </tr>
+          <tr>
+          <td>
+              <label >Description     : </label>
+              </td>
+              <td>{{$client->Client_description}}
+              </td>
+              </tr>
+              
+            </table>
+            
+            <br>
+           {!!Form::close()!!}
+ </div></div></div>
+</div></div>
+
+
+<div class="row">
+  <div class="col-lg-12" >
+    <div class="card shadow mb-4"style="width:98%;margin-left:1%">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">LPARS List </h6>
       </div>
@@ -118,9 +317,9 @@ use App\Template_profile;
             ?>
         </td>
         <td>
-            <?php
-            if($lpar->template_FK_id!=null){
-                $id_t=$lpar->template_FK_id;
+        <?php
+            if($lpar->Template_FK_id!=null){
+                $id_t=$lpar->Template_FK_id;
                 $template=Template_profile::find($id_t);
                 echo "$template->template_name";
             }
@@ -194,24 +393,33 @@ use App\Template_profile;
             }
             ?>
         </td>
-        <td>
-        
+        <td> <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions
+            </button >
+        <div class="dropdown-menu"  aria-labelledby="btnGroupDrop1">
+           
+            <a class="dropdown-item"  style="color:#3377ff;width:50%" href="{{action('LPARController@edit', ['id_c' => $client->id,'id_s' => $server->id,'id' => $lpar->id])}}">
+            <i class="far fa-edit"   
+            ></i>Edit  </a>
+
+            
+            <a class="dropdown-item" style="color:#b30000;width:50px" href="{{action('LPARController@delete', ['id_c' => $client->id,'id_s' => $server->id,'id' => $lpar->id])}}">
+            <i class="fa fa-trash"   
+            ></i> Delete </a>
+            <a class="dropdown-item"  style="color:#gray;width:50%" href="{{action('ServerController@ViewServer', ['id' => $server->id])}}">
+            <i class="fas fa-fw fa-table"></i></i>View  </a>
+
+            </div>
+                </div>
         
     
-        {!!Form::open(['action' => ['LparController@delete',$client->id,$server->id,$lpar->id], 'method' => 'PUT', 'class' => 'pull-right'])!!}
-                   {{Form::submit('Delete', ['class' => "btn btn-outline-danger"])}}
-        {!!Form::close()!!}
-        
-        {!!Form::open(['action' => ['LparController@edit',$client->id,$server->id,$lpar->id], 'method' => 'PUT', 'class' => 'pull-right'])!!}
-        {{Form::submit('Edit', ['class' => "btn btn-outline-info"])}}
-                
-        {!!Form::close()!!}
         </td>
     </tr>
     @endforeach
     </table>
 </div>
 </div>
-      </div></div></div></div>
+      </div></div></div>
         
 @endsection

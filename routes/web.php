@@ -36,7 +36,7 @@ Route::get('/server/{id_s}','ServerController@ViewServer');
 Route::get('/editClient/{id}','ClientContoller@EditClient');
 Route::get('/deleteClient/{id}','ClientContoller@DeleteClient');
 Route::post('/SaveClient/{id}','ClientContoller@SaveUpdateClient');
-
+Route::get('/SaveClient/{id}','ClientContoller@SaveUpdateClient');
 
 Route::post('/NewServer/Client/{id}','ServerController@NewServer');
 Route::post('/createServer','ServerController@createServer');
@@ -44,27 +44,44 @@ Route::get('/ok', function () {
     return view('template');
 });
 Route::get('/template','ClientController@ReadClients');
+
 Route::post('/servers/{id}','ClientController@ReadServers');
 Route::post('/templates/{id}','ClientController@ReadTemplates');
 
 
-Route::put('/delete/Client/{id_c}/Server/{id_s}/{id}','LparController@delete');
-Route::put('/edit/Client/{id_c}/Server/{id_s}/{id}','LparController@edit');
+Route::get('/delete/Client/{id_c}/Server/{id_s}/{id}','LPARController@delete');
+Route::get('/goedit/Client/{id_c}/Server/{id_s}/{id}','LPARController@go_edit');
+
+Route::get('/edit/Client/{id_c}/Server/{id_s}/{id}','LPARController@edit');
+Route::post('/delete/Client/{id_c}/Server/{id_s}/{id}','LPARController@delete');
+Route::post('/edit/Client/{id_c}/Server/{id_s}/{id}','LPARController@edit');
 
 Route::put('/addTemplate/Client/{id}','TemplateController@Gotoadd');
 Route::get('/addTemplate/Client/{id}','TemplateController@Gotoadd');
+Route::get('/addLPAR/Server/{id}','LPARController@Gotoadd');
+
 
 Route::post('/delete/{id}','ServerController@deleteServer');
 Route::get('/delete/{id}','ServerController@deleteServer');
+Route::get('/Template/{id_t}','TemplateController@ReadTemplate');
 
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreatePhysicalIO','TemplateController@createphysicalIO');
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateSCSI','TemplateController@createSCSI');
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateEthernet','TemplateController@createEthernet');
 Route::post('/addTemplate/Client/{id}/template/{id_t}/actioncreateFC','TemplateController@createFC');
 Route::post('/addTemplate/Client/{id}/actioncreateTemplate/{id_t}','TemplateController@createTemplate');
+Route::post('DeleteTemplate/{id_t}','TemplateController@DeleteTemplate');
 Route::get('DeleteTemplate/{id_t}','TemplateController@DeleteTemplate');
-Route::put('EditTemplate/{id_t}','TemplateController@EditTemplate');
+
+Route::get('EditTemplate/{id_t}','TemplateController@GoToEdit');
 Route::post('/template','ClientController@ReadClients');
 Route::get('/addTemplate/Client/{id}/actioncreateTemplate/{id_t}','TemplateController@createTemplate');
+Route::post('/addLpar/Client/{id}/lpar/{id_t}','LparController@createphysicalIO');
+Route::post('/addLpar/Client/{id}/lpar/{id_t}/createSCSI','LparController@createSCSI');
+Route::post('/addLpar/Client/{id}/lpar/{id_t}/createEthernet','LparController@createEthernet');
+Route::post('/addLpar/Client/{id}/lpar/{id_t}/createFC','LparController@createFC');
+
 
 Route::get('/editTemplate/{id}','TemplateController@GoToEdit');
+Route::post('/CreateLPAR/{id}','LPARController@CreateLPAR');
+Route::get('/CreateLPAR/{id}','LPARController@CreateLPAR');

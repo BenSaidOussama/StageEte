@@ -12,11 +12,13 @@
 <h1 class="h3 mb-4 text-gray-800">
 <table>
 <tr>
-  <td style="width:700%">Client List </td>
-  <td>
-<button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" style="margin-left:50x"data-toggle="modal" data-target="#exampleModalCenter" ><i class="fas fa-plus"></i> New Client</button>
+  <td style="width:700%" >Client List </td>
+  <td >
+  
+</td><td>
 
-{!! Form::open(array('url' => '/actioncreate','method' => 'POST'))!!}
+<button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"  ><i class="fas fa-plus"></i> New Client</button>
+
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -30,7 +32,10 @@
       </div>
       <div class="modal-body">
         
+   
+
 <!-- Page Heading -->
+{!! Form::open(array('url' => '/actioncreate','method' => 'POST'))!!}
 
 <div class="row">
   <div class="col-lg-11">
@@ -100,13 +105,25 @@
            <input class="form-control" type='number' value="" name="Client_servers_nbr" style='width:300px' placeholder='0'>
 
         </td>
+        <td>
+        
     </tr>  
     <tr>
          
         <td>
+        <br>
+        {{ Form::label("Server's number", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
+
         </td>
-        <td style="text-align:center">
-          
+        <td >
+        <br>
+        <select name="Server_type"  class="form-control" style="width:300px">
+                <option name="Server_type" value="POWER 5">POWER 5</option>
+                <option name="Server_type" value="POWER 6">POWER 6</option>
+                <option name="Server_type" value="POWER 7">POWER 7</option>
+                <option name="Server_type" value="POWER 8">POWER 8</option>
+                <option name="Server_type" value="POWER 9">POWER 9</option>
+        </select>
             </td>
              <br>
     </tr>
@@ -136,6 +153,30 @@
 </tr>
 </table>
 </h1>
+    
+<div class="row">
+   <div class="col-md-8 col-md-offset-2">
+            <div class="card-body">
+                 @if($errors->count()>0)
+    <br>
+
+       
+            <div class="alert alert-danger">
+                <button data-dismiss="alert" class="close" type="button">*</button>
+                <strong> Sorry you have to fill all the inputs !</strong>
+                <ul>
+                    @foreach($errors->all() as $message)
+                    <li>
+                        {{$message}}
+                    </li>
+                    @endforeach
+</ul>
+                </div>
+@endif
+</div>
+      </div>
+    </div>
+    
 
 
 <div class="row">
@@ -192,3 +233,4 @@
 </body>
 </html>
 @endsection
+
