@@ -81,6 +81,15 @@
                         <td>
                             {{$template->profil_name}}
                         </td>
+                        </tr><tr>
+                        <td>
+                        <label>
+                                Template Env  :
+                            </label>
+                        </td>
+                        <td>
+                            {{$template->env}}
+                        </td>
                         </tr>
                     </table>
                   </div>
@@ -177,7 +186,38 @@
                       $template->proc_pool.'
                       </td>
                       </tr>
+                      <tr>
+                      ';
+                      if($template->sharing_mode==0)
+                      echo '
+                     <td>
+                      <label>  Sharing mode :</label>
+                      </td>
+                      <td>
+                      Capped
+                      </td>
+                      </tr>
                       </table>';
+                      else  
+                      echo '
+                      <td>
+                       <label>  Sharing mode :</label>
+                       </td>
+                       <td>
+                       Uncapped
+                       </td>
+                       <td>
+                       </tr>
+                       <tr>
+                       <td>
+                       <label>  Uncap weight :</label>
+                       </td>
+                       <td>
+                       '.$template->uncap_weight.'
+                       </td>
+                       </tr>
+                       </table>';
+
                   }
                   else{
                     echo'

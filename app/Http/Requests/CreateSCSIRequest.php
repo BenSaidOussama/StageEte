@@ -24,9 +24,7 @@ class CreateSCSIRequest extends FormRequest
     public function rules()
     {
         return [
-            'SCSI_Type'=>'required',
-            'adapter_id'=>'required',
-            
+
         ];
     }
 }

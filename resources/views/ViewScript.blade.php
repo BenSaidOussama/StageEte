@@ -8,11 +8,7 @@ use App\Template_profile;
 <div class="container-fluid">
 
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800">Server Details       
-<a style="font-size:15px" href="{{action('ClientContoller@ViewClient', ['id' => $client->id])}}">
-              {{$client->Client_name}}></a>
-              <a href="{{action('ServerController@ViewServer', ['id' => $server->id])}}" style="font-size:15px">
-              {{$server->Server_name}}></a>
+<h1 class="h3 mb-4 text-gray-800">Server Details
 {!!Form::open(['action' => ['LPARController@Gotoadd',$server->id], 'method' => 'GET', 'class' => 'pull-right'])!!}       
 
 <button type="submit" class="btn btn-primary" style="margin-left:50x"><i class="fas fa-plus"></i> New LPAR</button>
@@ -114,7 +110,7 @@ use App\Template_profile;
             <tr>
                 <td>
                 
-                    {{ Form::label("Name*", null, ['class' => 'control-label']) }}
+                    {{ Form::label("Name", null, ['class' => 'control-label']) }}
                 </td>  
                 <td> 
                 {{Form::text("Server_name",
@@ -139,67 +135,23 @@ use App\Template_profile;
                 <td>  
                 <br> 
                 {{ Form::label("
-                Type*", null, ['class' => 'control-label']) }}
+                Type", null, ['class' => 'control-label']) }}
                 </td> 
                 <td>
             <br>
-           
-        @if ($server->Server_type=='POWER 5')
-            <select name="Server_type"  class="form-control">
+        <select name="Server_type"  class="form-control">
                 <option name="Server_type" value="POWER 5">POWER 5</option>
                 <option name="Server_type" value="POWER 6">POWER 6</option>
                 <option name="Server_type" value="POWER 7">POWER 7</option>
                 <option name="Server_type" value="POWER 8">POWER 8</option>
                 <option name="Server_type" value="POWER 9">POWER 9</option>
-                </select>
-
-        
-        @elseif ($server->Server_type=='POWER 6')
-            <select name="Server_type"  class="form-control">
-                <option name="Server_type" value="POWER 6">POWER 6</option>
-                <option name="Server_type" value="POWER 5">POWER 5</option>
-                <option name="Server_type" value="POWER 7">POWER 7</option>
-                <option name="Server_type" value="POWER 8">POWER 8</option>
-                <option name="Server_type" value="POWER 9">POWER 9</option>
-                </select>
-
-        
-        @elseif ($server->Server_type=='POWER 7')
-            <select name="Server_type"  class="form-control">            
-                <option name="Server_type" value="POWER 7">POWER 7</option>
-                <option name="Server_type" value="POWER 6">POWER 6</option>
-                <option name="Server_type" value="POWER 5">POWER 5</option>
-                <option name="Server_type" value="POWER 8">POWER 8</option>
-                <option name="Server_type" value="POWER 9">POWER 9</option>
-                </select>
-
-        
-        @elseif($server->Server_type=='POWER 8') 
-            <select name="Server_type"  class="form-control">                    
-                <option name="Server_type" value="POWER 8">POWER 8</option>
-                <option name="Server_type" value="POWER 7">POWER 7</option>
-                <option name="Server_type" value="POWER 6">POWER 6</option>
-                <option name="Server_type" value="POWER 5">POWER 5</option>
-                <option name="Server_type" value="POWER 9">POWER 9</option>
-                </select>
-
-        
-        @else
-            <select name="Server_type"  class="form-control">
-                <option name="Server_type" value="POWER 9">POWER 9</option>
-                <option name="Server_type" value="POWER 8">POWER 8</option>
-                <option name="Server_type" value="POWER 7">POWER 7</option>
-                <option name="Server_type" value="POWER 6">POWER 6</option>
-                <option name="Server_type" value="POWER 5">POWER 5</option>
-                </select>
-
-        @endif
+        </select>
         </td>
             </tr>
             <tr>
                 <td>
                 <br> 
-                {{ Form::label("LPAR's prefix*", null, ['class' => 'control-label']) }}
+                {{ Form::label("LPAR's prefix", null, ['class' => 'control-label']) }}
                </td> 
                <td> 
                <br> 
@@ -213,11 +165,11 @@ use App\Template_profile;
             <tr><tr>
         <td>
            <br>
-            {{ Form::label(" LPAR's number* ", null, ['class' => 'control-label']) }}
+            {{ Form::label(" LPAR's number ", null, ['class' => 'control-label']) }}
         </td>
         <td>
             <br>
-            <input type='number' min="{{$server->Server_LPARs_nbr}}" value="{{$server->Server_LPARs_nbr}}" class="form-control" name="Server_LPARs_nbr" style='width:385px'>
+            <input type='number' value="" class="form-control" name="Server_LPARs_nbr" style='width:385px'>
 
                     </td>  
                     </tr>
@@ -484,6 +436,80 @@ use App\Template_profile;
 
 {!! Form::close() !!}</h1>
 
+<table>
+    
+    @foreach($tab as $cmd)
+    <tr>
+        <td>
+
+        {{$cmd}}
+        </td>
+        </tr>
+        @endforeach
+        
+        <tr>
+            <td>
+                ##############################################
+        </td>
+        </tr>
+        @if($tab_lpar!=[])
+        @foreach($tab_lpar as $cmd_lpar)
+        
+    <tr>
+        <td>
+
+        {{$cmd_lpar}}
+        </td>
+        </tr>
+        @endforeach  
+        @endif
+        <tr>
+            <td>
+                ##############################################
+        </td>
+        </tr>
+        @if($tab_fc!=[])
+        @foreach($tab_fc as $cmd_fc)
+        
+        <tr>
+            <td>
+    
+            {{$cmd_fc}}
+            </td>
+            </tr>
+            @endforeach 
+            @endif
+            <tr>
+                <td>
+                    ##############################################
+            </td>
+            </tr>
+            @if($tab_eth!=[])
+        @foreach($tab_eth as $cmd_eth)
+        
+        <tr>
+            <td>
+    
+            {{$cmd_eth}}
+            </td>
+            </tr>
+            @endforeach 
+            @endif
+            <tr>
+                <td>
+                    ##############################################
+            </td>
+            </tr>
+            @if($tab_scsi!=[])
+        @foreach($tab_scsi as $cmd_scsi)
+        <tr>
+            <td>
+            {{$cmd_scsi}}
+            </td>
+            </tr>
+            @endforeach 
+            @endif
+        </table>
 </div>
       </div></div></div>
         

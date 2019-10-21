@@ -124,10 +124,10 @@
 
 <table>
     <tr>
-        <td>
+        <td >
           
-            {{ Form::label("Name", null, ['class' => 'control-label',"style"=>"font-size:18px"]) }}
-        </td>  
+            {{ Form::label("Name*", null, ['class' => 'control-label',"style"=>"font-size:18px"]) }}
+            </td>  
         <td> 
             {{Form::text("Client_name", 
             old("Client_name") ? old("Client_name") : (!empty($client) ? $client->Client_name : null), [
@@ -150,21 +150,20 @@
     <tr>         
         <td>  
         <br> 
-            {{ Form::label("Mail", null, ['class' => 'control-label',"style"=>"font-size:18px"]) }}
-        </td> 
+            {{ Form::label("Mail*", null, ['class' => 'control-label',"style"=>"font-size:18px"]) }}</td> 
         <td>  
         <br> 
             {{Form::text("Client_mail", 
             old("Client_mail") ? old("Client_mail") : (!empty($Client) ? $client->Client_mail: null), [
-            "class" => "form-control","style"=>"width:300px", "placeholder" => "@exemple.com", 
+            "class" => "form-control","style"=>"width:300px", "placeholder" => "mail@exemple.com", 
              ])}}
         </td> 
     </tr>
     <tr>
         <td>
         <br> 
-            {{ Form::label("Address", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
-       </td> 
+            {{ Form::label("Address*", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
+             </td> 
        <td> 
        <br> 
             {{Form::text("Client_adresse", 
@@ -176,12 +175,12 @@
     <tr>
         <td >   
         <br> 
-        {{ Form::label("Server's number", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
+        {{ Form::label("Servers number*", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
    
        </td> 
        <td> 
        <br> 
-           <input class="form-control" type='number' value="" name="Client_servers_nbr" style='width:300px' placeholder='0'>
+           <input class="form-control" type='number' min="1" value="" name="Client_servers_nbr" style='width:300px' placeholder='0'>
 
         </td>
         <td>
@@ -191,8 +190,7 @@
          
         <td>
         <br>
-        {{ Form::label("Server's number", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
-
+        {{ Form::label("Servers type*", null, ['class' => 'control-label',"style"=>"font-size:18px;width:150px"]) }}
         </td>
         <td >
         <br>

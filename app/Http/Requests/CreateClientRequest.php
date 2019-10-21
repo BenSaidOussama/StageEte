@@ -25,7 +25,6 @@ class CreateClientRequest extends FormRequest
     {
         return [
             'Client_name'=>'required',
-            'Client_description'=>'required',
             'Client_mail'=>'required|email',
             'Client_adresse'=>'required',
             'Client_servers_nbr'=>'required|integer|min:1'

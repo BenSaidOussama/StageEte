@@ -35,7 +35,10 @@ class ClientContoller extends Controller
 
                 $server->save();
                 array_push($array,$server);
-            }             
+            }   
+            $vswitch1=new VSwitch();
+            $vswitch1->name="Ethernet0(Default)";
+            $vswitch1->save();          
         return view('/view_client',compact('client','array'));
     }
     public function ReadClients(Request $request){
@@ -79,7 +82,7 @@ class ClientContoller extends Controller
         $array = DB::table('servers')
        ->where('Client_FK_id', '=',$client->id )->get();
        $templates = DB::table('template_profiles')
-       ->where('Client_FK_id', '=',$client->id )->get();
+       ->where('Client_FK_id', '=',$client->id )->where('template_name', '!=',null)->get();
 
         return view('/view_client',compact('array','client','templates'));
     }
@@ -87,7 +90,7 @@ class ClientContoller extends Controller
         $client=Client::find($id);
         $array = DB::table('servers')
             ->where('Client_FK_id', '=',$client->id )->get();
-        $templates = DB::table('template_profiles')->where('Client_FK_id', '=',$client->id )->get();
+        $templates = DB::table('template_profiles')->where('Client_FK_id', '=',$client->id )->where('template_name','!=',null)->get();
 
         return(view('view_client',compact('client','array','templates')));
     }
@@ -107,7 +110,7 @@ class ClientContoller extends Controller
          $array = DB::table('servers')
         ->where('Client_FK_id', '=',$client->id )->get();
         $templates = DB::table('template_profiles')
-        ->where('Client_FK_id', '=',$client->id )->get();
+        ->where('Client_FK_id', '=',$client->id )->where('template_name', '!=',null)->get();
  //die($templates);
          return view('/view_client',compact('array','client','templates'));
     }

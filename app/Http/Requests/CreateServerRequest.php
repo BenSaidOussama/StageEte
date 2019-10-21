@@ -25,7 +25,6 @@ class CreateServerRequest extends FormRequest
     {
         return [
             'Server_name'=>'required',
-            'Server_description'=>'required',
             'LPAR_prefix'=>'required',
             'Server_LPARs_nbr'=>'required|integer|min:1',
             

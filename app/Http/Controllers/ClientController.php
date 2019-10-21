@@ -7,6 +7,7 @@ use App\Client;
 use App\Server;
 use Alert;
 use App\LPAR;
+use App\VSwitch;
 use App\Template_profile;
 use DB;
 use App\Quotation;
@@ -33,14 +34,17 @@ class ClientController extends Controller
                 $server->LPAR_prefix=NULL;
                 $server->Server_description=NULL;
                 $server->Server_type=$request->input('Server_type');
-                $server->Server_LPARs_nbr=NULL;
+                $server->Server_LPARs_nbr=0;
                 $server->Server_type=$request->input('Server_type');
 
 
                 $server->save();
                 array_push($array1,$server);
             }  
-            $array = DB::table('clients')->paginate(4);       
+            $array = DB::table('clients')->paginate(4);    
+            $vswitch1=new VSwitch();
+            $vswitch1->name="Ethernet0(Default)";
+            $vswitch1->save();      
         return view('/AllClient',compact('client','array1','array'));
     }
     public function ReadClients(Request $request){

@@ -16,7 +16,13 @@
         <tr>
           <td style="width:850px"> 
             <h1 class="h3 mb-4 text-gray-800">
-              LPAR Details</td>
+              LPAR Details
+              <a style="font-size:15px" href="{{action('ClientContoller@ViewClient', ['id' => $client->id])}}">
+              {{$client->Client_name}}></a>
+              <a href="{{action('ServerController@ViewServer', ['id' => $server->id])}}" style="font-size:15px">
+              {{$server->Server_name}}></a>
+              <a href="{{action('LPARController@edit', ['id_c'=>$client->id,'id_s'=>$server->id,'id' => $lpar->id,])}}" style="font-size:15px">
+              {{$lpar->LPAR_name}}></a></td>
           <td style="width:25%;text-align:left">
           {!!Form::open(['action' => ['LPARController@go_edit',$client->id,$server->id,$lpar->id], 'method' => 'GET', 'class' => 'pull-right'])!!}       
 
@@ -81,6 +87,16 @@
                         </td>
                         <td>
                             {{$lpar->profil_name}}
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                        <label>
+                                LPAR Env  :
+                            </label>
+                        </td>
+                        <td>
+                            {{$lpar->env}}
                         </td>
                         </tr>
                     </table>
@@ -178,7 +194,37 @@
                       $lpar->proc_pool.'
                       </td>
                       </tr>
+                      <tr>
+                      ';
+                      if($lpar->sharing_mode==0)
+                      echo '
+                     <td>
+                      <label>  Sharing mode :</label>
+                      </td>
+                      <td>
+                      Capped
+                      </td>
+                      </tr>
                       </table>';
+                      else  
+                      echo '
+                      <td>
+                       <label>  Sharing mode :</label>
+                       </td>
+                       <td>
+                       Uncapped
+                       </td>
+                       <td>
+                       </tr>
+                       <tr>
+                       <td>
+                       <label>  Uncap weight :</label>
+                       </td>
+                       <td>
+                       '.$lpar->uncap_weight.'
+                       </td>
+                       </tr>
+                       </table>';
                   }
                   else{
                     echo'

@@ -86,16 +86,9 @@ class TemplateController extends Controller
             $template->save();
 
             $client=Client::find($id);
-            $vswitch1=new VSwitch();
-            $vswitch2=new VSwitch();
-            $vswitch1->name="Ethernet0(Default)";
-            $vswitch1->Template_FK_id=$template->id;
-            $vswitch2->name="Ethernet1(Default)";
-            $vswitch2->Template_FK_id=$template->id;
-            $vswitch1->save();
-            $vswitch2->save();
+            
             $vswitchs = DB::table('V_switches')
-            ->where('Template_FK_id', '=',$template->id )->get();
+           ->get();
           
         return view("New_Template",compact('client','vswitchs','array','array1','array2','array3','template'));
     }
@@ -142,8 +135,7 @@ class TemplateController extends Controller
       $phy->save();
       $array = DB::table('physical__i_o_s')
       ->where('template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
-      $vswitchs = DB::table('V_switches')
-      ->where('Template_FK_id', '=',$template->id )->get();
+      $vswitchs = DB::table('V_switches')->get();
       return(view('/Edit_Template',compact('array','vswitchs','array1','array2','array3','client','template')));
     }
 
@@ -208,8 +200,7 @@ class TemplateController extends Controller
         $scsi->Adpater_id=$request->input('adapter_id');
 
         $scsi->save();
-        $vswitchs = DB::table('V_switches')
-        ->where('Template_FK_id', '=',$template->id )->get();
+        $vswitchs = DB::table('V_switches')->get();
         $array3 = DB::table('v__s_c_s_i_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
 
@@ -249,9 +240,18 @@ class TemplateController extends Controller
         $ethernet->type="Ethernet";
         $ethernet->isrequired=TRUE;
         $ethernet->Template_FK_id=$id_t;
-        $ethernet->vswitch=$request->input('vswitch');
+//die($request->input('hidden_vs'));
+      if($request->input('vswitch')=="Other"){
+        $vs=new VSwitch();
+        $vs->name=$request->input('hidden_vs');
+        $vs->Template_FK_id=$template->id;
+        $vs->save();
+        $ethernet->vswitch=$vs->id;
+        }
+    else{
 
-        
+        $ethernet->vswitch=1;
+        }
         if(!isset($_post['ethernet_req'])){
             $radioVal = $request->input("ethernet_req");
             if($radioVal=='no'){
@@ -259,14 +259,20 @@ class TemplateController extends Controller
                 }
         }
         $ethernet->Adpater_id=$request->input('adapter_id');
-
+        $radioVal_Ieee = $request->input("ieee_req");
+        if($radioVal_Ieee=='no'){
+            $ethernet->isrequired=FALSE;
+            }
+            else{
+                $ethernet->isrequired=TRUE;
+            }
         $ethernet->save();
         $array2 = DB::table('v_ethernets')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();  
       // die($array1);
        //die($array2);
-       $vswitchs = DB::table('V_switches')
-       ->where('Template_FK_id', '=',$template->id)->get();
+      
+       $vswitchs = DB::table('V_switches')->get();
        return(view('/Edit_Template',compact('vswitchs','array1','array2','array3','array','client','template')));
 
     }
@@ -319,8 +325,7 @@ class TemplateController extends Controller
         $fc->Adpater_id=$request->input('adapter_id');
 
         $fc->save();
-        $vswitchs = DB::table('V_switches')
-        ->where('Template_FK_id', '=',$template->id )->get();
+        $vswitchs = DB::table('V_switches')->get();
         $array1 = DB::table('v__f_c_s')
         ->where('Template_FK_id', '=',$id_t )->where('LPAR_FK_id','=',null)->get();
         return(view('/Edit_Template',compact('array1','vswitchs','array2','array3','array','client','template')));
@@ -333,10 +338,12 @@ class TemplateController extends Controller
 
     public function createTemplate(CreateTemplateRequest $request,$id,$id_t){
         $template=Template_profile::find($id_t);
-    
+    //die($template);
         $client=Client::find($template->Client_FK_id);
         $template->template_name =$request->input('template_name_hidden');
         $template->profil_name  =$request->input('profile_name_hidden');
+        $template->env=$request->input('env_hidden');
+        $template->sharing_mode=$request->input('uncap_hidden');
         
         $template->min_memory =$request->input('value_hidden');
         $template->disired_memory  =$request->input('value1_hidden');
@@ -344,6 +351,8 @@ class TemplateController extends Controller
 
        if($request->input('radio_hidden')=='Shared'){
            $template->shared=TRUE;
+           $template->uncap_weight =$request->input('uncap_weigth_hidden');
+
             if($request->input('proc_pool_hidden')=="Other pool"){
                 $template->proc_pool =$request->input('input_pool_hidden');
             }
@@ -361,11 +370,14 @@ class TemplateController extends Controller
        } 
        else{
         $template->shared=FALSE;
+        $template->uncap_weight =$request->input('0');
+
         $template->desired_proc  =$request->input('desired_proc_hidden');
         $template->min_proc  =$request->input('min_proc_hidden');
         $template->max_proc  =$request->input('max_proc_hidden');
         
         } 
+        //die($request->input('max_v_adapters_hidden3'));
         $template->max_v_adapters=$request->input('max_v_adapters_hidden3');
         if($request->input('boot_mode_hidden')=='sms'){
             $template->isSMS_BootMode=1;
@@ -423,7 +435,7 @@ public function DeleteTemplate($id){
     $client=Client::find($id_client);
     $array = DB::table('servers')
     ->where('Client_FK_id', '=',$client->id )->get();
-    $templates = DB::table('template_profiles')
+    $templates = DB::table('template_profiles')->where("template_name",'!=',null)
     ->where('Client_FK_id', '=',$client->id )->get();
  
     return view('view_client',compact('client','array','templates'));
@@ -440,8 +452,7 @@ public function GoToEdit($id){
         
         $array2 = DB::table('v_ethernets')
         ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();
-        $vswitchs = DB::table('V_switches')
-        ->where('Template_FK_id', '=',$template->id )->get();
+        $vswitchs = DB::table('V_switches')->get();
     
         $array3 = DB::table('v__s_c_s_i_s')
         ->where('Template_FK_id', '=',$template->id )->where('LPAR_FK_id','=',null)->get();

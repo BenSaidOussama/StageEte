@@ -214,7 +214,6 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" style="color:#3377ff;font-size=10%" href="{{action('ClientContoller@GoToEditClient', ['id' => $client->id])}}"><label style="font-size:150%">Edit</label></a>
                     <a class="dropdown-item" style="color:#b30000" href="{{action('ClientContoller@DeleteClient', ['id' => $client->id])}}"><label style="font-size:150%">Delete</label></a>
-                    <a class="dropdown-item" style="color:gray" href="{{action('ClientContoller@ViewClient', ['id' => $client->id])}}"><label style="font-size:150%">View</label></a>
                   </div>
                 </div>
                 </td>

@@ -85,3 +85,12 @@ Route::post('/addLpar/Client/{id}/lpar/{id_t}/createFC','LparController@createFC
 Route::get('/editTemplate/{id}','TemplateController@GoToEdit');
 Route::post('/CreateLPAR/{id}','LPARController@CreateLPAR');
 Route::get('/CreateLPAR/{id}','LPARController@CreateLPAR');
+
+Route::get('/Server/{id}/GenerateScript','ServerController@Script');
+Route::get('/SCSI/{id}/deleteSCSI','LparController@deleteSCSI');
+Route::get('/Ethernet/{id}/deleteEthernet','LparController@deleteEth');
+Route::get('/FC/{id}/deleteFC','LparController@deleteFC');
+Route::get('/PhysicalIO/{id}/deletePhy','LparController@deletephy');
+Route::get('/PhysicalIO/{id}/editPhy','LparController@editphy');
+Route::get('/Ethernet/{id}/editEth','LparController@editEth');
+

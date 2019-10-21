@@ -11,16 +11,22 @@
 <!-- Page Heading -->
     <table>
         <tr>
-          <td style="width:850px"> 
+          <td style="width:85%"> 
             <h1 class="h3 mb-4 text-gray-800">
-              Client Details</td>
+              Client Details 
+              <a href="{{action('ClientContoller@ViewClient', ['id' => $client->id])}}" style="font-size:15px">
+              {{$client->Client_name}}></a></td>
+              <td>
+             
+              </td>
           <td >
           {!!Form::open(['action' => ['TemplateController@Gotoadd',$client->id], 'method' => 'PUT', 'class' => 'pull-right'])!!}       
 
                   <button type="submit" class="btn btn-primary" style="margin-left:50x"><i class="fas fa-plus"></i> New template</button>
                 
         {!! Form::close() !!}
-</td><td style="width:120px">
+      </td>
+      <td style="width:100%">
           {!!Form::open(['action' => ['ServerController@NewServer',$client->id], 'method' => 'POST', 'class' => 'pull-right'])!!}       
 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1"><i class="fas fa-plus"></i> New Server</button>
@@ -47,7 +53,7 @@
     </tr>
     <tr>
         <td>
-            {{ Form::label("Name", null, ['class' => 'control-label',"style"=>"width:110px"]) }}
+            {{ Form::label("Name*", null, ['class' => 'control-label',"style"=>"width:110px"]) }}
         </td>
         <input type="text" name="id" value="{{$client->id}}" hidden>
         <td>
@@ -73,7 +79,7 @@
         <td> 
           <br>
             {{ Form::label("
-                Type", null, ['class' => 'control-label']) }}
+                Type*", null, ['class' => 'control-label']) }}
          </td>
         <td>
           <br>
@@ -91,7 +97,7 @@
         
         <td>
             <br>
-        {{ Form::label("LPAR's prefix", null, ['class' => 'control-label']) }}
+        {{ Form::label("LPAR's prefix*", null, ['class' => 'control-label']) }}
         </td>
         <td>
         <br>   
@@ -105,11 +111,11 @@
     <tr>
         <td>
            <br>
-            {{ Form::label(" LPAR's number ", null, ['class' => 'control-label']) }}
+            {{ Form::label(" LPAR's number* ", null, ['class' => 'control-label']) }}
         </td>
         <td>
             <br>
-            <input type='number' value="" class="form-control" name="Server_LPARs_nbr" style='width:350px'>
+            <input type='number' value="" min="1" class="form-control" name="Server_LPARs_nbr" style='width:350px'>
 
                     </td>  
                     </tr>
@@ -184,30 +190,6 @@
       </div>
       <div class="card-body">
      
-
-
-        
-<div class="row">
-            <div class="card-body">
-                 @if($errors->count()>0)
-    <br>
-
-       
-            <div class="alert alert-danger">
-                <button data-dismiss="alert" class="close" type="button">*</button>
-                <strong> Sorry you have to fill all the inputs !</strong>
-                <ul>
-                    @foreach($errors->all() as $message)
-                    <li>
-                        {{$message}}
-                    </li>
-                    @endforeach
-</ul>
-                </div>
-@endif
-</div>
-      </div>
-   
           <table>
           <tr>
           <td >
@@ -243,10 +225,10 @@
             </table>
             <table>
               <tr>
-                <td style="width:75%" >
+                <td style="width:300%" >
               </td>
                <td>
-               <button style='width:120%;margin-left:1050%'  type="button"  data-toggle="modal" data-target="#exampleModal2" class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
+               <button   type="button"  data-toggle="modal" data-target="#exampleModal2" class="btn btn-info"><i class="fa fa-edit " ></i>   Edit</button>
                    
 <!-- Modal -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -276,7 +258,7 @@
             <tr>
                 <td>
                 
-                    {{ Form::label("Name", null, ['class' => 'control-label']) }}
+                    {{ Form::label("Name*", null, ['class' => 'control-label']) }}
                 </td>  
                 <td> 
                     {{Form::text("Client_name", 
@@ -299,7 +281,7 @@
             <tr>         
                 <td>  
                 <br> 
-                    {{ Form::label("Mail", null, ['class' => 'control-label']) }}
+                    {{ Form::label("Mail*", null, ['class' => 'control-label']) }}
                 </td> 
                 <td>  
                 <br> 
@@ -310,7 +292,7 @@
             <tr>
                 <td>
                 <br> 
-                    {{ Form::label("Address", null, ['class' => 'control-label']) }}
+                    {{ Form::label("Address*", null, ['class' => 'control-label']) }}
                </td> 
                <td> 
                <br> 

@@ -24,8 +24,8 @@ class CreateTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'template_name'=>'required',
-            'profil_name'=>'required',
+            'template_name_hidden'=>'required',
+            'profile_name_hidden'=>'required',
         ];
     }
 }

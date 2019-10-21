@@ -25,7 +25,6 @@ class EditClientRequest extends FormRequest
     {
         return [
             'Client_name'=>'required',
-            'Client_description'=>'required',
             'Client_mail'=>'required|email',
             'Client_adresse'=>'required',
         ];

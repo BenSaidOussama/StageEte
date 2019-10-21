@@ -24,8 +24,8 @@ class CreateLPARRequest extends FormRequest
     public function rules()
     {
         return [
-            'LPAR_name'=>'required',
-            'profil_name'=>'required',
+            'template_name_hidden'=>'required',
+            'profile_name_hidden'=>'required',
         ];
     }
 }

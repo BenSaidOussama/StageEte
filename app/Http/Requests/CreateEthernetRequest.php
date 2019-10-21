@@ -25,7 +25,6 @@ class CreateEthernetRequest extends FormRequest
     {
         return [
             'pv_id'=>'required',
-            'vlans'=>'required',
             'adapter_id'=>'required',
 
 

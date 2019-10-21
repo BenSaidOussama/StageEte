@@ -55,7 +55,7 @@
     <div class="container-fluid">
 
 <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Create New Tempalte</h1>
+        <h1 class="h3 mb-4 text-gray-800">Create New Template</h1>
         <div class="row">
 <div class="col-md-8 col-md-offset-2">
 
@@ -87,32 +87,50 @@
                     <div class="card-body">
                         <button class="accordion"><i class="fas fa-angle-double-right"></i> Profile</button>
                             <div class="panel">
-                                <table>
+                                <table style='margin-left:50px'>
                                     
                                     <tr>
-                                    <td style="text-align:center;width:15%" >
+                                    <td  >
+                                   
                                             <label >Synchrone Configuration:</label>
   
                                         </td>
-                                        <td style="text-align:center;width:15%">
+                                        <br>
+                                        <td >
                                             <select  class ="form-control" name="sync_conf" id="id_sync_conf">
                                             <option value="on"> On</option>
                                             <option value="off"> Off</option>
                                             </select>
                                         </td>
-                                    <td style="text-align:center;width:15%">
+                                    <td style='text-align:right;width:20%'>
                                             <label >Template name:</label>
-  
                                         </td>
-                                        <td style="text-align:center;width:15%">
-                                            <input type="text" class ="form-control"  name="template_name" id="id_template_name">
+                                        <td >
+                                      <input type="text" class ="form-control"  name="template_name" id="id_template_name">
                                         </td>
-                                       
-                                        <td style="text-align:center;width:15%">
+</tr>
+<tr>
+                                        <td >
+                                       <br>
                                             <label >  Profile Name:</label>
                                         </td>
-                                        <td style="text-align:center;width:15%">
-                                            <input type=text class ="form-control" name="profile_name" id="id_profile_name">
+                                        <td >
+                                        <br>
+                                 <input type=text class ="form-control" name="profile_name" id="id_profile_name">
+                                        </td>
+                                        <td style='text-align:right'  >
+                                        <br>
+                             <label >Template Env:</label>
+  
+                                        </td>
+
+                                        <td >
+                                                                                 <br>
+                                       <select  class ="form-control" name="env" id="id_env">
+                                            <option value="Linux/AIX">Linux/AIX</option>
+                                            <option value="VIOS">VIOS</option>
+                                            <option value="IBM i">IBM i</option>
+                                            </select>
                                         </td>
                                     </tr>
                                 </table>
@@ -138,13 +156,13 @@
                                         Minimum processing units *
                                         </td>
                                         <td>
-                                        <input type='number' placeholder="0.1" step="0.1" min="0" class ='form-control' name='min_proc_units' id="id_min_proc_units">
+                                        <input type='number' placeholder="0.1" step="0.1" class ='form-control' name='min_proc_units' id="id_min_proc_units">
                                         </td>
                                         <td style='text-align:right'>
                                              Minimum virtual processors *
                                         </td>
                                         <td>
-                                            <input type='number' step="0.1" placeholder="0.1" min="0" class ='form-control' name='min_v_proc' id="id_min_v_proc">
+                                            <input type='number' step="0.1" placeholder="0.1" class ='form-control' name='min_v_proc' id="id_min_v_proc">
                                         </td>
                                     </tr>
                                     <tr>
@@ -154,7 +172,7 @@
                                         </td>
                                         <td>
                                         <br>
-                                            <input type='number' step="0.1" placeholder="0.1" min="0" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
+                                            <input type='number' step="0.1" placeholder="0.1" name='desired_proc_units' class ='form-control' id="id_desired_proc_units">
                                         </td>
                                         <td style='text-align:right' >
                                         <br>
@@ -162,7 +180,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='desired_v_proc' class ='form-control' id="id_desired_v_proc">
+                                                <input type='number' step="0.1" placeholder="0.1" name='desired_v_proc' class ='form-control' id="id_desired_v_proc">
                                             </td>
                                         
                                      </tr>
@@ -173,7 +191,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='max_proc_units' class ='form-control' id="id_max_proc_units">
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_proc_units' class ='form-control' id="id_max_proc_units">
                                             </td>
                                             <td style="text-align:center">
                                             <br>
@@ -181,7 +199,7 @@
                                             </td>
                                             <td>
                                             <br>
-                                                <input type='number' step="0.1" placeholder="0.1" min="0" name='max_v_proc' class ='form-control' id="id_max_v_proc">
+                                                <input type='number' step="0.1" placeholder="0.1" name='max_v_proc' class ='form-control' id="id_max_v_proc">
                                             </td>
                                             
                                         </tr>
@@ -208,6 +226,28 @@
                                             <input type="text" style="display:none" class ='form-control' id="id_input_pool" name="input_pool_name">
                                             </td>
                                            
+                                        </tr><tr>
+                                        <td>
+                                            <br>
+                                                
+                                            </td>
+                                          <td>
+                                            <br>
+                                            
+                                            <input onclick="activ_uncap()" type="radio" name="uncap" id="id_incap">
+                                            Uncapped
+                                            <input checked onclick="desactiv_uncap()" type="radio" name="uncap" id="id_cap">
+                                            Capped</td>
+                                          <td style="text-align:right">
+                                            <br>
+                                            <p id="p_uncap" style="display:none">
+                                            <br>
+                                         Uncapped weight*
+                                            </td>
+                                            <td>
+                                            <br>
+                                            <input type="number" style="display:none" class ='form-control' id="id_uncap_weight" name="uncap_weight">
+                                            </td>
                                         </tr>
                                     </table>
                                        <p id="p_dedicated" style="display: none"> <B>    Specify the desired, minimum, and maximum processing settings in the fields below.</B></p>
@@ -218,7 +258,7 @@
                                                           </td>
                                                           <td>
                                                           
-                                                          <input type='number' placeholder="1" min="0" class ='form-control' name='min_proc' id="id_min_proc">
+                                                          <input type='number' placeholder="1" class ='form-control' name='min_proc' id="id_min_proc">
                                                           </td>
                                                       </tr>
                                                       <tr>
@@ -228,7 +268,7 @@
                                                           </td>
                                                           <td>
                                                           <br>
-                                                          <input type='number' placeholder="1" min="0" class ='form-control' name='desired_proc' id="id_desired_proc">
+                                                          <input type='number' placeholder="1" class ='form-control' name='desired_proc' id="id_desired_proc">
                                                           </td>
                                                       </tr>
                                                       <tr>
@@ -238,7 +278,7 @@
                                                           </td>
                                                           <td>
                                                           <br>
-                                                          <input type='number' placeholder="1" min="0"  class ='form-control' name='max_proc' id="id_max_proc">
+                                                          <input type='number' placeholder="1"  class ='form-control' name='max_proc' id="id_max_proc">
                                                           </td>
                                                      </tr>
                                               </table>
@@ -327,7 +367,7 @@
 
                  </td>
                   
-                    
+                   
                 </tr>
                   @endforeach
             
@@ -436,7 +476,7 @@
            <label>   Maximum virtual adapters:</label>
            </td>
            <td style="width:20%">
-            <input type="number" placeholder="0" min="0" name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
+            <input type="number" placeholder="0"  name="max_v_adapters" id="id_max_v_adapters"  class="form-control form-control-sm" > 
            </td>
            <td style="width:30%">
            </td>
@@ -660,8 +700,8 @@
                   <div class="modal-body">
                     <table >
                     <tr>
-                          <td><br>
-                          <label> Adapter Id</label>
+                          <td><br><label>
+                          Adapter Id*</label>
                           </td>
                           <td>
                           <br>
@@ -669,9 +709,9 @@
                           </td>
                         </tr>
                           <tr>
-                          <td style="width:40%;text-align:center">
+                          <td style="width:40%">
                           <br>
-                                <label>Adapter</label>
+                                <label>Adapter*</label>
                           </td>
                           <td>
                           <br>
@@ -686,9 +726,9 @@
                           </td>
                         </tr>
                         <tr>
-                          <td style="width:40%;text-align:center">
+                          <td style="width:40%">
                           <br>
-                                <label >Partition</label>
+                                <label >Partition*</label>
                           </td>
                           <td>
                           <br>
@@ -703,9 +743,9 @@
                           </td>
                         </tr>
                         <tr>
-                        <td style="width:40%;text-align:center">
+                        <td style="width:40%">
                         <br>
-                                <label >Type SCSI </label>
+                                <label >Type SCSI *</label>
                         </td>
                         <td>
                         <br>
@@ -713,9 +753,9 @@
                         </td>
 
                         </tr>
-                        <td style="width:40%;text-align:center">
+                        <td style="width:40%">
                         <br>
-                                <label >Required </label>
+                                <label >Required:</label>
                         </td>
                         <td>
                         <br>
@@ -759,8 +799,8 @@
                   <div class="modal-body">
                     <table>
                     <tr>
-                          <td><br>
-                          <label>Adapter Id:</label>
+                          <td style="width:40%"><br>
+                        <label>  Adapter Id*</label>
                           </td>
                           <td>
                           <br>
@@ -769,7 +809,7 @@
                         </tr>
                           <tr>
                           <td><br>
-                          <label> PV_id </label>
+                      <label>    PV_id* </label>
                           </td>
                           <td>
                           <br>
@@ -779,7 +819,7 @@
                         <tr>
                           <td>
                           <br>
-                          <label>   VLANS </label>
+                        <label>  VLANS* </label>
                           </td>
                           <td>
                           <br>
@@ -788,30 +828,53 @@
                           </tr>
                           <tr>
                           <td><br>
-                          <label>   VSwitch:</label>
+                         <label> VSwitch* </label>
                           </td>
                           <td>
                           <br>
-                          <select name="vswitch" class="form-control" >
-                          @foreach($vswitchs as $vs)
-                            <option value="{{$vs->id}}">
-                            {{$vs->name}}
-                            </option>
-                          @endforeach
-                          
-                          </select>
-                          </td>
-                        </tr>
+                          <select name="vswitch" id="vswitch_id" onclick="fctVS()" class="form-control" >
+
+<option value="Default">
+  Ethernet0(Default)
+</option>
+<option value="Other">
+  Other
+</option>
+
+</select>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<br>
+<input type="text" placeholder="Enter vswitch name ..." style="display:none" name="hidden_vs" class="form-control" id="id_vs_hidden">
+</td>
+</tr>
                           <tr>
                           <td>
                           <br>
-                          <label> Required : </label>
+                        <label>  Required : </label>
                           </td>
                           <td>
                           <br>
                           <input type="radio" checked value ="yes" name="ethernet_req" >
                           Yes
                           <input type="radio"   value ="no" name="ethernet_req" >
+                          No
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                          <br>
+                          <label> Ieee : </label>
+                          </td>
+                          <td>
+                          <br>
+                          <input type="radio" value ="yes" name="ieee_req" >
+                          Yes
+                          <input type="radio"   checked value ="no" name="ieee_req" >
                           No
                           </td>
                         </tr>
@@ -850,8 +913,8 @@
                   <div class="modal-body">
                     <table>
                     <tr>
-                          <td><br><label>
-                          Adapter Id:</label>
+                          <td style="width:50%"><br>
+                          <label>Adapter Id*</label>
                           </td>
                           <td>
                           <br>
@@ -861,7 +924,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  Server Partition </label>
+                            <label>Server Partition*</label>
                             </td>
                             <td>  
                             <br>
@@ -871,7 +934,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  World Wide Port Name</label>
+                            <label>World Wide Port Name*</label>
                             </td>
                             <td>
                             <br>
@@ -881,7 +944,7 @@
                           <tr>
                             <td>
                             <br>
-                            <label>  World Wide Port Name LPM</label>
+                            <label>World Wide Port Name LPM*</label>
                             </td>
                             <td>
                             <br>
@@ -890,8 +953,8 @@
                           </tr>
                           <tr>
                           <td>
-                          <br>
-                         <label> Required : </label>
+                          <br><label>
+                          Required: </label>
                           </td>
                           <td>
                           <br>
@@ -960,8 +1023,19 @@
         <td>
         <br>
         
-        {!!Form::open(['action' => ["TemplateController@createTemplate",$client->id,$template->id], 'method' => 'POST'])!!}       
-            <button type="submit" class="btn btn-success"style="margin-left:400px">Success</button>
+
+          </td>
+        </tr>
+
+</table>
+        </div>
+        <br>
+        <br>
+          <div class="row">
+            <table><tr>
+              <td  style="width:500px">
+                                {!!Form::open(['action' => ['TemplateController@createTemplate',$client->id,$template->id], 'method' => 'POST'])!!}       
+            <button type="submit" class="btn btn-success"style="margin-left:400px"><i class="fa fa-check"></i>Save</button>
 
 <input type="text" value="" name="template_name_hidden" id="id_template_name_hidden" hidden>        
 <input type="text" value="" name="profile_name_hidden" id="id_profile_name_hidden" hidden>        
@@ -981,17 +1055,38 @@
 <input type='text' value="" id="id_value_hidden" name="value_hidden" hidden>
 <input type='text' value="" id="id_value1_hidden" name="value1_hidden" hidden>
 <input type='text' value="" id="id_value2_hidden" name="value2_hidden" hidden>
-<input type="text" name="max_v_adapters_hidden3" value="{{$template->max_v_adapters}}" id="id_max_v_adapters_hidden3" hidden  > 
+<input type="text" name="max_v_adapters_hidden3"  id="id_max_v_adapters_hidden3" hidden  > 
 <input type="text" name="boot_mode_hidden" hidden id="id_boot_mode_hidden" hidden  > 
 <input type="text" name="check_hidden" id="id_check_hidden" hidden> 
+<input type="text" name="env_hidden" id="id_env_hidden" hidden> 
+
+<input type="text" name="uncap_hidden" id="id_uncap_hidden" hidden > 
+<input type="text" name="uncap_weigth_hidden" id="id_uncap_weigth_hidden" hidden> 
+
 
         {!!Form::close()!!}
-          </td>
-        </tr>
+              </td>
+              <td >
+        
+        {!!Form::open(['action' => ['TemplateController@DeleteTemplate',$template->id], 'method' => 'POST'])!!}       
+            <button  type="submit" class="btn btn-danger"style="margin-left:40px;width:100px">Cancel</button>
+            {!!Form::close()!!}
 
-</table>
-        </div>
+              </td>
+              </tr>
+              </table>
+              </div>
 <script>
+ //env
+ var input_env = document.getElementById("id_env");
+ document.getElementById("id_env_hidden").value=input_env.value;
+
+ input_env.oninput = function() {
+  document.getElementById("id_env_hidden").value=input_env.value;
+
+ }
+
+ 
 
 //boot_mode
 var input_boot_mode1 = document.getElementById("id_boot_mode_sms");
@@ -1052,6 +1147,7 @@ input_max_v_adapters.oninput = function() {
           input_max_v_adapters_hidden.value=input_max_v_adapters.value;
           input_max_v_adapters_hidden1.value=input_max_v_adapters.value;
           input_max_v_adapters_hidden2.value=input_max_v_adapters.value;
+          input_max_v_adapters_hidden3.value=input_max_v_adapters.value;
 
           if(input_max_v_adapters.value<=secret_input_all_elem.value){
             document.getElementById("btn_ethernet").disabled=true;
@@ -1160,6 +1256,33 @@ input_proc_pool_hidden.value = input_proc_pool.value;
 input_proc_pool.oninput = function() {
   input_proc_pool_hidden.value = this.value;
 }
+
+
+//uncap
+var input_uncap = document.getElementById("id_uncap_hidden");
+var input_uncap_weight=document.getElementById("id_uncap_weight");
+var input_uncap_weight_hidden=document.getElementById("id_uncap_weigth_hidden");
+
+input_uncap.value="0";
+function activ_uncap(){
+  document.getElementById("p_uncap").style.display="block";
+  document.getElementById("id_uncap_weight").style.display="block";
+  input_uncap.value="1";
+  document.getElementById("id_uncap_weight").value=null;
+
+}
+function desactiv_uncap(){
+  document.getElementById("p_uncap").style.display="none";
+  document.getElementById("id_uncap_weight").style.display="none";
+  input_uncap.value="0";
+  input_uncap_weight_hidden.value=null;
+
+
+}
+input_uncap_weight.oninput = function() {
+  input_uncap_weight_hidden.value=input_uncap_weight.value;
+}
+
 
 //input_pool_hidden
 var input_pool_1 = document.getElementById("id_input_pool");
@@ -1422,6 +1545,19 @@ input_radio_hidden.value=input_radio.value;
 
       }
     }
+    //VSWITCH
+var input_vswitch= document.getElementById("vswitch_id");
+var input_vswitch_hidden = document.getElementById("id_vs_hidden");
+function fctVS(){
+  if(input_vswitch.value!="Default"){
+  input_vswitch_hidden.style.display='block';
+}
+else{
+  input_vswitch_hidden.style.display='none';
+
+}
+}
+   
 
    
    

@@ -25,7 +25,6 @@ class EditServerRequest extends FormRequest
     {
         return [
             'Server_name'=>'required',
-            'Server_description'=>'required',
             'LPAR_prefix'=>'required',
             
         ];
